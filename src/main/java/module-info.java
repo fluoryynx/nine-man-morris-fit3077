@@ -8,4 +8,6 @@ module app.nmm {
 
     opens app.nmm to javafx.fxml;
     exports app.nmm;
+    exports app.nmm.Cotroller;
+    opens app.nmm.Cotroller to javafx.fxml;
 }
