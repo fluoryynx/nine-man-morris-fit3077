@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="tokenScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.SelectTokenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.SelectTokenController">
     <children>
         <Text layoutX="132.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nine Man's Morris">
             <font>
@@ -29,30 +29,30 @@
             <Font name="Chalkboard" size="48.0" />
          </font>
       </Text>
-      <Text layoutX="101.0" layoutY="482.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
+      <Text layoutX="99.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1">
          <font>
             <Font name="Chalkboard" size="28.0" />
          </font>
       </Text>
-      <Text layoutX="400.0" layoutY="482.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2">
+      <Text layoutX="449.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2">
          <font>
             <Font name="Chalkboard" size="28.0" />
          </font>
       </Text>
-      <Text fx:id="player1Field" layoutX="111.0" layoutY="519.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Heads">
-         <font>
-            <Font name="Chalkboard" size="28.0" />
-         </font>
-      </Text>
-      <Text fx:id="player2Field" layoutX="421.0" layoutY="519.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tails">
-         <font>
-            <Font name="Chalkboard" size="28.0" />
-         </font>
-      </Text>
-      <Button layoutX="272.0" layoutY="488.0" mnemonicParsing="false" onMouseClicked="#swap" prefHeight="39.0" prefWidth="105.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-border-width: 2px;" text="Swap">
+      <Button layoutX="274.0" layoutY="492.0" mnemonicParsing="false" onMouseClicked="#swap" prefHeight="39.0" prefWidth="105.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-border-color: #000000; -fx-border-radius: 10px; -fx-border-width: 2px;" text="Swap">
          <font>
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Button>
+      <Text fx:id="p2" layoutX="446.0" layoutY="523.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tail" textAlignment="CENTER" wrappingWidth="113.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="p1" layoutX="91.0" layoutY="523.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Head" textAlignment="CENTER" wrappingWidth="113.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>
