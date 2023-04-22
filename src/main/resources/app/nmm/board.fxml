@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Cotroller.MainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.MainPageController">
     <children>
         <ImageView fitHeight="312.0" fitWidth="311.0" layoutX="168.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="272.4600830078125" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="157.0">
             <image>
