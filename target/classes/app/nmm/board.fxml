@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
+    <children>
+        <ImageView fitHeight="312.0" fitWidth="311.0" layoutX="168.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="272.4600830078125" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="157.0">
+            <image>
+                <Image url="@../../Graphic/Board.png" />
+            </image></ImageView>
+
+
+        <ImageView fitHeight="40.0" fitWidth="59.0" layoutX="29.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="580.0" AnchorPane.topAnchor="157.0">
+            <image>
+                <Image url="@../../Graphic/Black_Token.png" />
+            </image></ImageView>
+        <ImageView fitHeight="40.0" fitWidth="59.0" layoutX="548.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="548.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="157.0">
+            <image>
+                <Image url="@../../Graphic/White_Token.png" />
+            </image></ImageView>
+
+      <Text layoutX="14.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token:" wrappingWidth="161.82177734375" />
+      <Text layoutX="507.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token: " />
+      <Text layoutX="29.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9" />
+      <Text layoutX="513.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9" />
+    </children>
+</AnchorPane>
