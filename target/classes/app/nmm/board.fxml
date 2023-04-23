@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
+<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
     <children>
         <ImageView fitHeight="312.0" fitWidth="311.0" layoutX="168.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="272.4600830078125" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="157.0">
             <image>
@@ -26,5 +27,8 @@
       <Text layoutX="507.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token: " />
       <Text layoutX="29.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9" />
       <Text layoutX="513.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9" />
+      <Text fx:id="p1" layoutX="14.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="161.82177734375" />
+      <Text fx:id="p2" layoutX="487.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="161.82177734375" />
+      <Button layoutX="551.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeApplication" prefHeight="40.0" prefWidth="75.0" text="Quit" />
     </children>
 </AnchorPane>
