@@ -1,9 +1,11 @@
 package app.nmm;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -13,9 +15,9 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent fxmlLoader = FXMLLoader.load(Application.class.getResource("main.fxml"));
+        Scene scene = new Scene(fxmlLoader);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setTitle("Nine Man's Morris");
         stage.setScene(scene);
         stage.show();
