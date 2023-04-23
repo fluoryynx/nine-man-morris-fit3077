@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Player extends Actor{
-    public Player(String tokenColour) {
-        super(tokenColour);
+
+
+    public Player(String tokenColour, String playerName) {
+        super(tokenColour, playerName);
     }
 
     @Override

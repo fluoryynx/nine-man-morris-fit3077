@@ -10,13 +10,15 @@ import java.util.Map;
 public abstract class Actor {
 
     private final String tokenColour;
+    private final String playerName;
     private Enum<Capability> status;
     private  int numberOfTokensOnBoard;
     private  int numberOfTokensInHand;
 
 
-    public Actor(String tokenColour) {
+    public Actor(String tokenColour, String playerName) {
         this.tokenColour = tokenColour;
+        this.playerName = playerName;
     }
     public void subtractTokenInHand(){
         this.numberOfTokensInHand -= 1;
