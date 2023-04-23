@@ -1,4 +1,7 @@
-package app.nmm.Logic;
+package app.nmm.Logic.Location;
+
+import app.nmm.Logic.Token;
+import javafx.util.Pair;
 
 import java.util.List;
 
@@ -6,9 +9,9 @@ public class Node {
 
     private Token contain;
     private int id;
-    private List<Integer> position;
+    private Pair<Integer,Integer> position;
 
-    public Node(int id,Token contain, List<Integer> position){
+    public Node(int id,Token contain, Pair<Integer,Integer> position){
         this.id=id;
         this. contain= contain;
         this.position= position;
@@ -22,7 +25,7 @@ public class Node {
         return this.id;
     }
 
-    public List<Integer> getPosition(){
+    public Pair<Integer,Integer> getPosition(){
         return this.position;
     }
 
