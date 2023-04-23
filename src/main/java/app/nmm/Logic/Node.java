@@ -52,6 +52,7 @@ public class Node {
             // for every empty adjacent node
                         // actionList.add( new MoveTokenAction(adjacent node id) )
         }
+        return actionList;
     }
 
 
