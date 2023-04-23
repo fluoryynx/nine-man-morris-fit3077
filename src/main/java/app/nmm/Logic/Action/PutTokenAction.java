@@ -20,5 +20,6 @@ public class PutTokenAction extends Action{
         Actor.subtractTokenInHand();
         Actor.addTokenOnBoard();
         Node.addToken();
+
     }
 }

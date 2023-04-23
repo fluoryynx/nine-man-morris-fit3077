@@ -19,8 +19,8 @@ public class MoveTokenAction extends Action{
 
     @Override
     public void execute() {
-        Node(targetId).addToken((getNodeId()).getToken());
-        Node(targetId).setId(getNodeId());
+        Node(targetId).removeToken();
+        Node(targetId).addToken(getNodeId());
         Node(getNodeId()).removeToken();
     }
 }
