@@ -1,4 +1,4 @@
-package app.nmm.Logic;
+package app.nmm.Logic.Token;
 
 public class Token {
 
