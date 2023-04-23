@@ -13,11 +13,12 @@
             </image></ImageView>
 
 
-        <ImageView fitHeight="40.0" fitWidth="59.0" layoutX="29.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="580.0" AnchorPane.topAnchor="157.0">
+        <ImageView fx:id="draggable" fitHeight="40.0" fitWidth="59.0" layoutX="29.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="580.0" AnchorPane.topAnchor="157.0">
             <image>
                 <Image url="@../../Graphic/Black_Token.png" />
             </image></ImageView>
-        <ImageView fitHeight="40.0" fitWidth="59.0" layoutX="548.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="548.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="157.0">
+
+        <ImageView fx:id="draggable" fitHeight="40.0" fitWidth="59.0" layoutX="548.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="548.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="157.0">
             <image>
                 <Image url="@../../Graphic/White_Token.png" />
             </image></ImageView>

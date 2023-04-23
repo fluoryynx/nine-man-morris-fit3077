@@ -1,5 +1,6 @@
 package app.nmm.Logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
@@ -41,6 +42,18 @@ public class Node {
     public void removeToken(){
         this.contain=null;
     }
+
+    public List<Action> allowableAction(List<Node> nodeList) {
+        List<Action> actionList = new ArrayList<>();
+        if this.contain==null {
+            actionList.add( new PutTokenAction());
+        }
+        else{
+            // for every empty adjacent node
+                        // actionList.add( new MoveTokenAction(adjacent node id) )
+        }
+    }
+
 
 
 }
