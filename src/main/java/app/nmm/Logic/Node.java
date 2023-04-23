@@ -6,9 +6,9 @@ public class Node {
 
     private Token contain;
     private int id;
-    private List<Integer> position;
+    private List<List<Integer>> position;
 
-    public Node(int id,Token contain, List<Integer> position){
+    public Node(int id,Token contain, List<List<Integer>> position){
         this.id=id;
         this. contain= contain;
         this.position= position;
@@ -22,7 +22,7 @@ public class Node {
         return this.id;
     }
 
-    public List<Integer> getPosition(){
+    public List<List<Integer>> getPosition(){
         return this.position;
     }
 
@@ -41,7 +41,6 @@ public class Node {
     public void removeToken(){
         this.contain=null;
     }
-
 
 
 }
