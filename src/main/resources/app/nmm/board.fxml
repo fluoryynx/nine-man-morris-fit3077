@@ -5,25 +5,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.MainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Cotroller.MainPageController">
     <children>
-        <ImageView fitHeight="312.0" fitWidth="311.0" layoutX="168.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="272.4600830078125" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="157.0">
+        <ImageView fitHeight="329.0" fitWidth="351.0" layoutX="159.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.4481201171875" AnchorPane.topAnchor="140.0">
             <image>
                 <Image url="@../../Graphic/Board.png" />
             </image></ImageView>
 
 
-        <ImageView fitHeight="40.0" fitWidth="59.0" layoutX="29.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="29.0" AnchorPane.rightAnchor="580.0" AnchorPane.topAnchor="157.0">
+        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="554.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="532.0" AnchorPane.leftAnchor="554.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="162.0">
             <image>
                 <Image url="@../../Graphic/Black_Token.png" />
             </image></ImageView>
-        <ImageView fitHeight="40.0" fitWidth="59.0" layoutX="548.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="542.0" AnchorPane.leftAnchor="548.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="157.0">
+        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="53.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="531.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="551.0" AnchorPane.topAnchor="163.0">
             <image>
                 <Image url="@../../Graphic/White_Token.png" />
             </image></ImageView>
 
 
-        <Button layoutX="540.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeApplication" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Quit" textAlignment="CENTER">
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeApplication" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Quit" textAlignment="CENTER">
             <font>
                 <Font name="Chalkboard" size="18.0" />
             </font>
