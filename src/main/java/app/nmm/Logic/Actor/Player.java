@@ -1,6 +1,6 @@
 package app.nmm.Logic.Actor;
 
-import app.nmm.Action.Action;
+import app.nmm.Logic.Action.Action;
 
 import java.util.List;
 import java.util.Map;
