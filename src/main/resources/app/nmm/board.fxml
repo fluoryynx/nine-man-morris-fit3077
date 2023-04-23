@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -7,22 +8,62 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Cotroller.MainPageController">
+<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
     <children>
         <ImageView fitHeight="329.0" fitWidth="351.0" layoutX="159.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.4481201171875" AnchorPane.topAnchor="140.0">
             <image>
                 <Image url="@../../Graphic/Board.png" />
             </image></ImageView>
+      <Group layoutX="520.0" layoutY="162.0">
+         <children>
 
 
-        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="554.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="532.0" AnchorPane.leftAnchor="554.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="162.0">
-            <image>
-                <Image url="@../../Graphic/Black_Token.png" />
-            </image></ImageView>
-        <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="53.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="531.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="551.0" AnchorPane.topAnchor="163.0">
-            <image>
-                <Image url="@../../Graphic/White_Token.png" />
-            </image></ImageView>
+              <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="34.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../../Graphic/Black_Token.png" />
+                  </image>
+            </ImageView>
+            <Text layoutY="96.35800170898438" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token: " textAlignment="CENTER" wrappingWidth="113.53700256347656">
+               <font>
+                  <Font name="Chalkboard" size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="47.0" layoutY="165.71603393554688" strokeType="OUTSIDE" strokeWidth="0.0" text="9">
+               <font>
+                  <Font name="Chalkboard" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="p2" layoutY="55.35801696777344" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="113.53700256347656">
+               <font>
+                  <Font name="Chalkboard" size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Group>
+      <Group layoutX="21.0" layoutY="163.0">
+         <children>
+              <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="32.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../../Graphic/White_Token.png" />
+                  </image>
+            </ImageView>
+            <Text layoutY="95.35800170898438" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token: " textAlignment="CENTER" wrappingWidth="113.53700256347656">
+               <font>
+                  <Font name="Chalkboard" size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="45.0" layoutY="165.71603393554688" strokeType="OUTSIDE" strokeWidth="0.0" text="9">
+               <font>
+                  <Font name="Chalkboard" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="p1" layoutY="55.35801696777344" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="113.53700256347656">
+               <font>
+                  <Font name="Chalkboard" size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Group>
 
 
         <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeApplication" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Quit" textAlignment="CENTER">
@@ -30,14 +71,6 @@
                 <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
-      <Text layoutX="525.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token: " textAlignment="CENTER" wrappingWidth="113.53700256347656">
-         <font>
-            <Font name="Chalkboard" size="18.0" />
-         </font></Text>
-      <Text layoutX="571.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9">
-         <font>
-            <Font name="Chalkboard" size="36.0" />
-         </font></Text>
       <Button layoutX="563.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeApplication" prefHeight="39.0" prefWidth="61.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Off" textAlignment="CENTER" textFill="RED">
          <font>
             <Font name="Chalkboard" size="18.0" />
@@ -48,255 +81,221 @@
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Text>
-      <Text layoutX="24.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token: " textAlignment="CENTER" wrappingWidth="113.53700256347656">
-         <font>
-            <Font name="Chalkboard" size="18.0" />
-         </font>
-      </Text>
-      <Text layoutX="70.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9">
-         <font>
-            <Font name="Chalkboard" size="36.0" />
-         </font>
-      </Text>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="312.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="312.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="312.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="202.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="228.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="254.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="422.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="396.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="370.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="312.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="312.0" layoutY="377.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="312.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="254.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="228.0" layoutY="377.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="202.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="254.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="228.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="202.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="422.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="396.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="370.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="422.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="396.0" layoutY="377.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="370.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Legal_Move.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="205.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="315.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="399.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="425.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="315.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="257.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="315.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="205.0" layoutY="406.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="231.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="315.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="205.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="231.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="315.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="257.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="231.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="373.0" layoutY="353.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="399.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="315.0" layoutY="406.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="425.0" layoutY="406.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="373.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="399.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="373.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="425.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="257.0" layoutY="236.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Graphic/Black_Token.png" />
-         </image>
-      </ImageView>
+      <Group layoutX="205.0" layoutY="186.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="315.0" layoutY="186.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="425.0" layoutY="186.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="231.0" layoutY="211.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="315.0" layoutY="211.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="399.0" layoutY="211.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="257.0" layoutY="236.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="315.0" layoutY="236.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="373.0" layoutY="236.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="205.0" layoutY="296.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="231.0" layoutY="296.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="257.0" layoutY="296.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="373.0" layoutY="296.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="399.0" layoutY="296.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="425.0" layoutY="296.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="257.0" layoutY="353.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="315.0" layoutY="353.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="373.0" layoutY="353.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="231.0" layoutY="380.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="315.0" layoutY="380.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="399.0" layoutY="380.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="205.0" layoutY="406.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="315.0" layoutY="406.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
+      <Group layoutX="425.0" layoutY="406.0">
+         <children>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Node.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Group>
     </children>
 </AnchorPane>
