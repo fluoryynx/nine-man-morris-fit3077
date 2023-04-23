@@ -2,6 +2,7 @@ package app.nmm.Controller;
 
 import app.nmm.Application;
 import app.nmm.Data;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -19,32 +21,53 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
-    Parent fxmlLoader;
-    Stage stage;
-    Scene scene;
+
     Pair<Integer, String> winner;
     Pair<Integer, String> loser;
+    String mode;
     @FXML Text p1;
     @FXML Text p2;
+    AnchorPane boardScene;
+    private final boolean DEBUG = false;
 
     @Override
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
         System.out.println("im in game scene");
-        System.out.println(scene);
-        Data data = (Data) stage.getUserData();
-        System.out.println(data);
-        winner = data.getWinner();
-        loser = data.getLoser();
+        winner = Data.getWinner();
+        loser = Data.getLoser();
+        mode = Data.getMode();
         p1.setText(winner.getValue());
         p2.setText(loser.getValue());
+
+        if (DEBUG == true){
+            System.out.println(winner);
+            System.out.println(loser);
+            System.out.println(mode);
+        }
+        if (mode.equals("computer")){
+            pvCMode();
+        }
+        else{
+            pvpMode();
+        }
     }
 
-    void setP1(Pair<Integer, String> p1){
-        this.winner = p1;
+    @FXML
+    void closeApplication(MouseEvent event) {
+        Platform.exit();
     }
 
-    void setP2(Pair<Integer, String> p2){
-        this.loser = p2;
+    void pvpMode(){
+        // TODO: implement player vs player engine
+    }
+
+    void pvCMode(){
+        // TODO: implement player vs computer mode engine
+    }
+
+    void tutorialMode(){
+        // TODO: implement tutorial mode
     }
 }

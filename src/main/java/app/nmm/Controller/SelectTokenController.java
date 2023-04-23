@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,33 +26,28 @@ import java.util.ResourceBundle;
 
 public class SelectTokenController implements Initializable {
 
-    Parent fxmlLoader;
-    Stage stage;
-    Scene scene;
     @FXML
-    TextField player1Field;
+    Text player1Field;
     @FXML
-    TextField player2Field;
+    Text player2Field;
+    @FXML
+    AnchorPane tokenScene;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("im in select token");
-        System.out.println(scene);
-        System.out.println(fxmlLoader);
     }
 
     @FXML
     void backToMain(MouseEvent event) throws IOException {
-        fxmlLoader = FXMLLoader.load(Application.class.getResource("main.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(fxmlLoader);
-        stage.setScene(scene);
-        stage.setTitle("Nine Man's Morris");
-        stage.show();
+        AnchorPane mainPageScene = FXMLLoader.load(Application.class.getResource("main.fxml"));
+        tokenScene.getChildren().removeAll();
+        tokenScene.getChildren().setAll(mainPageScene);
     }
 
     @FXML
     void flipCoin(MouseEvent event) throws IOException{
+        // flip coin method, got a bit of bug
         String str1 = player1Field.getText();
         String str2 = player2Field.getText();
         Random r = new Random();
@@ -66,13 +62,12 @@ public class SelectTokenController implements Initializable {
             winner = new Pair<>(1, "p2");
             loser = new Pair<>(2, "p1");
         }
-        System.out.println(fxmlLoader);
         changeToGameScene(winner, loser, event);
     }
 
     @FXML
     void swap(MouseEvent event) throws IOException{
-        // how to swap scene
+        // swaps the head and tail between two players
         String str1 = player1Field.getText();
         String str2 = player2Field.getText();
         player1Field.setText(str2);
@@ -80,14 +75,11 @@ public class SelectTokenController implements Initializable {
     }
 
     void changeToGameScene(Pair<Integer, String> winner, Pair<Integer, String> loser, MouseEvent event) throws IOException {
-        Data data = new Data(winner, loser);
+        // saves the data in a data static object and changes scene
+        Data data = new Data(winner, loser, "Player");
         System.out.println(data);
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        fxmlLoader =  FXMLLoader.load(Application.class.getResource("board.fxml"));
-        stage.setUserData(data);
-        scene = new Scene(fxmlLoader);
-        stage.setScene(scene);
-        stage.setTitle("Nine Man's Morris");
-        stage.show();
+        AnchorPane boardScene = FXMLLoader.load(Application.class.getResource("board.fxml"));
+        tokenScene.getChildren().removeAll();
+        tokenScene.getChildren().setAll(boardScene);
     }
 }
