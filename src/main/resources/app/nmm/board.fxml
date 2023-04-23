@@ -71,9 +71,6 @@
                 <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
-      <Text layoutX="14.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token:" wrappingWidth="161.82177734375" />
-      <Text layoutX="507.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remaining token: " />
-      <Text layoutX="29.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9" />
-      <Text layoutX="513.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="9" />
+
     </children>
 </AnchorPane>
