@@ -55,12 +55,25 @@ public class SelectTokenController implements Initializable {
         Pair<Integer, String> winner = null;
         Pair<Integer, String> loser = null;
         if (headOrTail >= 50) {
-            winner = new Pair<>(1, "p1");
-            loser = new Pair<>(2, "p2");
+            // head wins
+            if (str1.equals("Heads")){
+                winner = new Pair<>(1, "p1");
+                loser = new Pair<>(2, "p2");
+            }
+            else {
+                winner = new Pair<>(1, "p2");
+                loser = new Pair<>(2, "p1");
+            }
         }
         else{
-            winner = new Pair<>(1, "p2");
-            loser = new Pair<>(2, "p1");
+            if (str1.equals("Tails")){
+                winner = new Pair<>(1, "p2");
+                loser = new Pair<>(2, "p1");
+            }
+            else {
+                winner = new Pair<>(1, "p1");
+                loser = new Pair<>(2, "p2");
+            }
         }
         changeToGameScene(winner, loser, event);
     }
