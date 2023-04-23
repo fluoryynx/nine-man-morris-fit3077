@@ -12,7 +12,7 @@ public class Player extends Actor{
 
     @Override
     public Action playTurn(Map<Integer,List<Action>> allowableActions) {
-        Integer selectedID =  1;
+        int selectedID =  1;
         Action finalAction = null;
         while (finalAction == null){
             if(allowableActions.containsKey(selectedID)){
