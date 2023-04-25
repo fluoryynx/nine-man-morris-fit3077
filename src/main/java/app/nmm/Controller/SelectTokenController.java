@@ -89,7 +89,7 @@ public class SelectTokenController implements Initializable {
 
     void changeToGameScene(Pair<Integer, String> winner, Pair<Integer, String> loser, MouseEvent event) throws IOException {
         // saves the data in a data static object and changes scene
-        Data data = new Data(winner, loser, "Player");
+        Data data = new Data(winner, loser, "player");
         System.out.println(data);
         AnchorPane boardScene = FXMLLoader.load(Application.class.getResource("board.fxml"));
         tokenScene.getChildren().removeAll();

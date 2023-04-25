@@ -79,7 +79,7 @@
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Text>
-      <Group fx:id="g0" layoutX="205.0" layoutY="186.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g0" layoutX="205.0" layoutY="186.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n0" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -88,7 +88,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g1" layoutX="315.0" layoutY="186.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g1" layoutX="315.0" layoutY="186.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n1" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -97,7 +97,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g2" layoutX="425.0" layoutY="186.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g2" layoutX="425.0" layoutY="186.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n2" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -106,7 +106,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group  fx:id="g3" layoutX="231.0" layoutY="211.0" onMouseClicked="#showLegalMove">
+      <Group  fx:id="g3" layoutX="231.0" layoutY="211.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n3" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -115,7 +115,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g4" layoutX="315.0" layoutY="211.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g4" layoutX="315.0" layoutY="211.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n4" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -124,7 +124,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group  fx:id="g5" layoutX="399.0" layoutY="211.0" onMouseClicked="#showLegalMove">
+      <Group  fx:id="g5" layoutX="399.0" layoutY="211.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n5" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -133,7 +133,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g6" layoutX="257.0" layoutY="236.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g6" layoutX="257.0" layoutY="236.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n6" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -142,7 +142,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g7" layoutX="315.0" layoutY="236.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g7" layoutX="315.0" layoutY="236.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n7" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -151,7 +151,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g8" layoutX="373.0" layoutY="236.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g8" layoutX="373.0" layoutY="236.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n8" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -160,7 +160,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g9" layoutX="205.0" layoutY="296.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g9" layoutX="205.0" layoutY="296.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n9" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -169,7 +169,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g10" layoutX="231.0" layoutY="296.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g10" layoutX="231.0" layoutY="296.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n10" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -178,7 +178,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g11" layoutX="257.0" layoutY="296.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g11" layoutX="257.0" layoutY="296.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n11" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -187,7 +187,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g12" layoutX="373.0" layoutY="296.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g12" layoutX="373.0" layoutY="296.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n12" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -196,7 +196,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g13" layoutX="399.0" layoutY="296.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g13" layoutX="399.0" layoutY="296.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n13" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -205,7 +205,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g14" layoutX="425.0" layoutY="296.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g14" layoutX="425.0" layoutY="296.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n14" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -214,7 +214,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g15" layoutX="257.0" layoutY="353.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g15" layoutX="257.0" layoutY="353.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n15" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -223,7 +223,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g16" layoutX="315.0" layoutY="353.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g16" layoutX="315.0" layoutY="353.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView  fx:id="n16" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -232,7 +232,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g17" layoutX="373.0" layoutY="353.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g17" layoutX="373.0" layoutY="353.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n17" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -241,7 +241,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g18" layoutX="231.0" layoutY="380.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g18" layoutX="231.0" layoutY="380.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n18" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -250,7 +250,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g19" layoutX="315.0" layoutY="380.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g19" layoutX="315.0" layoutY="380.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n19" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -259,7 +259,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g20" layoutX="399.0" layoutY="380.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g20" layoutX="399.0" layoutY="380.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n20" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -268,7 +268,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g21" layoutX="205.0" layoutY="406.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g21" layoutX="205.0" layoutY="406.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n21" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -277,7 +277,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g22" layoutX="315.0" layoutY="406.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g22" layoutX="315.0" layoutY="406.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n22" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -286,7 +286,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="g23" layoutX="425.0" layoutY="406.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g23" layoutX="425.0" layoutY="406.0" onMouseClicked="#getUserAction">
          <children>
             <ImageView fx:id="n23" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
