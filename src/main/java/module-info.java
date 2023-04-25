@@ -5,6 +5,7 @@ module app.nmm {
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
+    requires jdk.javadoc;
 
     opens app.nmm to javafx.fxml;
     exports app.nmm;
