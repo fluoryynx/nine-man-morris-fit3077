@@ -27,4 +27,11 @@ public class CheckLegalMove {
 
         return  new Pair(allowableActions,removeActions);
     }
-}
+
+    public ArrayList<Action> calculateLegalPut(ArrayList<Node> nodeList){
+
+        ArrayList<Action> legalMoves= new ArrayList<Action>();
+        return legalMoves;
+    }
+
+    }

@@ -6,11 +6,18 @@ import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Actor.Actor;
 import app.nmm.Logic.Actor.Computer;
 import app.nmm.Logic.Actor.Player;
+import app.nmm.Logic.Capability.Capability;
 import app.nmm.Logic.Handler.CheckLegalMove;
 import app.nmm.Logic.Handler.CheckMill;
 import app.nmm.Logic.Location.Node;
+import app.nmm.Logic.Observer.Observer;
+import app.nmm.Logic.Subject.Subject;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,9 +42,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
-public class GameController implements Initializable {
+public class GameController implements Initializable, Subject {
 
     Pair<Integer, String> winner;
     Pair<Integer, String> loser;
@@ -48,12 +59,12 @@ public class GameController implements Initializable {
     Scene currentScene;
 
 
-
     private ArrayList<Node> nodeList;
     private CheckMill checkMill;
     private CheckLegalMove checkLegalMove;
     private  ArrayList<Actor> playerList;
     private ArrayList<Pair<Integer,Integer>> locationList;
+    private Actor currentPlayer;
 
     private final boolean DEBUG = false;
 
@@ -106,10 +117,14 @@ public class GameController implements Initializable {
     void showLegalMove(MouseEvent event){
         double x = event.getSceneX();
         double y = event.getSceneY();
-
+        int nodeID = Integer.parseInt( (((javafx.scene.Group)event.getSource()).getId()).substring(1));
+        notifyMove(nodeID);
         System.out.println("x: " + x + " y: " + y);
         System.out.println(((javafx.scene.Group)event.getSource()).getId());
-        getUserAction(event);
+
+
+//        getUserAction(event);
+
     }
     @FXML
     void getUserAction(MouseEvent event) {
@@ -173,6 +188,38 @@ public class GameController implements Initializable {
         }
     }
 
+    @FXML
+    public void putImage(Integer nodeID) {
+        currentScene = p1.getScene();
+
+        Group group;
+
+
+
+        group = (Group) currentScene.lookup("#g"+nodeID);
+        ObservableList<javafx.scene.Node> childList =  group.getChildren();
+        // remove any extra children
+        if(childList.size() > 1){
+            while (childList.size() > 1){
+                javafx.scene.Node node =  childList.get(childList.size()-1);
+                childList.remove(node);
+            }
+        }
+        childList =  group.getChildren();
+        File file = new File("src/main/resources/Graphic/Legal_Move.png");
+        Image image = new Image(file.toURI().toString());
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setFitWidth(24);
+        imageView.setFitHeight(24);
+        imageView.setLayoutX(-3);
+        imageView.setLayoutY(-3);
+        childList.add(imageView);
+
+
+
+
+    }
 
 
     @FXML
@@ -234,21 +281,68 @@ public class GameController implements Initializable {
     public void gamePlay(){
         boolean stop = false;
 
-        while(stop){
-            for (Actor actor : this.playerList) {
-                Pair result = this.checkLegalMove.calculateLegalMove(actor, this.nodeList);
-                HashMap allowableActions = (HashMap) result.getKey();
-                HashMap removeActions =  (HashMap) result.getValue();
+        while(this.playerList.get(1).getStatus() != Capability.NORMAL){
 
-                if (allowableActions.size() == 0){
-                    stop = true;
-                    break;
+            for(Actor actor: this.playerList){
+                System.out.println(actor.getPlayerName());
+//                ArrayList<Action> allowableActions = checkLegalMove.calculateLegalPut(this.nodeList);
+                ArrayList<Action> allowableActions = tester();
+                // Adding highlight of legal move on the board
+                for (Action action: allowableActions){
+                    int nodeID =  action.getNodeID();
+                    this.putImage(nodeID);
+
                 }
+                this.currentPlayer = actor;
+                actor.playTurn(allowableActions, this).thenAccept(finalAction -> {
+                    // Handle the finalAction value asynchronously
+                    System.out.println("Final Action: " + finalAction);
+                });
+//
 
-                Action action = actor.playTurn(allowableActions);
-                action.execute();
-
+                if (actor.getNumberOfTokensInHand() == 0){
+                    actor.updateStatus(Capability.NORMAL);
+                }
             }
         }
+//        while(stop){
+//            for (Actor actor : this.playerList) {
+//                Pair result = this.checkLegalMove.calculateLegalMove(actor, this.nodeList);
+//                HashMap allowableActions = (HashMap) result.getKey();
+//                HashMap removeActions =  (HashMap) result.getValue();
+//
+//                if (allowableActions.size() == 0){
+//                    stop = true;
+//                    break;
+//                }
+//
+//                Action action = actor.playTurn(allowableActions);
+//                action.execute();
+//
+//            }
+//        }
+    }
+
+
+
+
+    private ArrayList<Action> tester(){
+        ArrayList<Action> output = new ArrayList<>();
+
+        for( int i =0; i <24; i++){
+            output.add(new Action(i));
+        }
+
+        return output;
+    }
+    @FXML
+    void startGame(MouseEvent event){
+        gamePlay();
+    }
+
+    @Override
+    public void notifyMove(Integer nodeID) {
+
+        ((Observer) currentPlayer).sendUserAction(nodeID);
     }
 }

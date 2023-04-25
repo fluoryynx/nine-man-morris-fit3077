@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
+<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
     <children>
         <ImageView fitHeight="329.0" fitWidth="351.0" layoutX="159.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.4481201171875" AnchorPane.topAnchor="140.0">
             <image>
@@ -106,7 +108,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group  fx:id="g3" layoutX="231.0" layoutY="211.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g3" layoutX="231.0" layoutY="211.0" onMouseClicked="#showLegalMove">
          <children>
             <ImageView fx:id="n3" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -124,7 +126,7 @@
             </ImageView>
          </children>
       </Group>
-      <Group  fx:id="g5" layoutX="399.0" layoutY="211.0" onMouseClicked="#showLegalMove">
+      <Group fx:id="g5" layoutX="399.0" layoutY="211.0" onMouseClicked="#showLegalMove">
          <children>
             <ImageView fx:id="n5" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -225,7 +227,7 @@
       </Group>
       <Group fx:id="g16" layoutX="315.0" layoutY="353.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView  fx:id="n16" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n16" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
@@ -295,5 +297,10 @@
             </ImageView>
          </children>
       </Group>
+      <Button layoutX="297.0" layoutY="555.0" mnemonicParsing="false" onMouseClicked="#startGame" text="Start">
+         <font>
+            <Font name="Chalkboard" size="18.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
