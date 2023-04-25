@@ -1,5 +1,9 @@
 package app.nmm.Logic.Action;
 
+import app.nmm.Logic.Actor.Actor;
+import app.nmm.Logic.Capability.Capability;
+import app.nmm.Logic.Location.Node;
+
 public class MoveTokenAction extends Action{
     private int targetId;
 

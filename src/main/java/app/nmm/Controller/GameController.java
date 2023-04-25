@@ -6,9 +6,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +21,7 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 
 public class GameController implements Initializable {
 
@@ -57,6 +60,21 @@ public class GameController implements Initializable {
     @FXML
     void closeApplication(MouseEvent event) {
         Platform.exit();
+    }
+
+    @FXML
+    void showLegalMove(MouseEvent event){
+        double x = event.getSceneX();
+        double y = event.getSceneY();
+
+        System.out.println("x: " + x + " y: " + y);
+        System.out.println(((javafx.scene.Group)event.getSource()).getId());
+    }
+
+    @FXML
+    void showHint(){
+        // TODO: implement hint function
+        System.out.println("No hint yet");
     }
 
     void pvpMode(){

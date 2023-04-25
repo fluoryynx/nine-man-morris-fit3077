@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
+<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
     <children>
         <ImageView fitHeight="329.0" fitWidth="351.0" layoutX="159.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.4481201171875" AnchorPane.topAnchor="140.0">
             <image>
@@ -33,7 +31,7 @@
                   <Font name="Chalkboard" size="36.0" />
                </font>
             </Text>
-            <Text fx:id="p2" layoutY="55.35801696777344" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="113.53700256347656">
+            <Text fx:id="p2" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="113.53700256347656">
                <font>
                   <Font name="Chalkboard" size="18.0" />
                </font>
@@ -57,7 +55,7 @@
                   <Font name="Chalkboard" size="36.0" />
                </font>
             </Text>
-            <Text fx:id="p1" layoutY="55.35801696777344" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="113.53700256347656">
+            <Text fx:id="p1" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="113.53700256347656">
                <font>
                   <Font name="Chalkboard" size="18.0" />
                </font>
@@ -71,7 +69,7 @@
                 <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
-      <Button layoutX="563.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeApplication" prefHeight="39.0" prefWidth="61.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Off" textAlignment="CENTER" textFill="RED">
+      <Button layoutX="563.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#showHint" prefHeight="39.0" prefWidth="61.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Off" textAlignment="CENTER" textFill="RED">
          <font>
             <Font name="Chalkboard" size="18.0" />
          </font>
@@ -81,216 +79,216 @@
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Text>
-      <Group layoutX="205.0" layoutY="186.0">
+      <Group fx:id="g0" layoutX="205.0" layoutY="186.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n0" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="315.0" layoutY="186.0">
+      <Group fx:id="g1" layoutX="315.0" layoutY="186.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n1" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="425.0" layoutY="186.0">
+      <Group fx:id="g2" layoutX="425.0" layoutY="186.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n2" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="231.0" layoutY="211.0">
+      <Group  fx:id="g3" layoutX="231.0" layoutY="211.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n3" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="315.0" layoutY="211.0">
+      <Group fx:id="g4" layoutX="315.0" layoutY="211.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n4" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="399.0" layoutY="211.0">
+      <Group  fx:id="g5" layoutX="399.0" layoutY="211.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n5" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="257.0" layoutY="236.0">
+      <Group fx:id="g6" layoutX="257.0" layoutY="236.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n6" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="315.0" layoutY="236.0">
+      <Group fx:id="g7" layoutX="315.0" layoutY="236.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n7" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="373.0" layoutY="236.0">
+      <Group fx:id="g8" layoutX="373.0" layoutY="236.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n8" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="205.0" layoutY="296.0">
+      <Group fx:id="g9" layoutX="205.0" layoutY="296.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n9" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="231.0" layoutY="296.0">
+      <Group fx:id="g10" layoutX="231.0" layoutY="296.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n10" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="257.0" layoutY="296.0">
+      <Group fx:id="g11" layoutX="257.0" layoutY="296.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n11" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="373.0" layoutY="296.0">
+      <Group fx:id="g12" layoutX="373.0" layoutY="296.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n12" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="399.0" layoutY="296.0">
+      <Group fx:id="g13" layoutX="399.0" layoutY="296.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n13" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="425.0" layoutY="296.0">
+      <Group fx:id="g14" layoutX="425.0" layoutY="296.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n14" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="257.0" layoutY="353.0">
+      <Group fx:id="g15" layoutX="257.0" layoutY="353.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n15" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="315.0" layoutY="353.0">
+      <Group fx:id="g16" layoutX="315.0" layoutY="353.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView  fx:id="n16" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="373.0" layoutY="353.0">
+      <Group fx:id="g17" layoutX="373.0" layoutY="353.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n17" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="231.0" layoutY="380.0">
+      <Group fx:id="g18" layoutX="231.0" layoutY="380.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n18" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="315.0" layoutY="380.0">
+      <Group fx:id="g19" layoutX="315.0" layoutY="380.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n19" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="399.0" layoutY="380.0">
+      <Group fx:id="g20" layoutX="399.0" layoutY="380.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n20" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="205.0" layoutY="406.0">
+      <Group fx:id="g21" layoutX="205.0" layoutY="406.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n21" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="315.0" layoutY="406.0">
+      <Group fx:id="g22" layoutX="315.0" layoutY="406.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n22" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
             </ImageView>
          </children>
       </Group>
-      <Group layoutX="425.0" layoutY="406.0">
+      <Group fx:id="g23" layoutX="425.0" layoutY="406.0" onMouseClicked="#showLegalMove">
          <children>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="n23" fitHeight="18.0" fitWidth="18.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Graphic/Node.png" />
                </image>
