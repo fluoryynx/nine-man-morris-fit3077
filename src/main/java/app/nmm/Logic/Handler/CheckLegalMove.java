@@ -3,6 +3,7 @@ package app.nmm.Logic.Handler;
 import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Actor.Actor;
 import app.nmm.Logic.Location.Node;
+import app.nmm.Logic.MoveTokenAction;
 
 import java.util.*;
 
@@ -38,9 +39,23 @@ public class CheckLegalMove {
 
     }};
 
-    public Map<Integer,ArrayList<Action>> calculateLegalMove(Actor actor, ArrayList<Node> nodeList){
+    public Map<Integer,List<Action>> calculateLegalMove(Actor actor, ArrayList<Node> nodeList){
 
-        return null;
+        Map<Integer,List<Action>> legalMoves= new HashMap<Integer, List<Action>>();
+
+        for (int i = 0; i < nodeList.size(); i++) {
+
+            if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getId()==actor.getTokenColour()){
+
+                ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i);
+
+                List<Action> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode);
+
+                legalMoves.put(i,listOfActions);
+
+            }
+        }
+        return legalMoves;
     }
 
 }
