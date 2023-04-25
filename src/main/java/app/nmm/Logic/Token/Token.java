@@ -10,4 +10,21 @@ public class Token {
         this.id= id;
     }
 
+    public Boolean getIsMill(){
+        return this.isMill;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String newId){
+        this.id=newId;
+    }
+
+    public void setIsMill(Boolean newIsMill){
+        this.isMill=newIsMill;
+    }
+
 }
+
