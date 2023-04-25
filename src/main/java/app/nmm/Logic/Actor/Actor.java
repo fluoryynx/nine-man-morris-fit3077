@@ -22,6 +22,7 @@ public abstract class Actor {
         this.tokenColour = tokenColour;
         this.playerName = playerName;
         this.status = Capability.PUT_TOKEN;
+        this.numberOfTokensInHand = 9;
     }
     public void subtractTokenInHand(){
         this.numberOfTokensInHand -= 1;
@@ -46,4 +47,9 @@ public abstract class Actor {
     public String getTokenColour() {
         return this.tokenColour;
     }
+
+    public int getNumberOfTokensInHand() {
+        return numberOfTokensInHand;
+    }
+
 }

@@ -74,6 +74,11 @@
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Button>
+        <Button fx:id="startButton" layoutX="279.0" layoutY="555.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="39.0" prefWidth="61.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Start" textAlignment="CENTER" >
+            <font>
+                <Font name="Chalkboard" size="50.0" />
+            </font>
+        </Button>
       <Text layoutX="514.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint: ">
          <font>
             <Font name="Chalkboard" size="18.0" />

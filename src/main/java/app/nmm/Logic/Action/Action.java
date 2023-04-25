@@ -12,9 +12,17 @@ public abstract class Action {
     public Action(int nodeId){
         this.nodeId = nodeId;
     }
+
     public int getNodeId(){
         return this.nodeId;
     }
 
     public abstract void execute(Actor currentPlayer, List<Node> nodeList);
+
+    @Override
+    public String toString() {
+        return "Action{" +
+                "nodeId=" + nodeId +
+                '}';
+    }
 }
