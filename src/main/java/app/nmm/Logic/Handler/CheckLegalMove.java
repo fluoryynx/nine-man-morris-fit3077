@@ -45,7 +45,7 @@ public class CheckLegalMove {
 
         for (int i = 0; i < nodeList.size(); i++) {
 
-            if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getId()==actor.getTokenColour()){
+            if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour()==actor.getTokenColour()){
 
                 ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i);
 
@@ -57,5 +57,25 @@ public class CheckLegalMove {
         }
         return legalMoves;
     }
+
+    public ArrayList<Action> calculateLegalPut(ArrayList<Node> nodeList){
+
+        ArrayList<Action> legalMoves= new ArrayList<Action>();
+
+        for (int i = 0; i < nodeList.size(); i++) {
+
+            if (nodeList.get(i).getToken() == null){
+
+                ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i);
+
+                List<Action> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode);
+
+                legalMoves.add(listOfActions.get(0));
+
+            }
+        }
+        return legalMoves;
+    }
+
 
 }
