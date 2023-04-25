@@ -3,11 +3,8 @@ package app.nmm.Logic.Handler;
 import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Actor.Actor;
 import app.nmm.Logic.Location.Node;
-import app.nmm.Logic.MoveTokenAction;
 
 import java.util.*;
-
-import static java.util.Map.entry;
 
 public class CheckLegalMove {
 
