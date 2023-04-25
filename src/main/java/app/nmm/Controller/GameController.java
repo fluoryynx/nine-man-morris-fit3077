@@ -102,106 +102,6 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    void getUserAction(MouseEvent event) {
-        currentScene = p1.getScene();
-
-        if (DEBUG){
-            double x = event.getSceneX();
-            double y = event.getSceneY();
-            System.out.println("x: " + x + " y: " + y);
-            System.out.println(((javafx.scene.Group)event.getSource()).getId());
-            System.out.println(currentScene);
-        }
-        // pass id to Player class
-
-        // get back then put image
-        if (((javafx.scene.Group)event.getSource()).getId().equals("g23")){
-            putImage();
-        }
-    }
-
-    /**
-     *
-     */
-    @FXML
-    public void putImage() {
-        // manually generate the location beside
-        Map<Integer, ArrayList<Integer>> nodeIdList = new HashMap<>();
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(14);
-        list.add(22);
-        nodeIdList.put(23, list);
-
-        Group group;
-        ObservableList<Node> childList;
-        // add image
-        // iterate each entry of hashmap
-        for(Map.Entry<Integer, ArrayList<Integer>> entry: nodeIdList.entrySet()) {
-
-            // if give value is equal to value from entry
-            // print the corresponding key
-            if(entry.getKey() == 23) {
-                ArrayList<Integer> temptList = entry.getValue();
-
-                for (int i = 0; i < temptList.size();i++){
-                    int intId = temptList.get(i);
-                    group = (Group) currentScene.lookup("#g"+intId);
-                    childList =  group.getChildren();
-                    // remove any extra children
-                    if(childList.size() > 1){
-                        while (childList.size() > 1){
-                            Node node =  childList.get(childList.size()-1);
-                            childList.remove(node);
-                        }
-                    }
-                    File file = new File("project\\src\\main\\resources\\Graphic\\Legal_Move.png");
-                    Image image = new Image(file.toURI().toString());
-                    ImageView imageView = new ImageView();
-                    imageView.setImage(image);
-                    imageView.setFitWidth(24);
-                    imageView.setFitHeight(24);
-                    imageView.setLayoutX(-3);
-                    imageView.setLayoutY(-3);
-                    childList.add(imageView);
-                }
-            }
-        }
-    }
-
-    @FXML
-    public void putImage(int nodeId, Action action, Actor actor) {
-        Group group = (Group) currentScene.lookup("#g"+nodeId);
-        ObservableList<Node> childList =  group.getChildren();
-        // remove any extra children
-        if(childList.size() > 1){
-            while (childList.size() > 1){
-                Node node =  childList.get(childList.size()-1);
-                childList.remove(node);
-            }
-        }
-        File file = new File("project\\src\\main\\resources\\Graphic\\Legal_Move.png");
-        Image image = new Image(file.toURI().toString());
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
-        imageView.setFitWidth(24);
-        imageView.setFitHeight(24);
-        imageView.setLayoutX(-3);
-        imageView.setLayoutY(-3);
-        childList.add(imageView);
-        imageView.setId("legalMove");
-        imageView.setOnMouseClicked(event -> {
-            System.out.println("IM HERE");
-            if (actor.getTokenColour().equals("white")){
-                player1PutToken(action, actor);
-            }
-            else{
-                player2PutToken(action, actor);
-            }
-
-        });
-    }
-
-    @FXML
     void showHint(){
         // TODO: implement hint function
         System.out.println("No hint yet");
@@ -259,12 +159,49 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    public void putLegalMoveImage(int nodeId, Action action, Actor actor) {
+        Group group = (Group) currentScene.lookup("#g"+nodeId);
+        ObservableList<Node> childList =  group.getChildren();
+        // remove any extra children
+        if(childList.size() > 1){
+            while (childList.size() > 1){
+                Node node =  childList.get(childList.size()-1);
+                childList.remove(node);
+            }
+        }
+        // find the image, and put inside image view
+        File file = new File("project\\src\\main\\resources\\Graphic\\Legal_Move.png");
+        Image image = new Image(file.toURI().toString());
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        // set imageview location
+        imageView.setFitWidth(24);
+        imageView.setFitHeight(24);
+        imageView.setLayoutX(-3);
+        imageView.setLayoutY(-3);
+        childList.add(imageView);
+        // add id to imageview
+        imageView.setId("legalMove");
+        // make imageview clickable
+        imageView.setOnMouseClicked(event -> {
+            System.out.println("IM HERE");
+            if (actor.getTokenColour().equals("white")){
+                player1PutToken(action, actor);
+            }
+            else{
+                player2PutToken(action, actor);
+            }
+
+        });
+    }
+
+    @FXML
     void player1ShowLegalPut(){
         List<Action> returnAction = this.checkLegalMove.calculateLegalPut(nodeList);
         System.out.println(returnAction);
         for (int i = 0; i < returnAction.size(); i++){
             int id = returnAction.get(i).getNodeId();
-            putImage(id, returnAction.get(i), this.playerList.get(0));
+            putLegalMoveImage(id, returnAction.get(i), this.playerList.get(0));
         }
     }
 
@@ -277,7 +214,10 @@ public class GameController implements Initializable {
                 childList.remove(node);
             }
         }
+        // subtract token count
         action.execute(actor, nodeList);
+        // get node id
+        // add token to front end
         int nodeId = action.getNodeId();
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
@@ -289,6 +229,7 @@ public class GameController implements Initializable {
         imageView.setFitHeight(24);
         imageView.setLayoutX(-3);
         imageView.setLayoutY(-3);
+        // id: "w" + "token" + "tokencount"
         imageView.setId(actor.getTokenColour().charAt(0) + "token"+ (9 - actor.getNumberOfTokensInHand()));
         childList.add(imageView);
         if (actor.getNumberOfTokensInHand() == 0){
@@ -303,7 +244,7 @@ public class GameController implements Initializable {
         System.out.println(returnAction);
         for (int i = 0; i < returnAction.size(); i++){
             int id = returnAction.get(i).getNodeId();
-            putImage(id, returnAction.get(i), this.playerList.get(1));
+            putLegalMoveImage(id, returnAction.get(i), this.playerList.get(1));
         }
     }
 
@@ -337,6 +278,7 @@ public class GameController implements Initializable {
             player1ShowLegalPut();
         }
         else{
+            // clear legal move image
             for (int i = 0; i < 24; i++){
                 group = (Group) currentScene.lookup("#g"+i);
                 childList =  group.getChildren();
@@ -346,6 +288,8 @@ public class GameController implements Initializable {
                 }
             }
             System.out.println("DONE");
+            // start gameplay
+            // same idea for two players for normal phase
 //            player1ShowLegalMove();
         }
 
