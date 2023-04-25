@@ -6,14 +6,6 @@ public class PutTokenAction extends Action{
         super(nodeId);
     }
 
-    @Override
-    public Action newAction() {
-        if (Actor.status == Capability.valueOf(PUT) && Node.hasToken()!= true)
-        {
-            return new PutTokenAction(getNodeId());
-        }
-        return null
-    }
 
     @Override
     public void execute() {
