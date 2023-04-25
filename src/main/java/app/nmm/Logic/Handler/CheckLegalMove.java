@@ -23,7 +23,6 @@ public class CheckLegalMove {
         HashMap allowableActions = new HashMap();
         HashMap removeActions = new HashMap();
 
-        // To be continued....
 
         return  new Pair(allowableActions,removeActions);
     }
