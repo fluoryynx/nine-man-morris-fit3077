@@ -1,5 +1,7 @@
 package app.nmm.Logic;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +9,11 @@ public class Node {
 
     private Token contain;
     private int id;
-    private List<List<Integer>> position;
+    private List<Pair<Integer,Integer>> position;
 
-    public Node(int id,Token contain, List<List<Integer>> position){
+    public Node(int id, List<Pair<Integer,Integer>> position){
         this.id=id;
-        this. contain= contain;
+        this. contain= null;
         this.position= position;
     }
 
@@ -23,7 +25,7 @@ public class Node {
         return this.id;
     }
 
-    public List<List<Integer>> getPosition(){
+    public List<Pair<Integer,Integer>> getPosition(){
         return this.position;
     }
 
@@ -45,7 +47,7 @@ public class Node {
 
     public List<Action> allowableAction(List<Node> nodeList) {
         List<Action> actionList = new ArrayList<>();
-        if this.contain==null {
+        if (this.contain==null) {
             actionList.add( new PutTokenAction());
         }
         else{
