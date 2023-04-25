@@ -17,7 +17,7 @@ public class Node {
 
     public Node(int id, List<Pair<Integer,Integer>> position){
         this.id=id;
-        this. contain= null;
+        this.contain= null;
         this.position= position;
     }
 
@@ -52,17 +52,10 @@ public class Node {
     public List<Action> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList) {
         List<Action> actionList = new ArrayList<>();
 
-        if (this.contain==null) { // if the node is empty
-            actionList.add( new PutTokenAction(this.id)); // add a put token action into the list
-        }
-
-        else{
-            for (int i = 0; i < adjacentList.size(); i++) { // check it's adjacent nodes
-                if (nodeList.get(adjacentList.get(i)).contain==null){ // if the adjacent node is empty
-
-                    // create and add a move token action towards that empty adjacent node into the list
-                    actionList.add(new MoveTokenAction(this.id, adjacentList.get(i)));
-                }
+        for (int i = 0; i < adjacentList.size(); i++) { // check it's adjacent nodes
+            if (nodeList.get(adjacentList.get(i)).contain==null){ // if the adjacent node is empty
+                // create and add a move token action towards that empty adjacent node into the list
+                actionList.add(new MoveTokenAction(this.id, adjacentList.get(i)));
             }
         }
         return actionList;

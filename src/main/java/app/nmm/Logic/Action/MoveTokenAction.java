@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MoveTokenAction extends Action{
     private int targetId;
-
+    //nodeId is the current node, targetId is the node you want to move to.
     public MoveTokenAction(int nodeId, int targetId) {
         super(nodeId);
         this.targetId = targetId;

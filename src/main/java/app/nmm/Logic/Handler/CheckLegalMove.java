@@ -1,6 +1,8 @@
 package app.nmm.Logic.Handler;
 
 import app.nmm.Logic.Action.Action;
+import app.nmm.Logic.Action.MoveTokenAction;
+import app.nmm.Logic.Action.PutTokenAction;
 import app.nmm.Logic.Actor.Actor;
 import app.nmm.Logic.Location.Node;
 
@@ -41,7 +43,7 @@ public class CheckLegalMove {
         Map<Integer,List<Action>> legalMoves= new HashMap<Integer, List<Action>>();
 
         for (int i = 0; i < nodeList.size(); i++) {
-
+            //if current node has a token that the current player owns, check adjacent nodes
             if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour()==actor.getTokenColour()){
 
                 ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i);
@@ -54,25 +56,37 @@ public class CheckLegalMove {
         }
         return legalMoves;
     }
-
+    // For when both players are in PUT_TOKEN phase,ends when both players have placed 9 tokens on the board(tokens on hand ==0.)
     public ArrayList<Action> calculateLegalPut(ArrayList<Node> nodeList){
 
         ArrayList<Action> legalMoves= new ArrayList<Action>();
 
         for (int i = 0; i < nodeList.size(); i++) {
-
             if (nodeList.get(i).getToken() == null){
-
-                ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i);
-
-                List<Action> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode);
-
-                legalMoves.add(listOfActions.get(0));
-
+                legalMoves.add(new PutTokenAction(i));
             }
         }
         return legalMoves;
     }
 
+    // For players who only have 3 tokens left.
+    public ArrayList<Action> calculateLegalFly(Actor actor, ArrayList<Node> nodeList){
+
+        ArrayList<Action> legalMoves= new ArrayList<Action>();
+        ArrayList<Integer> emptyNodes = new ArrayList<>();
+        for (int i = 0; i < nodeList.size(); i++) {
+            if (nodeList.get(i) == null){
+                emptyNodes.add(i);
+            }
+        }
+        for (int i=0; i< nodeList.size(); i++){
+            if (nodeList.get(i).getToken().getColour() == actor.getTokenColour()){
+                for (int j =0; j < emptyNodes.size(); j++){
+                    legalMoves.add(new MoveTokenAction(i, emptyNodes.get(j)));
+                }
+            }
+        }
+        return legalMoves;
+    }
 
 }
