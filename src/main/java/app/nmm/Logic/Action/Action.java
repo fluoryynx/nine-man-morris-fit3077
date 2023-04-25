@@ -10,6 +10,5 @@ public abstract class Action {
         return this.nodeId;
     }
 
-    public abstract Action newAction();
     public abstract void execute();
 }
