@@ -289,7 +289,7 @@ public class GameController implements Initializable {
         imageView.setFitHeight(24);
         imageView.setLayoutX(-3);
         imageView.setLayoutY(-3);
-        imageView.setId("token"+ (9 - actor.getNumberOfTokensInHand()));
+        imageView.setId(actor.getTokenColour().charAt(0) + "token"+ (9 - actor.getNumberOfTokensInHand()));
         childList.add(imageView);
         if (actor.getNumberOfTokensInHand() == 0){
             actor.updateStatus(Capability.NORMAL);
@@ -328,7 +328,7 @@ public class GameController implements Initializable {
         imageView.setFitHeight(24);
         imageView.setLayoutX(-3);
         imageView.setLayoutY(-3);
-        imageView.setId("token"+ (9 - actor.getNumberOfTokensInHand()));
+        imageView.setId(actor.getTokenColour().charAt(0) + "token" + (9 - actor.getNumberOfTokensInHand()));
         childList.add(imageView);
         if (actor.getNumberOfTokensInHand()==0){
             actor.updateStatus(Capability.NORMAL);
