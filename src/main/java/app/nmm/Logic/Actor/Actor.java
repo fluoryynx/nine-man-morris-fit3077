@@ -30,14 +30,17 @@ public abstract class Actor {
     public  void subtractTokenOnBoard(){
         this.numberOfTokensOnBoard -= 1;
     }
+
     public void  addTokenOnBoard(){
         this.numberOfTokensOnBoard += 1;
     }
+
     public void updateStatus(Enum<Capability> status){
         this.status = status;
     }
 
     public Enum<Capability> getStatus(){return this.status;}
+
     public abstract Action playTurn(Map<Integer,List<Action>> allowableActions, GameController engine);
 
     public String getTokenColour() {
