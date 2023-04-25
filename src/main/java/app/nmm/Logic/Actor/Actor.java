@@ -1,9 +1,8 @@
 package app.nmm.Logic.Actor;
 
 
-import app.nmm.Action.Action;
 import app.nmm.Logic.Capability.Capability;
-
+import app.nmm.Logic.Action.Action;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public abstract class Actor {
         this.status = status;
     }
 
-    public abstract Action playTurn(Map<Integer,List<Action>> actionList);
+    public abstract Action playTurn(Map<Integer,List<Action>> allowableActions);
 
 }
 
