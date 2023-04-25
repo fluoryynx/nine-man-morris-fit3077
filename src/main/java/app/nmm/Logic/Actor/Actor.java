@@ -1,11 +1,9 @@
 package app.nmm.Logic.Actor;
 
 
-import app.nmm.Controller.GameController;
-import app.nmm.Logic.Action.Action;
+import app.nmm.Action.Action;
 import app.nmm.Logic.Capability.Capability;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +19,6 @@ public abstract class Actor {
     public Actor(String tokenColour, String playerName) {
         this.tokenColour = tokenColour;
         this.playerName = playerName;
-        this.status = Capability.PUT_TOKEN;
     }
     public void subtractTokenInHand(){
         this.numberOfTokensInHand -= 1;
@@ -37,8 +34,7 @@ public abstract class Actor {
         this.status = status;
     }
 
-    public Enum<Capability> getStatus(){return this.status;}
-    public abstract Action playTurn(Map<Integer,List<Action>> allowableActions, GameController engine);
+    public abstract Action playTurn(Map<Integer,List<Action>> actionList);
 
 }
 
