@@ -4,6 +4,8 @@ import app.nmm.Logic.Actor.Actor;
 import app.nmm.Logic.Capability.Capability;
 import app.nmm.Logic.Location.Node;
 
+import java.util.List;
+
 public class MoveTokenAction extends Action{
     private int targetId;
 
@@ -14,11 +16,8 @@ public class MoveTokenAction extends Action{
 
 
     @Override
-    public void execute() {
-        Node currentNode = new Node(nodeId)
-        Node(targetId).addToken(getNodeId());
-        Node(nodeId).removeToken();
-
-        Node(getNodeId()).removeToken();
+    public void execute(Actor currentActor, List<Node> nodeList) {
+        nodeList.get(targetId).addToken(nodeList.get(getNodeId()).getToken());
+        nodeList.get(getNodeId()).removeToken();
     }
 }
