@@ -7,6 +7,10 @@ import app.nmm.Logic.Location.Node;
 import java.util.List;
 
 public class MoveTokenAction extends Action{
+    public int getTargetId() {
+        return targetId;
+    }
+
     private int targetId;
     //nodeId is the current node, targetId is the node you want to move to.
     public MoveTokenAction(int nodeId, int targetId) {

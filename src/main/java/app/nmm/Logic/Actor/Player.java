@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Player extends Actor {
-    public Player(String tokenColour, String playerName) {
-        super(tokenColour, playerName);
+    public Player(String tokenColour, String playerName, Integer actorID) {
+        super(tokenColour, playerName,actorID);
     }
 
     @Override

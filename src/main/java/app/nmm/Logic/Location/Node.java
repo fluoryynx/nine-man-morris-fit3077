@@ -49,8 +49,8 @@ public class Node {
         this.contain=null;
     }
 
-    public List<Action> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList) {
-        List<Action> actionList = new ArrayList<>();
+    public ArrayList<Action> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList) {
+        ArrayList<Action> actionList = new ArrayList<>();
 
         for (int i = 0; i < adjacentList.size(); i++) { // check it's adjacent nodes
             if (nodeList.get(adjacentList.get(i)).contain==null){ // if the adjacent node is empty
