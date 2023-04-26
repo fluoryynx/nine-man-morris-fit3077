@@ -389,7 +389,7 @@ public class GameController implements Initializable {
         Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(actor1, this.nodeList);
         Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(actor1, this.nodeList);
 
-        addChecker(returnAction,actor1,actor2);
+        addChecker(returnActionFly,actor1,actor2);
     }
 
     /**
@@ -563,7 +563,7 @@ public class GameController implements Initializable {
         Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
         Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(nextActor, this.nodeList);
         // add the mask
-        addChecker(returnAction,nextActor,currentActor);
+        addChecker(returnActionFly,nextActor,currentActor);
     }
 
     /**
