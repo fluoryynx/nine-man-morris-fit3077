@@ -10,7 +10,6 @@ import app.nmm.Logic.Capability.Capability;
 import app.nmm.Logic.Handler.CheckLegalMove;
 import app.nmm.Logic.Handler.CheckMill;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -130,8 +129,8 @@ public class GameController implements Initializable {
 
     void pvCMode(){
         //Add Player and Computer into the game
-        this.playerList.add(new Player("White", p1.getText(),0));
-        this.playerList.add(new Computer("Black", "Comp",1));
+//        this.playerList.add(new Player("White", p1.getText(),0));
+//        this.playerList.add(new Computer("Black", "Comp",1));
         // TODO: implement player vs computer mode engine
     }
 
