@@ -5,11 +5,17 @@ public class Token {
     private Boolean isMill;
     private String colour;
 
+    /**
+     * construtor
+     * @param isMill
+     * @param colour
+     */
     public Token(Boolean isMill,String colour){
         this.isMill = isMill;
         this.colour= colour;
     }
 
+    // getters and setters
     public Boolean getIsMill(){
         return this.isMill;
     }
