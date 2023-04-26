@@ -64,7 +64,6 @@ public class MainPageController implements Initializable {
         Data data = new Data (winner, loser, "tutorial");
 
         AnchorPane boardScene = FXMLLoader.load(Application.class.getResource("board.fxml"));
-        System.out.println(mainPageScene);
         mainPageScene.getChildren().removeAll();
         mainPageScene.getChildren().setAll(boardScene);
     }

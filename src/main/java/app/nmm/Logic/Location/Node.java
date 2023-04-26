@@ -13,14 +13,20 @@ public class Node {
 
     private Token contain;
     private int id;
-    private List<Pair<Integer,Integer>> position;
+    private Pair<Integer,Integer> position;
 
-    public Node(int id, List<Pair<Integer,Integer>> position){
+    /**
+     * constructor
+     * @param id
+     * @param position
+     */
+    public Node(int id, Pair<Integer,Integer> position){
         this.id=id;
         this.contain= null;
         this.position= position;
     }
 
+    // getters and setters
     public Token getToken(){
         return this.contain;
     }
@@ -29,7 +35,7 @@ public class Node {
         return this.id;
     }
 
-    public List<Pair<Integer,Integer>> getPosition(){
+    public Pair<Integer,Integer> getPosition(){
         return this.position;
     }
 
@@ -41,16 +47,30 @@ public class Node {
         this.id=newId;
     }
 
+
+    /**
+     * check if the node has a token on it
+     * @return true is the node has a token on it. false otherwise
+     */
     public Boolean hasToken(){
         return this.contain != null;
     }
 
+    /**
+     * remove a token from the node
+     */
     public void removeToken(){
         this.contain=null;
     }
 
-    public List<Action> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList) {
-        List<Action> actionList = new ArrayList<>();
+    /**
+     *
+     * @param nodeList
+     * @param adjacentList
+     * @return a list of allowable actions
+     */
+    public ArrayList<Action> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList) {
+        ArrayList<Action> actionList = new ArrayList<>();
 
         for (int i = 0; i < adjacentList.size(); i++) { // check it's adjacent nodes
             if (nodeList.get(adjacentList.get(i)).contain==null){ // if the adjacent node is empty
@@ -61,6 +81,12 @@ public class Node {
         return actionList;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Node{" +
+                "contain=" + contain +
+                ", id=" + id +
+                ", position=" + position +
+                '}';
+    }
 }
