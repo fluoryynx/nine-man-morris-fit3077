@@ -11,7 +11,7 @@ import java.util.*;
 
 public class CheckLegalMove {
 
-    Map<Integer, ArrayList<Integer>> adjacentPosition  = new HashMap<Integer, ArrayList<Integer>>() {{
+    private final Map<Integer, ArrayList<Integer>> adjacentPosition  = new HashMap<Integer, ArrayList<Integer>>() {{
         put(0, new ArrayList<>(Arrays.asList(0,9)));
         put(1, new ArrayList<>(Arrays.asList(0,2,4)));
         put(2, new ArrayList<>(Arrays.asList(1,14)));

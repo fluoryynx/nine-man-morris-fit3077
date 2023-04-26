@@ -51,10 +51,11 @@ public class SelectTokenController implements Initializable {
         String str1 = player1Field.getText();
         String str2 = player2Field.getText();
         Random r = new Random();
-        int headOrTail = r.nextInt(100) + 1;
+        int headOrTail = r.nextInt(10) + 1;
+        System.out.println(headOrTail);
         Pair<Integer, String> winner = null;
         Pair<Integer, String> loser = null;
-        if (headOrTail >= 50) {
+        if (headOrTail > 5) {
             // head wins
             if (str1.equals("Heads")){
                 winner = new Pair<>(1, "p1");
@@ -67,12 +68,12 @@ public class SelectTokenController implements Initializable {
         }
         else{
             if (str1.equals("Tails")){
-                winner = new Pair<>(1, "p2");
-                loser = new Pair<>(2, "p1");
-            }
-            else {
                 winner = new Pair<>(1, "p1");
                 loser = new Pair<>(2, "p2");
+            }
+            else {
+                winner = new Pair<>(1, "p2");
+                loser = new Pair<>(2, "p1");
             }
         }
         changeToGameScene(winner, loser, event);

@@ -37,6 +37,7 @@ public class GameController implements Initializable {
     String mode;
     @FXML Text p1;
     @FXML Text p2;
+    @FXML
     AnchorPane boardScene;
     Scene currentScene;
     @FXML
@@ -46,7 +47,7 @@ public class GameController implements Initializable {
     private ArrayList<app.nmm.Logic.Location.Node> nodeList;
     private CheckMill checkMill;
     private CheckLegalMove checkLegalMove;
-    private  ArrayList<Actor> playerList;
+    private ArrayList<Actor> playerList;
     private ArrayList<Pair<Integer,Integer>> locationList;
 
     @Override
@@ -168,7 +169,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void putLegalMoveImage(int nodeId, Action action, Actor currentActor, Actor nextActor, Integer allowChildSize, ArrayList<Integer>highlightedNode) {
+    public void putLegalMoveImage(int nodeId, Action action, Actor currentActor, Actor nextActor, int allowChildSize, ArrayList<Integer>highlightedNode) {
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
         // remove any extra children
@@ -179,9 +180,9 @@ public class GameController implements Initializable {
             }
         }
         // find the image, and put inside image view
-        String path = "src/main/resources/Graphic/Legal_Move.png";
+        String path = "project\\src\\main\\resources\\Graphic\\Legal_Move.png";
         String legalMoveID = "legalMove";
-        ImageView imageView =addItemToBoard(path,legalMoveID,-3,-3,24,25,childList);
+        ImageView imageView = addItemToBoard(path,legalMoveID,-3,-3,24,25,childList);
 
         // make imageview clickable
         imageView.setOnMouseClicked(event -> {
@@ -230,7 +231,7 @@ public class GameController implements Initializable {
 
         String tokenColour = currentActor.getTokenColour();
         String tokenID = currentActor.getTokenColour().charAt(0) + "token"+ (9 - currentActor.getNumberOfTokensInHand());
-        String pathname = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
+        String pathname = "project\\src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
         addItemToBoard(pathname, tokenID,0,0,18,18 ,childList);
 
         if (currentActor.getNumberOfTokensInHand() == 0){
@@ -251,8 +252,8 @@ public class GameController implements Initializable {
     }
 
 
-
-    private ImageView addItemToBoard(String pathname, String itemID, Integer xLayout, Integer yLayout, Integer fitWidth, Integer fitHeight, ObservableList<Node> childList) {
+    @FXML
+    private ImageView addItemToBoard(String pathname, String itemID, int xLayout, int yLayout, int fitWidth, int fitHeight, ObservableList<Node> childList) {
         File file = new File(pathname);
         Image image = new Image(file.toURI().toString());
         ImageView imageView = new ImageView();
@@ -297,7 +298,7 @@ public class GameController implements Initializable {
             Group group = (Group) currentScene.lookup("#g"+i);
             ObservableList<Node> childList =  group.getChildren();
 
-            File file = new File("src/main/resources/Graphic/transparent_mask.png");
+            File file = new File("project\\src\\main\\resources\\Graphic\\transparent_mask.png");
             Image image =  new Image(file.toURI().toString());
             ImageView imageView = new ImageView();
             imageView.setImage(image);
@@ -396,7 +397,7 @@ public class GameController implements Initializable {
         group = (Group) currentScene.lookup("#g"+targetId);
         childList =  group.getChildren();
         String tokenColour =  this.nodeList.get(targetId).getToken().getColour();
-        String pathname = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
+        String pathname = "project\\src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
         String tokenID =  tokenColour+"token" +targetId;
         // id: "w" + "token" + "tokencount"
         addItemToBoard(pathname, tokenID,0,0,18,18 ,childList);
@@ -410,7 +411,7 @@ public class GameController implements Initializable {
 
     }
 
-    void unhighlightSelectedToken(Integer currentNodeID, ArrayList<Action> actionsList, Actor currentActor, Actor nextActor){
+    void unhighlightSelectedToken(int currentNodeID, ArrayList<Action> actionsList, Actor currentActor, Actor nextActor){
         Group group = (Group) currentScene.lookup("#g"+currentNodeID);
         ObservableList<Node> childList =  group.getChildren();
         Node node = childList.get(childList.size() - 1);
@@ -425,7 +426,7 @@ public class GameController implements Initializable {
 
     }
 
-    void unhighlightSelectedTokenValidation(Integer currentNodeID, ArrayList<Action> actionsList, Actor currentActor, Actor nextActor){
+    void unhighlightSelectedTokenValidation(int currentNodeID, ArrayList<Action> actionsList, Actor currentActor, Actor nextActor){
 
         ArrayList<Integer> highlighted_node = new ArrayList<>();
         for(Action action: actionsList) {
