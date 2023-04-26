@@ -10,6 +10,7 @@ import app.nmm.Logic.Capability.Capability;
 import app.nmm.Logic.Handler.CheckLegalMove;
 import app.nmm.Logic.Handler.CheckMill;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -235,7 +236,7 @@ public class GameController implements Initializable {
         ObservableList<Node> childList =  group.getChildren();
 
         String tokenColour = currentActor.getTokenColour();
-        String tokenID = currentActor.getTokenColour().charAt(0) + "token"+ (9 - currentActor.getNumberOfTokensInHand());
+        String tokenID = tokenColour + "token"+ (9 - currentActor.getNumberOfTokensInHand());
         String path = "";
         if (System.getProperty("os.name").substring(0,1) == "W"){
             path = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
@@ -351,8 +352,37 @@ public class GameController implements Initializable {
                     Integer currentNodeID = i;
                     imageView.setOnMouseClicked(event -> {
 
-                        System.out.println("IM HERE from Normal with token");
-                        System.out.println(actionsList.size());
+//                        System.out.println("IM HERE from Normal with token");
+//                        System.out.println(actionsList.size());
+//                        String tokenColour =  this.nodeList.get(currentNodeID).getToken().getColour();
+//
+//                        String paths = "";
+//                        if (System.getProperty("os.name").substring(0,1) == "W"){
+//                            paths = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token_when_user_select.png";
+//                        }
+//                        else{
+//                            paths = "src/main/resources/Graphic/" + tokenColour + "_Token_when_user_select.png";
+//                        }
+//                        File newFile = new File(paths);
+//
+//                        Group currentGroup = (Group) currentScene.lookup("#g"+currentNodeID);
+//                        ObservableList<Node>currentChildList =  currentGroup.getChildren();
+//                        String id =  tokenColour+"token";
+//                        for(int j = 0; j < childList.size(); j++){
+//                            Node node = currentChildList.get(j);
+//                            if(node.getId().contains(id) ){
+//                                ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
+//                                ((ImageView) node).setFitWidth(24);
+//                                ((ImageView) node).setFitHeight(24);
+//                                ((ImageView) node).setLayoutX(-3);
+//                                ((ImageView) node).setLayoutY(-3);
+//                                break;
+//                            }
+//                        }
+
+
+
+
                         unhighlightSelectedToken(currentNodeID,actionsList,currentActor,nextActor);
                         validateActorSelection(actionsList,currentActor,nextActor);
                     });
@@ -471,12 +501,62 @@ public class GameController implements Initializable {
         Group group = (Group) currentScene.lookup("#g"+currentNodeID);
         ObservableList<Node> childList =  group.getChildren();
         Node node = childList.get(childList.size() - 1);
-
+        System.out.println("change the image's action.");
+//        String tokenColour =  this.nodeList.get(currentNodeID).getToken().getColour();
+//
+//        String paths = "";
+//        if (System.getProperty("os.name").substring(0,1) == "W"){
+//            paths = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
+//        }
+//        else{
+//            paths = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
+//        }
+//        File newFile = new File(paths);
+//
+//
+//        String id =  tokenColour+"token";
+//        for(int j = 0; j < childList.size(); j++){
+//            Node currentNode = childList.get(j);
+//            if(currentNode.getId().contains(id) ){
+//                ((ImageView) currentNode).setImage(new Image(newFile.toURI().toString()));
+//                ((ImageView) currentNode).setFitWidth(18);
+//                ((ImageView) currentNode).setFitHeight(18);
+//                ((ImageView) currentNode).setLayoutX(0);
+//                ((ImageView) currentNode).setLayoutY(0);
+//                break;
+//            }
+//        }
        node.setOnMouseClicked(event -> {
 
-            System.out.println("change the image's action.");
-
-            validateActorSelection(actionsList,currentActor,nextActor);
+//           System.out.println("IM HERE from Normal with token");
+//           System.out.println(actionsList.size());
+//           String tokenColour2 =  this.nodeList.get(currentNodeID).getToken().getColour();
+//
+//           String paths2 = "";
+//           if (System.getProperty("os.name").substring(0,1) == "W"){
+//               paths2 = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token_when_user_select.png";
+//           }
+//           else{
+//               paths2 = "src/main/resources/Graphic/" + tokenColour + "_Token_when_user_select.png";
+//           }
+//           File newFile2 = new File(paths2);
+//
+//           Group currentGroup = (Group) currentScene.lookup("#g"+currentNodeID);
+//           ObservableList<Node>currentChildList =  currentGroup.getChildren();
+//           String id2 =  tokenColour2+"token";
+//           for(int j = 0; j < childList.size(); j++){
+//               Node node2 = currentChildList.get(j);
+//               if(node2.getId().contains(id2) ){
+//                   ((ImageView) node2).setImage(new Image(newFile2.toURI().toString()));
+//                   ((ImageView) node2).setFitWidth(24);
+//                   ((ImageView) node2).setFitHeight(24);
+//                   ((ImageView) node2).setLayoutX(-3);
+//                   ((ImageView) node2).setLayoutY(-3);
+//                   break;
+//               }
+//           }
+           unhighlightSelectedToken(currentNodeID,actionsList,currentActor,nextActor);
+           validateActorSelection(actionsList,currentActor,nextActor);
 
         });
 
