@@ -4,7 +4,6 @@ import app.nmm.Data;
 import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Action.MoveTokenAction;
 import app.nmm.Logic.Actor.Actor;
-import app.nmm.Logic.Actor.Computer;
 import app.nmm.Logic.Actor.Player;
 import app.nmm.Logic.Capability.Capability;
 import app.nmm.Logic.Handler.CheckLegalMove;
@@ -41,8 +40,8 @@ public class GameController implements Initializable {
     Scene currentScene;
     @FXML
     Button startButton;
-    private final boolean DEBUG = false;
 
+    private final boolean DEBUG = false;
     private ArrayList<app.nmm.Logic.Location.Node> nodeList;
     private CheckMill checkMill;
     private CheckLegalMove checkLegalMove;
@@ -124,7 +123,7 @@ public class GameController implements Initializable {
         this.playerList.add(player2);
         System.out.println(playerList);
         // TODO: implement player vs player engine
-        ShowLegalPut(player1,player2);
+        showLegalPut(player1,player2);
     }
 
     void pvCMode(){
@@ -207,7 +206,7 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    void ShowLegalPut(Actor currentActor, Actor nextActor){
+    void showLegalPut(Actor currentActor, Actor nextActor){
         List<Action> returnAction = this.checkLegalMove.calculateLegalPut(nodeList);
         System.out.println(returnAction);
         for (int i = 0; i < returnAction.size(); i++){
@@ -254,7 +253,7 @@ public class GameController implements Initializable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            ShowLegalPut(nextActor, currentActor);
+            showLegalPut(nextActor, currentActor);
         }
         else{
             normalGamePlay();
@@ -264,7 +263,7 @@ public class GameController implements Initializable {
 
 
     @FXML
-    private ImageView addItemToBoard(String pathname, String itemID, int xLayout, int yLayout, int fitWidth, int fitHeight, ObservableList<Node> childList) {
+    public ImageView addItemToBoard(String pathname, String itemID, int xLayout, int yLayout, int fitWidth, int fitHeight, ObservableList<Node> childList) {
         File file = new File(pathname);
         Image image = new Image(file.toURI().toString());
         ImageView imageView = new ImageView();
@@ -279,7 +278,7 @@ public class GameController implements Initializable {
         return imageView;
     }
 
-    private void normalGamePlay() {
+    public void normalGamePlay() {
         Group group;
         ObservableList<Node> childList;
         // clear legal move image
@@ -331,8 +330,7 @@ public class GameController implements Initializable {
                 imageView.setOnMouseClicked(event -> {
                     String msg = "fuck_off\n";
                     System.out.println("IM HERE from Normal without token");
-                    debugerr(msg);
-
+                    System.out.println(msg);
                 });
             }
             else{
@@ -341,9 +339,7 @@ public class GameController implements Initializable {
 
                         System.out.println("IM HERE from Normal with token");
                         String msg = "But Not my turn la!!!";
-                        debugerr(msg);
-
-
+                        System.out.println(msg);
                     });
                 }
                 else{
@@ -407,10 +403,6 @@ public class GameController implements Initializable {
 
             }
         }
-    }
-
-    void debugerr(String msg){
-        System.out.println(msg);
     }
 
     void moveTokenExecutor(Action action, Actor currentActor, Actor nextActor, ArrayList<Integer> highlightedNode){

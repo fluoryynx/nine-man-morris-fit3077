@@ -10,4 +10,8 @@ public class Computer extends Actor {
     public Computer(String tokenColour, String playerName, int i) {
         super(tokenColour, playerName, i);
     }
+
+    public void selectRandomMove(){
+        // TODO: implement select random action
+    }
 }
