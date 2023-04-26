@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -180,7 +179,13 @@ public class GameController implements Initializable {
             }
         }
         // find the image, and put inside image view
-        String path = "project\\src\\main\\resources\\Graphic\\Legal_Move.png";
+        String path = "";
+        if (System.getProperty("os.name").substring(0,1) == "W"){
+            path = "src\\main\\resources\\Graphic\\Legal_Move.png";
+        }
+        else{
+            path = "src/main/resources/Graphic/Legal_Move.png";
+        }
         String legalMoveID = "legalMove";
         ImageView imageView = addItemToBoard(path,legalMoveID,-3,-3,24,25,childList);
 
@@ -231,8 +236,14 @@ public class GameController implements Initializable {
 
         String tokenColour = currentActor.getTokenColour();
         String tokenID = currentActor.getTokenColour().charAt(0) + "token"+ (9 - currentActor.getNumberOfTokensInHand());
-        String pathname = "project\\src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
-        addItemToBoard(pathname, tokenID,0,0,18,18 ,childList);
+        String path = "";
+        if (System.getProperty("os.name").substring(0,1) == "W"){
+            path = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
+        }
+        else{
+            path = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
+        }
+        addItemToBoard(path, tokenID,0,0,18,18 ,childList);
 
         if (currentActor.getNumberOfTokensInHand() == 0){
             currentActor.updateStatus(Capability.NORMAL);
@@ -297,8 +308,14 @@ public class GameController implements Initializable {
         for(int i = 0; i <24; i++){
             Group group = (Group) currentScene.lookup("#g"+i);
             ObservableList<Node> childList =  group.getChildren();
-
-            File file = new File("project\\src\\main\\resources\\Graphic\\transparent_mask.png");
+            String path = "";
+            if (System.getProperty("os.name").substring(0,1) == "W"){
+                path = "src\\main\\resources\\Graphic\\transparent_mask.png";
+            }
+            else{
+                path = "src/main/resources/Graphic/transparent_mask.png";
+            }
+            File file = new File(path);
             Image image =  new Image(file.toURI().toString());
             ImageView imageView = new ImageView();
             imageView.setImage(image);
@@ -397,10 +414,18 @@ public class GameController implements Initializable {
         group = (Group) currentScene.lookup("#g"+targetId);
         childList =  group.getChildren();
         String tokenColour =  this.nodeList.get(targetId).getToken().getColour();
-        String pathname = "project\\src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
+
+        String path = "";
+        if (System.getProperty("os.name").substring(0,1) == "W"){
+            path = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
+        }
+        else{
+            path = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
+        }
+
         String tokenID =  tokenColour+"token" +targetId;
         // id: "w" + "token" + "tokencount"
-        addItemToBoard(pathname, tokenID,0,0,18,18 ,childList);
+        addItemToBoard(path, tokenID,0,0,18,18 ,childList);
 
         Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
         Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(nextActor, this.nodeList);

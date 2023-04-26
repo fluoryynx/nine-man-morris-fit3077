@@ -1,13 +1,8 @@
 package app.nmm.Logic.Actor;
 
-
-import app.nmm.Controller.GameController;
-import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Capability.Capability;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+
 
 public abstract class Actor {
 
@@ -47,8 +42,6 @@ public abstract class Actor {
     }
 
     public Enum<Capability> getStatus(){return this.status;}
-
-    public abstract Action playTurn(Map<Integer,List<Action>> allowableActions, GameController engine);
 
     public String getTokenColour() {
         return this.tokenColour;

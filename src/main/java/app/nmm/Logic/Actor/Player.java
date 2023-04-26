@@ -11,9 +11,4 @@ public class Player extends Actor {
     public Player(String tokenColour, String playerName, Integer actorID) {
         super(tokenColour, playerName,actorID);
     }
-
-    @Override
-    public Action playTurn(Map<Integer, List<Action>> allowableActions, GameController engine) {
-        return null;
-    }
 }
