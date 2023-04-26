@@ -95,12 +95,13 @@ public class CheckLegalMove {
     public Map<Integer,ArrayList<Action>> calculateLegalFly(Actor actor, ArrayList<Node> nodeList){
 
         Map<Integer,ArrayList<Action>> output = new HashMap<>();
-        ArrayList<Integer> emptyNodes = new ArrayList<>();
+        ArrayList<Integer> emptyNodes = new ArrayList<>(); //Stores all nodes that do not have a token
         for (int i = 0; i < nodeList.size(); i++) {
             if (nodeList.get(i).getToken() == null){
                 emptyNodes.add(i);
             }
         }
+        // If there is a node that has a current player's token, allow it to be moved to any empty nodes
         for (int i=0; i< nodeList.size(); i++){
 
             if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour() == actor.getTokenColour()){

@@ -6,11 +6,19 @@ import app.nmm.Logic.Location.Node;
 import java.util.List;
 
 public class RemoveTokenAction extends Action{
-    //nodeId in this case is the selected node to remove.
+    /**
+     *
+     * @param nodeId ID of node that current player wants to select to remove the token on said node
+     */
     public RemoveTokenAction(int nodeId) {
         super(nodeId);
     }
 
+    /**
+     * This method removes the token that is on the node that the player selected
+     * @param currentPlayer The player currently taking the turn
+     * @param nodeList List of nodes
+     */
     @Override
     public void execute(Actor currentPlayer, List<Node> nodeList) {
     nodeList.get(getNodeId()).removeToken();

@@ -9,6 +9,10 @@ import java.util.List;
 public abstract class Action {
     private int nodeId;
 
+    /**
+     *
+     * @param nodeId currentNode
+     */
     public Action(int nodeId){
         this.nodeId = nodeId;
     }
@@ -17,6 +21,11 @@ public abstract class Action {
         return this.nodeId;
     }
 
+    /**
+     *
+     * @param currentPlayer The player currently taking the turn
+     * @param nodeList List of nodes
+     */
     public abstract void execute(Actor currentPlayer, List<Node> nodeList);
 
     @Override
