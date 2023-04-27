@@ -1,6 +1,7 @@
 # FIT3077_project
 ## How to run the application
-1. Open the project folder
-2. Open terminal from the directory
-3. Type "java -jar NMM-1.0-SNAPSHOT-jar-with-dependencies.jar
+1. Clone the repository
+2. Open project folder in IntelliJ
+3. Locate pom.xml file inside project/, right click and click "Add maven into project"
+4. Locate Application class inside project/src/main/java/app.nmm/, open the class, run the application.
 
