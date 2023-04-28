@@ -247,10 +247,10 @@ public class GameController implements Initializable {
         // get the correct path, mac and windows different way of calling path
         String path = "";
         if (System.getProperty("os.name").charAt(0) == 'W'){
-            path = "src\\main\\resources\\Graphic\\Legal_Move.png";
+            path = "resources\\Graphic\\Legal_Move.png";
         }
         else{
-            path = "src/main/resources/Graphic/Legal_Move.png";
+            path = "resources/Graphic/Legal_Move.png";
         }
         // photo fxid
         String legalMoveID = "legalMove";
@@ -303,10 +303,10 @@ public class GameController implements Initializable {
         String tokenID = tokenColour + "token"+ (9 - currentActor.getNumberOfTokensInHand());
         String path = "";
         if (System.getProperty("os.name").charAt(0) == 'W'){
-            path = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
+            path = "resources\\Graphic\\" + tokenColour + "_Token.png";
         }
         else{
-            path = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
+            path = "resources/Graphic/" + tokenColour + "_Token.png";
         }
         // add token to board
         addItemToBoard(path, tokenID,0,0,18,18 ,childList);
@@ -406,10 +406,10 @@ public class GameController implements Initializable {
             ObservableList<Node> childList =  group.getChildren();
             String path = "";
             if (System.getProperty("os.name").charAt(0) == 'W'){
-                path = "src\\main\\resources\\Graphic\\transparent_mask.png";
+                path = "resources\\Graphic\\transparent_mask.png";
             }
             else{
-                path = "src/main/resources/Graphic/transparent_mask.png";
+                path = "resources/Graphic/transparent_mask.png";
             }
             // add a mask
             File file = new File(path);
@@ -549,10 +549,10 @@ public class GameController implements Initializable {
 
         String path = "";
         if (System.getProperty("os.name").charAt(0) == 'W'){
-            path = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
+            path = "resources\\Graphic\\" + tokenColour + "_Token.png";
         }
         else{
-            path = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
+            path = "resources/Graphic/" + tokenColour + "_Token.png";
         }
 
         String tokenID =  tokenColour+"token" +targetId;
