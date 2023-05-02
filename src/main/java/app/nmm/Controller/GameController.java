@@ -36,6 +36,8 @@ public class GameController implements Initializable {
     String mode;
     @FXML Text p1;
     @FXML Text p2;
+    @FXML Text whiteTokenCount;
+    @FXML Text blackTokenCount;
     @FXML
     AnchorPane boardScene;
     Scene currentScene;
@@ -310,6 +312,13 @@ public class GameController implements Initializable {
         }
         // add token to board
         addItemToBoard(path, tokenID,0,0,18,18 ,childList);
+        // update the token count on the UI
+        if (currentActor.getTokenColour().equals("White")){
+            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+        }
+        else{
+            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+        }
 
         // update the current player status
         if (currentActor.getNumberOfTokensInHand() == 0){

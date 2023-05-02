@@ -32,6 +32,10 @@ public abstract class Actor {
         this.numberOfTokensOnBoard += 1;
     }
 
+    public int getNumberOfTokensOnBoard() {
+        return numberOfTokensOnBoard;
+    }
+
     public void updateStatus(Enum<Capability> status){
         this.status = status;
     }
