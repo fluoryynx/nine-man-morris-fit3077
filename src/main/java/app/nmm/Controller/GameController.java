@@ -38,6 +38,7 @@ public class GameController implements Initializable {
     @FXML Text p2;
     @FXML Text whiteTokenCount;
     @FXML Text blackTokenCount;
+    @FXML Text gameStatus;
     @FXML
     AnchorPane boardScene;
     Scene currentScene;
@@ -222,6 +223,8 @@ public class GameController implements Initializable {
             int id = returnAction.get(i).getNodeId();
             putLegalMoveImage(id, returnAction.get(i), currentActor, nextActor, 1,null);
         }
+        // set the game status in the UI
+        gameStatus.setText(currentActor.getActorname() + "'s Turn To Place Token") ;
     }
 
     /**
@@ -491,7 +494,7 @@ public class GameController implements Initializable {
 
             }
         }
-
+        gameStatus.setText(currentActor.getActorname()+ "'s Turn To Move");
     }
 
     /**

@@ -306,5 +306,10 @@
               </Button>
          </children>
       </Group>
+      <Text fx:id="gameStatus" layoutX="174.0" layoutY="571.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>
