@@ -397,7 +397,7 @@ public class GameController implements Initializable {
         Actor actor2 =  this.playerList.get(1);
         // get available action
         Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(actor1, this.nodeList);
-        Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(actor1, this.nodeList);
+//        Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(actor1, this.nodeList);
 
         for (int i = 0; i < 24; i++){
             addChecker(i, returnAction, actor1, actor2);
@@ -445,7 +445,6 @@ public class GameController implements Initializable {
             else{
                 // this action is for nodes with own token
                 ArrayList<Action> actionsList =  returnAction.get(nodeId);
-                int currentNodeID = nodeId;
                 imageView.setOnMouseClicked(event -> {
 
 //                        System.out.println("IM HERE from Normal with token");
@@ -513,14 +512,10 @@ public class GameController implements Initializable {
                 System.out.println("IM HERE from Normal with token2");
             }
             if (clicked){
-                System.out.println(prevNodeId);
                 ArrayList<Action> previousNodeAction = checkLegalMove.getCurrentActions().get(prevNodeId);
-                for (int k = 0; k < previousNodeAction.size(); k++){
-                    MoveTokenAction tempAction = (MoveTokenAction) previousNodeAction.get(k);
-                    removeImage(tempAction.getTargetId());
-                }
-                unhighlightSelectedToken(allowableActions.get(0).getNodeId(),allowableActions,currentActor,nextActor);
+                unhighlightSelectedTokenValidation(prevNodeId,previousNodeAction,currentActor,nextActor);
             }
+            addUnhighlightSelectedToken(allowableActions.get(0).getNodeId(),allowableActions,currentActor,nextActor);
             for(Action action: allowableActions){
                 int targetID =  ((MoveTokenAction) action).getTargetId();
                 putLegalMoveImage(targetID,action,currentActor,nextActor,highlighted_node);
@@ -583,15 +578,9 @@ public class GameController implements Initializable {
         addItemToBoard(path, tokenID,0,0,18,18 ,childList);
         // calculate for the allowable action
         Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
-        Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(nextActor, this.nodeList);
         // add the mask
         for (int i = 0; i < 24; i++){
-            if (nextActor.getNumberOfTokensOnBoard() == 3){
-                addChecker(i, returnActionFly, nextActor, currentActor);
-            }
-            else{
-                addChecker(i, returnAction, nextActor, currentActor);
-            }
+            addChecker(i, returnAction, nextActor, currentActor);
         }
     }
 
@@ -602,7 +591,7 @@ public class GameController implements Initializable {
      * @param currentActor
      * @param nextActor
      */
-    void unhighlightSelectedToken(int currentNodeID, ArrayList<Action> actionsList, Actor currentActor, Actor nextActor){
+    void addUnhighlightSelectedToken(int currentNodeID, ArrayList<Action> actionsList, Actor currentActor, Actor nextActor){
         Group group = (Group) currentScene.lookup("#g"+currentNodeID);
         ObservableList<Node> childList =  group.getChildren();
         Node node = childList.get(childList.size() - 1);
