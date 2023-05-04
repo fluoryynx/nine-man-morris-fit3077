@@ -1,13 +1,13 @@
 package app.nmm.Logic.Handler;
 
 import app.nmm.Logic.Location.Node;
-//import javafx.util.Pair;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.javatuples.Pair;
+//import org.javatuples.Pair;
 
 public class CheckMill {
 
@@ -153,12 +153,17 @@ public class CheckMill {
 
                 }
                 if (millCheck == 2 && i==0){
-                    result.setAt0(true);
+                    //result.setValue(0,true);
+                    result = new Pair<Boolean,Boolean>(true,false);
                     this.millNodes.add(nodeToCheck.get(i));
                 }
                 else if (millCheck == 2 && i==1){
-                    result.setAt1(true);
+                    result = new Pair<Boolean,Boolean>(false,true);
                     this.millNodes.add(nodeToCheck.get(i));
+                }
+
+                if (millNodes.size()==2){
+                    result = new Pair<Boolean,Boolean>(true,true);
                 }
 
             }
