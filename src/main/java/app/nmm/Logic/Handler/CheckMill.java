@@ -152,17 +152,18 @@ public class CheckMill {
                     }
 
                 }
-                if (millCheck == 2 && i==0){
+
+                if (millCheck == 2 && i==0){ // first mill found
                     //result.setValue(0,true);
                     result = new Pair<Boolean,Boolean>(true,false);
                     this.millNodes.add(nodeToCheck.get(i));
                 }
-                else if (millCheck == 2 && i==1){
+                else if (millCheck == 2 && i==1){ // second mill found
                     result = new Pair<Boolean,Boolean>(false,true);
                     this.millNodes.add(nodeToCheck.get(i));
                 }
 
-                if (millNodes.size()==2){
+                if (millNodes.size()==2){ // two mills are formed
                     result = new Pair<Boolean,Boolean>(true,true);
                 }
 
