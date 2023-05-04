@@ -539,6 +539,11 @@ public class GameController implements Initializable {
         for (int nodeId : highlightedNode){
             removeImage(nodeId, "legalMove");
         }
+
+        // ToDo: Remove mill if the token that is being move is part of mill
+
+
+
         // move the token
         action.execute(currentActor, nodeList);
         // reset clicked
@@ -572,6 +577,42 @@ public class GameController implements Initializable {
         // id: "w" + "token" + "tokencount"
         // here to add
         addItemToBoard(path, tokenID,0,0,18,18 ,childList);
+
+        int targetNodeId = ((MoveTokenAction)action).getTargetId();
+        Pair<Boolean, Boolean> isMill = checkMill.checkPossibleMill(this.nodeList,targetNodeId);
+        ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillPosition(targetNodeId);
+
+        if (isMill.getKey()){
+             for(int currentNodeId : millCombinationTokenPosition.get(0)){
+                 nodeList.get(currentNodeId).getToken().setIsMill(true);
+                 String paths = "";
+                 if (System.getProperty("os.name").substring(0,1) == "W"){
+                     paths = windowsResourcePath + tokenColour + "_Token_with_Mill.png";
+                 }
+                 else{
+                     paths = macResourcePath + tokenColour + "_Token_with_Mill.png";
+                 }
+                 File newFile = new File(paths);
+//
+                 Group currentGroup = (Group) currentScene.lookup("#g"+currentNodeId);
+                 ObservableList<Node>currentChildList =  currentGroup.getChildren();
+                 String id =  tokenColour+"token";
+
+                 // Change the graphic of the selected token to toke with highlight around.
+                 for(int j = 0; j < currentChildList.size(); j++){
+                     Node node = currentChildList.get(j);
+                     if(node.getId().contains(id) ){
+                         ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
+                         ((ImageView) node).setFitWidth(24);
+                         ((ImageView) node).setFitHeight(24);
+                         ((ImageView) node).setLayoutX(-3);
+                         ((ImageView) node).setLayoutY(-3);
+                         break;
+                     }
+                 }
+             }
+        }
+
         // calculate for the allowable action
         Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
         // add the mask
