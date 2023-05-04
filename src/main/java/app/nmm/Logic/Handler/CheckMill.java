@@ -110,18 +110,17 @@ public class CheckMill {
 
     }};
 
-    private ArrayList<Integer> millNodes;
-    ;
+    private ArrayList<ArrayList<Integer>> millNodes;
 
     public CheckMill(){
-        this.millNodes= new ArrayList<Integer>();
+        this.millNodes= new ArrayList<ArrayList<Integer>>();
     }
 
-    public Map<Integer, ArrayList<ArrayList<Integer>>> getMillPosition(){
-        return millPosition;
-    }
+//    public Map<Integer, ArrayList<ArrayList<Integer>>> getMillPosition(){
+//        return millPosition;
+//    }
 
-    public ArrayList<Integer> getMillNodes(){
+    public ArrayList<ArrayList<Integer>> getMillNodes(){
         return this.millNodes;
     }
 
@@ -137,32 +136,31 @@ public class CheckMill {
         ArrayList<ArrayList<Integer>> nodeToCheck = millPosition.get(nodeId);
         Pair<Boolean,Boolean> result = new Pair<Boolean,Boolean>(false,false);
 
-
         for (int i = 0; i < nodeToCheck.size(); i++) {
+
+            Integer millCheck = 0; // if it reaches 2 means mill is formed
 
             for (int j = 0; j < nodeToCheck.get(i).size(); j++) {
 
                 Integer theNode = nodeToCheck.get(i).get(j);
-                Integer millCheck = 0; // if it reaches 2 means mill is formed
-                ArrayList<Integer> temp = new ArrayList<Integer>();
 
                 if (nodeList.get(theNode).getToken() != null) {
 
                     // if the node contains player's token
                     if (nodeList.get(theNode).getToken().getColour() == nodeList.get(nodeId).getToken().getColour()) {
                         millCheck += 1;
-                        temp.add(theNode);
                     }
 
                 }
                 if (millCheck == 2 && i==0){
                     result.setAt0(true);
-                    this.millNodes.addAll(temp);
+                    this.millNodes.add(nodeToCheck.get(i));
                 }
                 else if (millCheck == 2 && i==1){
                     result.setAt1(true);
-                    this.millNodes.addAll(temp);
+                    this.millNodes.add(nodeToCheck.get(i));
                 }
+
             }
         }
         return result;
