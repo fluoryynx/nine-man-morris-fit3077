@@ -452,43 +452,37 @@ public class GameController implements Initializable {
                 ArrayList<Action> actionsList =  returnAction.get(nodeId);
                 imageView.setOnMouseClicked(event -> {
 
-//                        System.out.println("IM HERE from Normal with token");
-//                        System.out.println(actionsList.size());
-//                        String tokenColour =  this.nodeList.get(currentNodeID).getToken().getColour();
+                        System.out.println("IM HERE from Normal with token");
+                        String tokenColour =  this.nodeList.get(nodeId).getToken().getColour();
+
+
+                        String paths = "";
+                        if (System.getProperty("os.name").substring(0,1) == "W"){
+                            paths = windowsResourcePath + tokenColour + "_Token_when_user_select.png";
+                        }
+                        else{
+                            paths = macResourcePath + tokenColour + "_Token_when_user_select.png";
+                        }
+                        File newFile = new File(paths);
 //
-//                        String paths = "";
-//                        if (System.getProperty("os.name").substring(0,1) == "W"){
-//                            paths = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token_when_user_select.png";
-//                        }
-//                        else{
-//                            paths = "src/main/resources/Graphic/" + tokenColour + "_Token_when_user_select.png";
-//                        }
-//                        File newFile = new File(paths);
-//
-//                        Group currentGroup = (Group) currentScene.lookup("#g"+currentNodeID);
-//                        ObservableList<Node>currentChildList =  currentGroup.getChildren();
-//                        String id =  tokenColour+"token";
-//                        for(int j = 0; j < childList.size(); j++){
-//                            Node node = currentChildList.get(j);
-//                            if(node.getId().contains(id) ){
-//                                ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
-//                                ((ImageView) node).setFitWidth(24);
-//                                ((ImageView) node).setFitHeight(24);
-//                                ((ImageView) node).setLayoutX(-3);
-//                                ((ImageView) node).setLayoutY(-3);
-//                                break;
-//                            }
-//                        }
-//                    if (clicked){
-//                        System.out.println(prevNodeId);
-//                        ArrayList<Action> previousNodeAction = checkLegalMove.getCurrentActions().get(prevNodeId);
-//                        for (int k = 0; k < previousNodeAction.size(); k++){
-//                            MoveTokenAction tempAction = (MoveTokenAction) previousNodeAction.get(k);
-//                            removeImage(tempAction.getTargetId());
-//                        }
-//                        unhighlightSelectedToken(currentNodeID,actionsList,currentActor,nextActor);
-//                    }
-                    validateActorSelection(actionsList,currentActor,nextActor);
+                        Group currentGroup = (Group) currentScene.lookup("#g"+nodeId);
+                        ObservableList<Node>currentChildList =  currentGroup.getChildren();
+                        String id =  tokenColour+"token";
+
+                        // Change the graphic of the selected token to toke with highlight around.
+                        for(int j = 0; j < currentChildList.size(); j++){
+                            Node node = currentChildList.get(j);
+                            if(node.getId().contains(id) ){
+                                ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
+                                ((ImageView) node).setFitWidth(24);
+                                ((ImageView) node).setFitHeight(24);
+                                ((ImageView) node).setLayoutX(-3);
+                                ((ImageView) node).setLayoutY(-3);
+                                break;
+                            }
+                        }
+
+                        validateActorSelection(actionsList,currentActor,nextActor, nodeId);
                 });
             }
 
@@ -504,7 +498,7 @@ public class GameController implements Initializable {
      * @param currentActor
      * @param nextActor
      */
-    void validateActorSelection(ArrayList<Action> allowableActions, Actor currentActor, Actor nextActor){
+    void validateActorSelection(ArrayList<Action> allowableActions, Actor currentActor, Actor nextActor, Integer currentNodeID){
         // if action is not null
         if(allowableActions != null){
             ArrayList<Integer> highlighted_node = new ArrayList<>();
@@ -515,23 +509,21 @@ public class GameController implements Initializable {
             if (DEBUG){
                 System.out.println("IM HERE from Normal with token2");
             }
-            if (clicked){
+            if (clicked && prevNodeId != currentNodeID){
                 ArrayList<Action> previousNodeAction = checkLegalMove.getCurrentActions().get(prevNodeId);
                 unhighlightSelectedToken(prevNodeId,previousNodeAction,currentActor,nextActor);
             }
-            // prevent any possible error
-            // can happen when allowableActions size is 0
-            if (allowableActions.size()>0){
-                // add unhighlight action to mask
-                addUnhighlightSelectedToken(allowableActions.get(0).getNodeId(), allowableActions, currentActor, nextActor);
+
+                // add unhighlight action to mask to the current node
+                addUnhighlightSelectedToken(currentNodeID, allowableActions, currentActor, nextActor);
+                clicked = true;
+                prevNodeId = currentNodeID;
                 // put legal image
                 for(Action action: allowableActions){
                     int targetID =  ((MoveTokenAction) action).getTargetId();
                     putLegalMoveImage(targetID, action, currentActor, nextActor, highlighted_node);
-                    clicked = true;
-                    prevNodeId = action.getNodeId();
+
                 }
-            }
         }
     }
 
@@ -550,7 +542,8 @@ public class GameController implements Initializable {
         // move the token
         action.execute(currentActor, nodeList);
         // reset clicked
-        clicked = false;
+        this.clicked = false;
+        this.prevNodeId = 0;
         // get node id
         // use node id to remove the token from the board
         int nodeId = action.getNodeId();
@@ -627,77 +620,61 @@ public class GameController implements Initializable {
         if (DEBUG){
             System.out.println("change the image's action.");
         }
-//        String tokenColour =  this.nodeList.get(currentNodeID).getToken().getColour();
-//
-//        String paths = "";
-//        if (System.getProperty("os.name").substring(0,1) == "W"){
-//            paths = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token.png";
-//        }
-//        else{
-//            paths = "src/main/resources/Graphic/" + tokenColour + "_Token.png";
-//        }
-//        File newFile = new File(paths);
-//
-//
-//        String id =  tokenColour+"token";
-//        for(int j = 0; j < childList.size(); j++){
-//            Node currentNode = childList.get(j);
-//            if(currentNode.getId().contains(id) ){
-//                ((ImageView) currentNode).setImage(new Image(newFile.toURI().toString()));
-//                ((ImageView) currentNode).setFitWidth(18);
-//                ((ImageView) currentNode).setFitHeight(18);
-//                ((ImageView) currentNode).setLayoutX(0);
-//                ((ImageView) currentNode).setLayoutY(0);
-//                break;
-//            }
-//        }
+        String tokenColour =  this.nodeList.get(currentNodeID).getToken().getColour();
+
+        String paths = "";
+        if (System.getProperty("os.name").substring(0,1) == "W"){
+            paths = windowsResourcePath + tokenColour + "_Token.png";
+        }
+        else{
+            paths = macResourcePath+ tokenColour + "_Token.png";
+        }
+        File newFile = new File(paths);
+
+        // Unhighlight the token that is selected previously
+        String id =  tokenColour+"token";
+        for(int j = 0; j < childList.size(); j++){
+            Node currentNode = childList.get(j);
+            if(currentNode.getId().contains(id) ){
+                ((ImageView) currentNode).setImage(new Image(newFile.toURI().toString()));
+                ((ImageView) currentNode).setFitWidth(18);
+                ((ImageView) currentNode).setFitHeight(18);
+                ((ImageView) currentNode).setLayoutX(0);
+                ((ImageView) currentNode).setLayoutY(0);
+                break;
+            }
+        }
+        this.prevNodeId = 0;
+        this.clicked = false;
        node.setOnMouseClicked(event -> {
-//           System.out.println("IM HERE from Normal with token");
-//           System.out.println(actionsList.size());
-//           String tokenColour2 =  this.nodeList.get(currentNodeID).getToken().getColour();
-//
-//           String paths2 = "";
-//           if (System.getProperty("os.name").substring(0,1) == "W"){
-//               paths2 = "src\\main\\resources\\Graphic\\" + tokenColour + "_Token_when_user_select.png";
-//           }
-//           else{
-//               paths2 = "src/main/resources/Graphic/" + tokenColour + "_Token_when_user_select.png";
-//           }
-//           File newFile2 = new File(paths2);
-//
-//           Group currentGroup = (Group) currentScene.lookup("#g"+currentNodeID);
-//           ObservableList<Node>currentChildList =  currentGroup.getChildren();
-//           String id2 =  tokenColour2+"token";
-//           for(int j = 0; j < childList.size(); j++){
-//               Node node2 = currentChildList.get(j);
-//               if(node2.getId().contains(id2) ){
-//                   ((ImageView) node2).setImage(new Image(newFile2.toURI().toString()));
-//                   ((ImageView) node2).setFitWidth(24);
-//                   ((ImageView) node2).setFitHeight(24);
-//                   ((ImageView) node2).setLayoutX(-3);
-//                   ((ImageView) node2).setLayoutY(-3);
-//                   break;
-//               }
-//           }
-//           if (clicked){
-//               System.out.println(prevNodeId);
-//               ArrayList<Action> previousNodeAction = returnAction.get(prevNodeId);
-//               for (int k = 0; k < previousNodeAction.size(); k++){
-//                   MoveTokenAction tempAction = (MoveTokenAction) previousNodeAction.get(k);
-//                   removeImage(tempAction.getTargetId());
-//               }
-//
-//           }
-//           if (clicked){
-//               System.out.println(prevNodeId);
-//               ArrayList<Action> previousNodeAction = checkLegalMove.getCurrentActions().get(prevNodeId);
-//               for (int k = 0; k < previousNodeAction.size(); k++){
-//                   MoveTokenAction tempAction = (MoveTokenAction) previousNodeAction.get(k);
-//                   removeImage(tempAction.getTargetId());
-//               }
-//               unhighlightSelectedToken(currentNodeID,actionsList,currentActor,nextActor);
-//           }
-           validateActorSelection(actionsList,currentActor,nextActor);
+           System.out.println("IM HERE from Normal with token");
+           System.out.println(actionsList.size());
+           String tokenColour2 =  this.nodeList.get(currentNodeID).getToken().getColour();
+
+           String paths2 = "";
+           if (System.getProperty("os.name").substring(0,1) == "W"){
+               paths2 = windowsResourcePath + tokenColour2 + "_Token_when_user_select.png";
+           }
+           else{
+               paths2 = macResourcePath + tokenColour2 + "_Token_when_user_select.png";
+           }
+           File newFile2 = new File(paths2);
+
+           Group currentGroup = (Group) currentScene.lookup("#g"+currentNodeID);
+           ObservableList<Node>currentChildList =  currentGroup.getChildren();
+           String id2 =  tokenColour2+"token";
+           for(int j = 0; j < childList.size(); j++){
+               Node node2 = currentChildList.get(j);
+               if(node2.getId().contains(id2) ){
+                   ((ImageView) node2).setImage(new Image(newFile2.toURI().toString()));
+                   ((ImageView) node2).setFitWidth(24);
+                   ((ImageView) node2).setFitHeight(24);
+                   ((ImageView) node2).setLayoutX(-3);
+                   ((ImageView) node2).setLayoutY(-3);
+                   break;
+               }
+           }
+           validateActorSelection(actionsList,currentActor,nextActor, currentNodeID);
 
         });
 
