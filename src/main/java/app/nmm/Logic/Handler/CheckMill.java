@@ -1,11 +1,13 @@
 package app.nmm.Logic.Handler;
 
 import app.nmm.Logic.Location.Node;
+//import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import org.javatuples.Pair;
 
 public class CheckMill {
 
@@ -107,7 +109,21 @@ public class CheckMill {
                 new ArrayList<Integer>(Arrays.asList(2, 14)))));
 
     }};
+
+    private ArrayList<Integer> millNodes;
     ;
+
+    public CheckMill(){
+        this.millNodes= new ArrayList<Integer>();
+    }
+
+    public Map<Integer, ArrayList<ArrayList<Integer>>> getMillPosition(){
+        return millPosition;
+    }
+
+    public ArrayList<Integer> getMillNodes(){
+        return this.millNodes;
+    }
 
     /**
      * check whether a mill is form after token is placed on the node
@@ -115,32 +131,42 @@ public class CheckMill {
      * @param nodeId the node where player recently placed token on
      * @return true if a mill is formed
      */
-    public boolean checkPossibleMill(ArrayList<Node> nodeList, Integer nodeId) {
+    public Pair<Boolean,Boolean> checkPossibleMill(ArrayList<Node> nodeList, Integer nodeId) {
 
         // get corresponding mill list
         ArrayList<ArrayList<Integer>> nodeToCheck = millPosition.get(nodeId);
+        Pair<Boolean,Boolean> result = new Pair<Boolean,Boolean>(false,false);
+
 
         for (int i = 0; i < nodeToCheck.size(); i++) {
 
-            for (int j = 0; i < nodeToCheck.get(i).size(); j++) {
+            for (int j = 0; j < nodeToCheck.get(i).size(); j++) {
 
                 Integer theNode = nodeToCheck.get(i).get(j);
                 Integer millCheck = 0; // if it reaches 2 means mill is formed
+                ArrayList<Integer> temp = new ArrayList<Integer>();
 
                 if (nodeList.get(theNode).getToken() != null) {
 
                     // if the node contains player's token
                     if (nodeList.get(theNode).getToken().getColour() == nodeList.get(nodeId).getToken().getColour()) {
                         millCheck += 1;
+                        temp.add(theNode);
                     }
 
                 }
-                if (millCheck == 2){
-                    return true;
+                if (millCheck == 2 && i==0){
+                    result.setAt0(true);
+                    this.millNodes.addAll(temp);
+                }
+                else if (millCheck == 2 && i==1){
+                    result.setAt1(true);
+                    this.millNodes.addAll(temp);
                 }
             }
         }
-        return false;
+        return result;
     }
+
 
 }
