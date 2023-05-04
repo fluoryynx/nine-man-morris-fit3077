@@ -11,7 +11,7 @@ public class Token {
      * @param colour
      */
     public Token(Boolean isMill,String colour){
-        this.isMill = isMill;
+        this.isMill = false;
         this.colour= colour;
     }
 
