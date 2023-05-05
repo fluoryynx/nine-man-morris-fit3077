@@ -3,6 +3,7 @@ module app.nmm {
     requires javafx.fxml;
 
     requires jdk.javadoc;
+    requires javatuples;
 
     opens app.nmm to javafx.fxml;
     exports app.nmm;
