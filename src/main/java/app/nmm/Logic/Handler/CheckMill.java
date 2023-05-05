@@ -1,13 +1,13 @@
 package app.nmm.Logic.Handler;
 
 import app.nmm.Logic.Location.Node;
-import javafx.util.Pair;
+import org.javatuples.Pair;
+//import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-//import org.javatuples.Pair;
 
 public class CheckMill {
 
@@ -130,11 +130,13 @@ public class CheckMill {
      * @param nodeId the node where player recently placed token on
      * @return true if a mill is formed
      */
-    public Pair<Boolean,Boolean> checkPossibleMill(ArrayList<Node> nodeList, Integer nodeId) {
+    public ArrayList<Boolean> checkPossibleMill(ArrayList<Node> nodeList, Integer nodeId) {
 
         // get corresponding mill list
         ArrayList<ArrayList<Integer>> nodeToCheck = millPosition.get(nodeId);
-        Pair<Boolean,Boolean> result = new Pair<Boolean,Boolean>(false,false);
+        ArrayList<Boolean> result = new ArrayList<Boolean>();
+        result.add(false);
+        result.add(false);
 
         for (int i = 0; i < nodeToCheck.size(); i++) {
 
@@ -154,17 +156,12 @@ public class CheckMill {
                 }
 
                 if (millCheck == 2 && i==0){ // first mill found
-                    //result.setValue(0,true);
-                    result = new Pair<Boolean,Boolean>(true,false);
+                    result.set(0,true);
                     this.millNodes.add(nodeToCheck.get(i));
                 }
                 else if (millCheck == 2 && i==1){ // second mill found
-                    result = new Pair<Boolean,Boolean>(false,true);
+                    result.set(1,true);
                     this.millNodes.add(nodeToCheck.get(i));
-                }
-
-                if (millNodes.size()==2){ // two mills are formed
-                    result = new Pair<Boolean,Boolean>(true,true);
                 }
 
             }
