@@ -1,6 +1,7 @@
 package app.nmm.Logic.Handler;
 
 import app.nmm.Logic.Location.Node;
+import org.javatuples.Pair;
 //import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CheckMill {
-
+    // 0:H 1:V
     private final Map<Integer, ArrayList<ArrayList<Integer>>> millPosition = new HashMap<Integer, ArrayList<ArrayList<Integer>>>() {{
         put(0, new ArrayList<ArrayList<Integer>>(Arrays.asList(
                 new ArrayList<Integer>(Arrays.asList(1, 2)),
@@ -28,8 +29,8 @@ public class CheckMill {
                 new ArrayList<Integer>(Arrays.asList(10, 18)))));
 
         put(4, new ArrayList<ArrayList<Integer>>(Arrays.asList(
-                new ArrayList<Integer>(Arrays.asList(1, 7)),
-                new ArrayList<Integer>(Arrays.asList(3, 5)))));
+                new ArrayList<Integer>(Arrays.asList(3,5)),
+                new ArrayList<Integer>(Arrays.asList(1,7)))));
 
         put(5, new ArrayList<ArrayList<Integer>>(Arrays.asList(
                 new ArrayList<Integer>(Arrays.asList(3, 4)),
@@ -40,8 +41,8 @@ public class CheckMill {
                 new ArrayList<Integer>(Arrays.asList(11, 15)))));
 
         put(7, new ArrayList<ArrayList<Integer>>(Arrays.asList(
-                new ArrayList<Integer>(Arrays.asList(6, 7)),
-                new ArrayList<Integer>(Arrays.asList(3, 4)))));
+                new ArrayList<Integer>(Arrays.asList(6, 8)),
+                new ArrayList<Integer>(Arrays.asList(1, 4)))));
 
         put(8, new ArrayList<ArrayList<Integer>>(Arrays.asList(
                 new ArrayList<Integer>(Arrays.asList(6, 7)),
@@ -72,8 +73,8 @@ public class CheckMill {
                 new ArrayList<Integer>(Arrays.asList(2, 23)))));
 
         put(15, new ArrayList<ArrayList<Integer>>(Arrays.asList(
-                new ArrayList<Integer>(Arrays.asList(6, 11)),
-                new ArrayList<Integer>(Arrays.asList(16, 17)))));
+                new ArrayList<Integer>(Arrays.asList(16, 17)),
+                new ArrayList<Integer>(Arrays.asList(6, 11)))));
 
         put(16, new ArrayList<ArrayList<Integer>>(Arrays.asList(
                 new ArrayList<Integer>(Arrays.asList(15, 17)),
@@ -84,8 +85,8 @@ public class CheckMill {
                 new ArrayList<Integer>(Arrays.asList(8, 12)))));
 
         put(18, new ArrayList<ArrayList<Integer>>(Arrays.asList(
-                new ArrayList<Integer>(Arrays.asList(3, 10)),
-                new ArrayList<Integer>(Arrays.asList(19, 20)))));
+                new ArrayList<Integer>(Arrays.asList(19,20)),
+                new ArrayList<Integer>(Arrays.asList(3,10)))));
 
         put(19, new ArrayList<ArrayList<Integer>>(Arrays.asList(
                 new ArrayList<Integer>(Arrays.asList(18, 20)),
@@ -96,8 +97,8 @@ public class CheckMill {
                 new ArrayList<Integer>(Arrays.asList(5, 13)))));
 
         put(21, new ArrayList<ArrayList<Integer>>(Arrays.asList(
-                new ArrayList<Integer>(Arrays.asList(0, 9)),
-                new ArrayList<Integer>(Arrays.asList(22, 23)))));
+                new ArrayList<Integer>(Arrays.asList(22,23)),
+                new ArrayList<Integer>(Arrays.asList(0,9)))));
 
         put(22, new ArrayList<ArrayList<Integer>>(Arrays.asList(
                 new ArrayList<Integer>(Arrays.asList(21, 23)),
@@ -151,6 +152,9 @@ public class CheckMill {
                     // if the node contains player's token
                     if (nodeList.get(theNode).getToken().getColour() == nodeList.get(nodeId).getToken().getColour()) {
                         millCheck += 1;
+                    }
+                    else{
+                        break;
                     }
 
                 }
