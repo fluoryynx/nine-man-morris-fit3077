@@ -137,6 +137,7 @@ public class CheckMill {
         ArrayList<Boolean> result = new ArrayList<Boolean>();
         result.add(false);
         result.add(false);
+        this.millNodes = new ArrayList<ArrayList<Integer>>();
 
         for (int i = 0; i < nodeToCheck.size(); i++) {
 
