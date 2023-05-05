@@ -70,20 +70,25 @@ public class Node {
      * @param tokenColour
      * @return a list of allowable actions
      */
-    public ArrayList<Action> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList, String tokenColour) {
-        ArrayList<Action> actionList = new ArrayList<>();
+    public Pair<ArrayList<Action>, ArrayList<Action>> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList, String tokenColour) {
+        ArrayList<ArrayList<Action>> actionList = new ArrayList<ArrayList<Action>>();
+        actionList.add(new ArrayList<Action>()); // non-remove action
+        actionList.add(new ArrayList<Action>()); // remove actions
+
 
         for (int i = 0; i < adjacentList.size(); i++) { // check it's adjacent nodes
             if (nodeList.get(adjacentList.get(i)).contain==null){ // if the adjacent node is empty
                 // create and add a move token action towards that empty adjacent node into the list
-                actionList.add(new MoveTokenAction(this.id, adjacentList.get(i)));
+                actionList.get(0).add(new MoveTokenAction(this.id, adjacentList.get(i)));
             }
             // if adjacent token is enemy token and is not part of a mill, consider it removable
             if ((nodeList.get(adjacentList.get(i)).contain.getColour() != tokenColour) && !nodeList.get(adjacentList.get(i)).contain.getIsMill()){
-                actionList.add((new RemoveTokenAction(adjacentList.get(i))));
+                actionList.get(1).add((new RemoveTokenAction(adjacentList.get(i))));
             }
         }
-        return actionList;
+        Pair<ArrayList<Action>, ArrayList<Action>> output = new Pair<>(actionList.get(0),actionList.get(1));
+
+        return output;
     }
 
     @Override

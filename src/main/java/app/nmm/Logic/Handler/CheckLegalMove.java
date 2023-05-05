@@ -60,10 +60,9 @@ public class CheckLegalMove {
                 ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i); // get adjacent nodes of that node
 
                 // process which adjacent node can the token on that given node be moved to
-                ArrayList<Action> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode, actor.getTokenColour());
+                ArrayList<Action> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode, actor.getTokenColour()).getKey();
 
                 legalMoves.put(i,listOfActions);
-
 
             }
         }
