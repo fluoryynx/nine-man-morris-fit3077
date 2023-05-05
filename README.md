@@ -1,7 +1,6 @@
 # FIT3077_project
 ## How to run the application
-1. Clone the repository
-2. Open project folder in IntelliJ
-3. Locate pom.xml file inside project/, right click and click "Add maven into project"
-4. Locate Application class inside project/src/main/java/app.nmm/, open the class, run the application.
-
+1. Download the project.
+2. Unzip the project and locate Game folder.
+3. Locate your Operating System folder and run the NMM.jar by double clicking the jar file.
+    3.1 If double clicking does not open the game, open terminal or command prompt inside the folder, and type in "java -jar NMM.jar"
