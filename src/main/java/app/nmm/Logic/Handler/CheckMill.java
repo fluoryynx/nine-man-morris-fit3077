@@ -120,8 +120,8 @@ public class CheckMill {
 //        return millPosition;
 //    }
 
-    public ArrayList<ArrayList<Integer>> getMillNodes(){
-        return this.millNodes;
+    public ArrayList<ArrayList<Integer>> getMillNodes(Integer id){
+        return this.millPosition.get(id);
     }
 
     /**
