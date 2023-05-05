@@ -3,6 +3,7 @@ package app.nmm.Logic.Handler;
 import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Action.MoveTokenAction;
 import app.nmm.Logic.Action.PutTokenAction;
+import app.nmm.Logic.Action.RemoveTokenAction;
 import app.nmm.Logic.Actor.Actor;
 import app.nmm.Logic.Location.Node;
 
@@ -84,6 +85,26 @@ public class CheckLegalMove {
             }
         }
         return legalMoves;
+    }
+
+
+    public ArrayList<Action> calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
+        ArrayList<Action> legalRemoves= new ArrayList<Action>();
+
+        for (int i = 0; i < nodeList.size(); i++) {
+
+            if (nodeList.get(i).getToken() != null){
+
+                if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && nodeList.get(i).getToken().getIsMill() == false){ // if the token is not part of a mill
+                    legalRemoves.add(new RemoveTokenAction(i));
+
+                }
+
+            }
+
+        }
+
+        return legalRemoves;
     }
 
 
