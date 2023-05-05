@@ -297,6 +297,36 @@ public class GameController implements Initializable {
         });
     }
 
+
+    @FXML
+    public void putLegalRemoveImage(int nodeId,Actor currentActor, Actor nextActor) {
+        // get current group using nodeId
+        Group group = (Group) currentScene.lookup("#g"+nodeId);
+        ObservableList<Node> childList =  group.getChildren();
+        // remove any extra children
+        removeImage(nodeId, "legalMove");
+        // find the image, and put inside image view
+        // get the correct path, mac and windows different way of calling path
+        String path;
+        if (System.getProperty("os.name").charAt(0) == 'W'){
+            path = windowsResourcePath + nextActor.getTokenColour() + "_Token_for_removing_token.png";
+        }
+        else{
+            path = macResourcePath + nextActor.getTokenColour() + "_Token_for_removing_token.png";
+        }
+
+        // photo fxid
+        String legalRemoveID = "legalRemove";
+        // add to the board
+        ImageView imageView = addItemToBoard(path,legalRemoveID,-3,-3,24,25,childList);
+
+        // make imageview clickable
+        imageView.setOnMouseClicked(event -> {
+            removeImage(nodeId,"legalRemove");
+        });
+    }
+
+
     /**
      * a method for legal move image to call. remove the legal moves image, and put the token on the board
      * @param action current action to be executed
@@ -325,6 +355,28 @@ public class GameController implements Initializable {
         }
         // add token to board
         addItemToBoard(path, tokenID,0,0,18,18 ,childList);
+
+        // check whether a mill is formed
+        ArrayList<Boolean> millCheck = this.checkMill.checkPossibleMill(nodeList,nodeId);
+
+        // iterate the millCheck
+        for (int i = 0; i < millCheck.size(); i++){
+
+            if (millCheck.contains(true)){ // if a mill is formed
+
+                ArrayList<Action> removableNodes = this.checkLegalMove.calculateLegalRemove(currentActor,nodeList);
+
+                for (int j=0; j< removableNodes.size(); j++){
+
+                    Integer removableNodeId = removableNodes.get(j).getNodeId();
+                    // highlight the node
+                    putLegalRemoveImage(nodeId,currentActor,nextActor);
+                }
+            }
+        }
+
+
+
         // update the token count on the UI
         if (currentActor.getTokenColour().equals("White")){
             whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));

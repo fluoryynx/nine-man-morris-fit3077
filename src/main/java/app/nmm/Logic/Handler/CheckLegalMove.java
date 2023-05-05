@@ -98,11 +98,8 @@ public class CheckLegalMove {
 
                 if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && nodeList.get(i).getToken().getIsMill() == false){ // if the token is not part of a mill
                     legalRemoves.add(new RemoveTokenAction(i));
-
                 }
-
             }
-
         }
 
         return legalRemoves;

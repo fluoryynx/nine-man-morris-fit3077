@@ -70,6 +70,7 @@ public class Node {
      * @param tokenColour
      * @return a list of allowable actions
      */
+
     public Pair<ArrayList<Action>, ArrayList<Action>> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList, String tokenColour) {
         ArrayList<ArrayList<Action>> actionList = new ArrayList<ArrayList<Action>>();
         actionList.add(new ArrayList<Action>()); // non-remove action
