@@ -84,7 +84,7 @@ public class Node {
                 moveList.add(new MoveTokenAction(this.id, adjacentList.get(i)));
             }
             // if adjacent token is enemy token and is not part of a mill, consider it removable
-            if ((nodeList.get(adjacentList.get(i)).contain.getColour() != tokenColour) && !nodeList.get(adjacentList.get(i)).contain.getIsMill()){
+            else if ((nodeList.get(adjacentList.get(i)).contain.getColour() != tokenColour) && !nodeList.get(adjacentList.get(i)).contain.getIsMill()){
                 removeList.add((new RemoveTokenAction(adjacentList.get(i))));
             }
         }
