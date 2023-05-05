@@ -64,7 +64,6 @@ public class CheckLegalMove {
                 currentActions.put(i,listOfActions.get(0));
                 currentRemovables.put(i,listOfActions.get(1));
 
-
             }
         }
     }
