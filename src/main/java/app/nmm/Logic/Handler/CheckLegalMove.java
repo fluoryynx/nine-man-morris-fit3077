@@ -40,6 +40,7 @@ public class CheckLegalMove {
         put(23, new ArrayList<>(Arrays.asList(22,14)));
 
     }};
+    private Map<Integer,ArrayList<Action>> currentActions;
 
     /**
      * this method will be use then player has no tokens left in hand
@@ -66,6 +67,7 @@ public class CheckLegalMove {
 
             }
         }
+        currentActions = legalMoves;
         return legalMoves;
     }
 
@@ -138,7 +140,11 @@ public class CheckLegalMove {
 
             }
         }
+        currentActions = output;
         return output;
     }
 
+    public Map<Integer, ArrayList<Action>> getCurrentActions() {
+        return currentActions;
+    }
 }
