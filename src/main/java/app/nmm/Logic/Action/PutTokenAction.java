@@ -28,7 +28,7 @@ public class PutTokenAction extends Action{
     public void execute(Actor currentPlayer, List<Node> nodeList) {
         currentPlayer.subtractTokenInHand();
         currentPlayer.addTokenOnBoard();
-        nodeList.get(super.getNodeId()).addToken(new Token(false,currentPlayer.getTokenColour()));
+        nodeList.get(super.getNodeId()).addToken(new Token(currentPlayer.getTokenColour()));
     }
 
     @Override

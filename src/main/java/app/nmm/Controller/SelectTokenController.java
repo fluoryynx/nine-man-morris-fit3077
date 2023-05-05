@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Pair;
+import org.javatuples.Pair;
 
 import java.net.URL;
 import java.util.Random;

@@ -4,7 +4,7 @@ import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Action.MoveTokenAction;
 import app.nmm.Logic.Action.RemoveTokenAction;
 import app.nmm.Logic.Token.Token;
-import javafx.util.Pair;
+import org.javatuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

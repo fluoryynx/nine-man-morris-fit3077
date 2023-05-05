@@ -1,6 +1,6 @@
 package app.nmm;
 
-import javafx.util.Pair;
+import org.javatuples.Pair;
 
 /**
  * Data static class
