@@ -3,6 +3,7 @@ package app.nmm.Logic.Handler;
 import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Action.MoveTokenAction;
 import app.nmm.Logic.Action.PutTokenAction;
+import app.nmm.Logic.Action.RemoveTokenAction;
 import app.nmm.Logic.Actor.Actor;
 import app.nmm.Logic.Location.Node;
 
@@ -39,8 +40,8 @@ public class CheckLegalMove {
         put(23, new ArrayList<>(Arrays.asList(22,14)));
 
     }};
-    private Map<Integer,ArrayList<Action>> currentActions;
-
+    private Map<Integer,ArrayList<Action>> currentActions = new HashMap<>();
+    private Map<Integer,ArrayList<Action>> currentRemovables = new HashMap<>();
     /**
      * this method will be use then player has no tokens left in hand
      * check for positions that tokens on each given nodes can be moved to and add the movetokenaciton into the list
@@ -48,9 +49,8 @@ public class CheckLegalMove {
      * @param nodeList
      * @return hashmap of move actions then can be perform on a given node
      */
-    public Map<Integer,ArrayList<Action>> calculateLegalMove(Actor actor, ArrayList<Node> nodeList){
-
-        Map<Integer,ArrayList<Action>> legalMoves= new HashMap<Integer, ArrayList<Action>>();
+    public void calculateLegalMove(Actor actor, ArrayList<Node> nodeList){
+        Map<Integer,ArrayList<ArrayList<Action>>> legalMoves= new HashMap<>();
 
         for (int i = 0; i < nodeList.size(); i++) {
             //if current node has a token that the current player owns, check adjacent nodes
@@ -59,14 +59,13 @@ public class CheckLegalMove {
                 ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i); // get adjacent nodes of that node
 
                 // process which adjacent node can the token on that given node be moved to
-                ArrayList<Action> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode);
+                ArrayList<ArrayList<Action>> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode, actor.getTokenColour());
 
-                legalMoves.put(i,listOfActions);
+                currentActions.put(i,listOfActions.get(0));
+                currentRemovables.put(i,listOfActions.get(1));
 
             }
         }
-        currentActions = legalMoves;
-        return legalMoves;
     }
 
     /**
@@ -85,6 +84,23 @@ public class CheckLegalMove {
             }
         }
         return legalMoves;
+    }
+
+
+    public ArrayList<Action> calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
+        ArrayList<Action> legalRemoves= new ArrayList<Action>();
+
+        for (int i = 0; i < nodeList.size(); i++) {
+
+            if (nodeList.get(i).getToken() != null){
+
+                if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && nodeList.get(i).getToken().getIsMill() == false){ // if the token is not part of a mill
+                    legalRemoves.add(new RemoveTokenAction(i));
+                }
+            }
+        }
+
+        return legalRemoves;
     }
 
 

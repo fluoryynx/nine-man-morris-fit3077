@@ -413,7 +413,8 @@ public class GameController implements Initializable {
         Actor actor1 = this.playerList.get(0);
         Actor actor2 =  this.playerList.get(1);
         // get available action
-        Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(actor1, this.nodeList);
+        this.checkLegalMove.calculateLegalMove(actor1, this.nodeList);
+        Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
 //        Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(actor1, this.nodeList);
 
         for (int i = 0; i < 24; i++){
@@ -601,7 +602,8 @@ public class GameController implements Initializable {
         // No mill form
         else{
             // calculate for the allowable action
-            Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
+            this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
+            Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
             // add the mask
             for (int i = 0; i < 24; i++){
                 addChecker(i, returnAction, nextActor, currentActor);
