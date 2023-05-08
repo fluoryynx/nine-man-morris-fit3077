@@ -54,4 +54,13 @@ public abstract class Actor {
         return numberOfTokensInHand;
     }
 
+    public boolean checkLose(){
+        if (this.numberOfTokensOnBoard<3){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }

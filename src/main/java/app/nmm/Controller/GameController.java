@@ -1,5 +1,6 @@
 package app.nmm.Controller;
 
+import app.nmm.Application;
 import app.nmm.Data;
 import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Action.MoveTokenAction;
@@ -12,6 +13,7 @@ import app.nmm.Logic.Handler.CheckMill;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -25,6 +27,7 @@ import javafx.scene.text.Text;
 //import javafx.util.Pair;
 import org.javatuples.Pair;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -44,6 +47,7 @@ public class GameController implements Initializable {
     Scene currentScene;
     @FXML
     Button startButton;
+    Button backToMainButton;
 
     private final boolean DEBUG = false;
     private ArrayList<app.nmm.Logic.Location.Node> nodeList;
@@ -110,6 +114,14 @@ public class GameController implements Initializable {
         Platform.exit();
     }
 
+
+    @FXML
+    void backToMain(MouseEvent event) throws IOException {
+        AnchorPane mainPageScene = FXMLLoader.load(Application.class.getResource("main.fxml"));
+        boardScene.getChildren().removeAll();
+        boardScene.getChildren().setAll(mainPageScene);
+    }
+
     /**
      * a method for a button to click to start the game
      * @param event
@@ -131,6 +143,14 @@ public class GameController implements Initializable {
         else {
             tutorialMode();
         }
+    }
+
+
+    void endGame(){
+        currentScene = backToMainButton.getScene();
+
+        Group group = (Group) currentScene.lookup("#end_game_overlay");
+        group.setVisible(true);
     }
 
     /**
@@ -420,7 +440,14 @@ public class GameController implements Initializable {
         for (int i = 0; i < 24; i++){
             addChecker(i, returnAction, actor1, actor2);
         }
-        gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
+
+        if (actor1.checkLose() == false && returnAction.size()>0){
+            gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
+        }
+        else{
+            gameStatus.setText(actor2.getActorname() + " won");
+            endGame();
+        }
 
     }
 
@@ -608,7 +635,14 @@ public class GameController implements Initializable {
             for (int i = 0; i < 24; i++){
                 addChecker(i, returnAction, nextActor, currentActor);
             }
-            gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+
+            if (nextActor.checkLose() == false && returnAction.size()>0){
+                gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+            }
+            else{
+                gameStatus.setText(currentActor.getActorname() + " won");
+                endGame();
+            }
 
         }
 
