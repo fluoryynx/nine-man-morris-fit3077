@@ -130,9 +130,11 @@ public class GameController implements Initializable {
     void startGame(MouseEvent event){
         // get the current scene and save as an attribute
         currentScene = startButton.getScene();
+
         // set overlay visibility to false
         Group group = (Group) currentScene.lookup("#overlay");
         group.setVisible(false);
+
         // find current suitable gamemode
         if (mode.equals("computer")){
             pvCMode();
@@ -145,13 +147,17 @@ public class GameController implements Initializable {
         }
     }
 
+    @FXML void endGame(){
 
-    void endGame(){
-        currentScene = backToMainButton.getScene();
-
+        //set overlay visibility to true
         Group group = (Group) currentScene.lookup("#end_game_overlay");
         group.setVisible(true);
+
+        System.out.println(currentScene);
+        System.out.println("game end");
+
     }
+
 
     /**
      * a method to show the hint
@@ -441,14 +447,26 @@ public class GameController implements Initializable {
             addChecker(i, returnAction, actor1, actor2);
         }
 
-        if (actor1.checkLose() == false && returnAction.size()>0){
+        System.out.println("return action: ");
+        System.out.println(returnAction);
+
+        // check if actor 1 have any legal move action
+        boolean noMoveAction=true;
+
+        for (ArrayList<Action> value : returnAction.values()) {
+            if (value.size() != 0) {
+                System.out.println(value.size());
+                noMoveAction = false;
+            }
+        }
+
+        if (actor1.checkLose() == false && noMoveAction == false){
             gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
         }
         else{
             gameStatus.setText(actor2.getActorname() + " won");
-            endGame();
+            this.endGame();
         }
-
     }
 
     /**
@@ -636,12 +654,22 @@ public class GameController implements Initializable {
                 addChecker(i, returnAction, nextActor, currentActor);
             }
 
-            if (nextActor.checkLose() == false && returnAction.size()>0){
+            // check if next actor have any legal move action
+            boolean noMoveAction=true;
+
+            for (ArrayList<Action> value : returnAction.values()) {
+                System.out.println(value.size());
+                if (value.size() != 0) {
+                    noMoveAction = false;
+                }
+            }
+
+            if (nextActor.checkLose() == false && noMoveAction == false){
                 gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
             }
             else{
                 gameStatus.setText(currentActor.getActorname() + " won");
-                endGame();
+                this.endGame();
             }
 
         }
