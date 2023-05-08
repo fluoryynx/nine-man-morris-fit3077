@@ -142,4 +142,5 @@ public class CheckLegalMove {
     public ArrayList<Action> getCurrentRemovables() {
         return currentRemovables;
     }
+
 }
