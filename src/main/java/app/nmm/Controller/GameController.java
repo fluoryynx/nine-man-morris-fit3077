@@ -451,8 +451,6 @@ public class GameController implements Initializable {
         // get available action
         this.checkLegalMove.calculateLegalMove(actor1, this.nodeList);
         Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
-//        Map<Integer, ArrayList<Action>> returnActionFly = this.checkLegalMove.calculateLegalFly(actor1, this.nodeList);
-
         for (int i = 0; i < 24; i++){
             addChecker(i, returnAction, actor1, actor2);
         }
@@ -798,7 +796,10 @@ public class GameController implements Initializable {
     private void moveRemoveTokenImage(int nodeId,Action action, Actor currentActor, Actor otherActor ){
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
+        for (int i=0; i<24; i++){
+            removeImage(i,"transparent_mask");
 
+        }
         String tokenColour = this.nodeList.get(nodeId).getToken().getColour();
         String paths = getTokenImagePath(tokenColour, "_Token_for_removing_token.png");
         String removeTokenID = "removeToken";
@@ -811,7 +812,6 @@ public class GameController implements Initializable {
     void moveRemoveTokenExecutor(Action action, Actor currentActor, Actor nextActor){
         for (int i=0; i<24; i++){
             removeImage(i, "removeToken");
-            removeImage(i,"transparent_mask");
         }
         action.execute(nextActor, nodeList);
         int nodeId = action.getNodeId();
