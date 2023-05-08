@@ -41,7 +41,7 @@ public class CheckLegalMove {
 
     }};
     private Map<Integer,ArrayList<Action>> currentActions = new HashMap<>();
-    private Map<Integer,ArrayList<Action>> currentRemovables = new HashMap<>();
+    private ArrayList<Action> currentRemovables = new ArrayList<>();
     /**
      * this method will be use then player has no tokens left in hand
      * check for positions that tokens on each given nodes can be moved to and add the movetokenaciton into the list
@@ -62,7 +62,6 @@ public class CheckLegalMove {
                 ArrayList<ArrayList<Action>> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode, actor.getTokenColour());
 
                 currentActions.put(i,listOfActions.get(0));
-                currentRemovables.put(i,listOfActions.get(1));
 
             }
         }
@@ -87,20 +86,18 @@ public class CheckLegalMove {
     }
 
 
-    public ArrayList<Action> calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
-        ArrayList<Action> legalRemoves= new ArrayList<Action>();
-
+    public void  calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
+        currentRemovables.clear();
         for (int i = 0; i < nodeList.size(); i++) {
 
             if (nodeList.get(i).getToken() != null){
 
                 if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && nodeList.get(i).getToken().getIsMill() == false){ // if the token is not part of a mill
-                    legalRemoves.add(new RemoveTokenAction(i));
+                    currentRemovables.add(new RemoveTokenAction(i));
                 }
             }
         }
 
-        return legalRemoves;
     }
 
 
@@ -140,5 +137,9 @@ public class CheckLegalMove {
 
     public Map<Integer, ArrayList<Action>> getCurrentActions() {
         return currentActions;
+    }
+
+    public ArrayList<Action> getCurrentRemovables() {
+        return currentRemovables;
     }
 }
