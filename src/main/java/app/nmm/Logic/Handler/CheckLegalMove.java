@@ -85,10 +85,14 @@ public class CheckLegalMove {
         return legalMoves;
     }
 
-
+    /**
+     * Gets all the possible enemy tokens that can be removed(Not in a mill)
+     * @param actor Current Player
+     * @param nodeList All possible nodes
+     */
     public void  calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
+        // Ensure that possible removable tokens are always based on current board state
         currentRemovables.clear();
-
         CheckMill checkMill = new CheckMill();
 
         for (int i = 0; i < nodeList.size(); i++) {
@@ -142,10 +146,18 @@ public class CheckLegalMove {
         return output;
     }
 
+    /**
+     * Getter for currentActions
+     * @return available move actions that can be made by current user
+     */
     public Map<Integer, ArrayList<Action>> getCurrentActions() {
         return currentActions;
     }
 
+    /**
+     * Getter for currentRemovables
+     * @return available enemy tokens that can be removed by current player
+     */
     public ArrayList<Action> getCurrentRemovables() {
         return currentRemovables;
     }

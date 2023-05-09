@@ -329,14 +329,15 @@ public class GameController implements Initializable {
         // Check if there are any possible tokens to be removed on the board
         this.checkLegalMove.calculateLegalRemove(currentActor, this.nodeList);
 
-        // If mill is formed
-        if(isMill.get(0) == true || isMill.get(1) == true){
+        // If mill is formed, provide the current player option to remove enemy token
+        if(isMill.get(0) || isMill.get(1)){
             swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition);
 
             //If removable tokens are on board
             if (checkLegalMove.getCurrentRemovables().size()>0){
                 showPutRemovable(currentActor,nextActor);
-            }else // If no removable tokens are available just continue
+            }
+            else // If no removable tokens are available just continue
             {
                 // update the token count on the UI
                 if (currentActor.getTokenColour().equals("White")){
@@ -627,11 +628,13 @@ public class GameController implements Initializable {
         int targetNodeId = ((MoveTokenAction)action).getTargetId();
         ArrayList<Boolean> isMill = checkMill.checkPossibleMill(this.nodeList,targetNodeId);
         ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillNodes(targetNodeId);
+        // Check if there are any possible tokens to be removed on the board
         checkLegalMove.calculateLegalRemove(currentActor,nodeList);
 
-        if(isMill.get(0) == true || isMill.get(1) == true){
+        // If a mill is formed
+        if(isMill.get(0)|| isMill.get(1)){
             swapTokenToMill(targetNodeId, isMill, millCombinationTokenPosition);
-            // If there are tokens that can be removed
+            // If there are removable opponent tokens
             if (checkLegalMove.getCurrentRemovables().size()>0){
                 showMoveRemoval(currentActor,nextActor);
             }
@@ -717,44 +720,74 @@ public class GameController implements Initializable {
         changeTokenImage(nodeId,tokenColour,paths,24,-4);
         Group currentGroup = (Group) currentScene.lookup("#g"+nodeId);
     }
+
+    /**
+     * Main method used to call putRemoveTokenImage repeatedly to place relevant images on board
+     * @param currentActor Current Player
+     * @param otherActor Other Player
+     */
     @FXML
     private void showPutRemovable(Actor currentActor, Actor otherActor){
-
-
+        // Get the available remove token actions
         ArrayList<Action> returnAction = this.checkLegalMove.getCurrentRemovables();
+        // Places an image to indicate that token is removable for each action retrieved.
         for (int i=0; i< returnAction.size(); i++){
                 int id = returnAction.get(i).getNodeId();
                 putRemoveTokenImage(id,returnAction.get(i), currentActor, otherActor);
         }
+        // Update current game status
         gameStatus.setText(currentActor.getActorname()+ " Select a Token to Remove.");
     }
+
+    /**
+     * Method to put images for token that can be removed on board(put phase)
+     * @param nodeId The node of token that can be removed
+     * @param action Remove action
+     * @param currentActor Current Player
+     * @param otherActor Next Player
+     */
     @FXML
     private void putRemoveTokenImage(int nodeId,Action action, Actor currentActor, Actor otherActor ){
+        // Get current group using nodeId
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
-
+        // Get the color of the removable token, create path to relevant image
         String tokenColour = this.nodeList.get(nodeId).getToken().getColour();
         String paths = getTokenImagePath(tokenColour, "_Token_for_removing_token.png");
-        String removeTokenID = "removeToken";
+        String removeTokenID = "removeToken"; //FxID for image
+        // Adding image to the board
         ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,25,childList);
+        // On-click event
         imageView.setOnMouseClicked(event ->{
             putRemoveTokenExecutor(action, currentActor, otherActor);
         });
     }
 
+    /**
+     * Method that is called when the image created by putRemoveTokenImage is clicked.
+     * Removes the image and removes the token on the board, then proceeds to the next player (Put Phase)
+     * @param action RemoveAction on a specific token on a node
+     * @param currentActor Current Player
+     * @param nextActor Next Player
+     */
     void putRemoveTokenExecutor(Action action, Actor currentActor, Actor nextActor){
+        // Remove all the Removable Token images on board based on FxID of image assigned earlier
         for (int i=0; i<24; i++){
             removeImage(i, "removeToken");
         }
+        // Remove token action is called, update token count for opponent
         action.execute(nextActor, nodeList);
+
+        // Get nodeId for token that is to be removed
         int nodeId = action.getNodeId();
+        // Removal of said token on board
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
         while (childList.size() > 1) {
             Node node = childList.get(childList.size() - 1);
             childList.remove(node);
-
         }
+        //Update token count in UI accordingly
         if(nextActor.getTokenColour()== "White"){
             whiteTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
         }
@@ -782,39 +815,68 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * Main method used to call moveRemoveTokenImage repeatedly to place relevant images on board
+     * @param currentActor Current Player
+     * @param otherActor Next Player
+     */
     @FXML
     private void showMoveRemoval(Actor currentActor, Actor otherActor){
+        // Get the available remove token actions
         ArrayList<Action> returnAction = this.checkLegalMove.getCurrentRemovables();
+        //Places an image to indicate that token is removable for each action retrieved
         for (int i=0; i< returnAction.size(); i++){
             int id = returnAction.get(i).getNodeId();
             moveRemoveTokenImage(id,returnAction.get(i), currentActor, otherActor);
         }
+        // Update current game status
         gameStatus.setText(currentActor.getActorname()+ " Select a Token to Remove.");
     }
 
+    /**
+     * Method to put images for token that can be removed on board(move phase)
+     * @param nodeId The node of token that can be removed
+     * @param action Remove action
+     * @param currentActor Current Player
+     * @param otherActor Next Player
+     */
     @FXML
     private void moveRemoveTokenImage(int nodeId,Action action, Actor currentActor, Actor otherActor ){
+        // Get current group based on nodeId
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
+        // Removal of the mask for each node so that the player is enforced to only remove opponent tokens if available
         for (int i=0; i<24; i++){
             removeImage(i,"transparent_mask");
-
         }
+        // Get color of removable token, create path to relevant image
         String tokenColour = this.nodeList.get(nodeId).getToken().getColour();
         String paths = getTokenImagePath(tokenColour, "_Token_for_removing_token.png");
         String removeTokenID = "removeToken";
+        // Adding image to the board
         ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,25,childList);
+        // On-click event
         imageView.setOnMouseClicked(event ->{
             moveRemoveTokenExecutor(action, currentActor, otherActor);
         });
     }
-
+    /**
+     * Method that is called when the image created by moveRemoveTokenImage is clicked.
+     * Removes the image and removes the token on the board, then proceeds to the next player (Move Phase)
+     * @param action RemoveAction on a specific token on a node
+     * @param currentActor Current Player
+     * @param nextActor Next Player
+     */
     void moveRemoveTokenExecutor(Action action, Actor currentActor, Actor nextActor){
+        // Remove all the Removable Token images on board based on FxID of image assigned earlier
         for (int i=0; i<24; i++){
             removeImage(i, "removeToken");
         }
+        // Remove token action is called, update token count for opponent
         action.execute(nextActor, nodeList);
+        // Get nodeId for token that is to be removed
         int nodeId = action.getNodeId();
+        // Removal of said token on board
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
         while (childList.size() > 1) {
@@ -822,6 +884,7 @@ public class GameController implements Initializable {
             childList.remove(node);
 
         }
+        //Update token count in UI accordingly
         if(nextActor.getTokenColour()== "White"){
             whiteTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
         }
