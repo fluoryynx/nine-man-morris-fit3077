@@ -93,16 +93,13 @@ public class CheckLegalMove {
     public void  calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
         // Ensure that possible removable tokens are always based on current board state
         currentRemovables.clear();
-        CheckMill checkMill = new CheckMill();
 
         for (int i = 0; i < nodeList.size(); i++) {
 
             if (nodeList.get(i).getToken() != null){
 
-                ArrayList<Boolean> partOfMill = checkMill.checkPossibleMill(nodeList,i);
-                System.out.println(partOfMill);
 
-                if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && !partOfMill.contains(true) ){ // if the token is not part of a mill
+                if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && !nodeList.get(i).getToken().getIsMill() ){ // if the token is not part of a mill
                     currentRemovables.add(new RemoveTokenAction(i));
                 }
 

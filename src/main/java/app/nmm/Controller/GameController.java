@@ -598,6 +598,12 @@ public class GameController implements Initializable {
                 }
 
             }
+            if( i == 0 ){
+                nodeList.get(currentNodeId).getToken().setMillHorizontal(false);
+            }
+            else{
+                nodeList.get(currentNodeId).getToken().setMillVertical(false);
+            }
         }
 
         // move the token
