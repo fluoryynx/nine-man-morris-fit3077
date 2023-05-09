@@ -712,27 +712,45 @@ public class GameController implements Initializable {
         }
         // No mill form
         else{
-            // calculate for the allowable action
-            this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
-            Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
-            // add the mask
-            for (int i = 0; i < 24; i++){
-                addChecker(i, returnAction, nextActor, currentActor);
-            }
+            if (nextActor.getNumberOfTokensOnBoard() > 3){
+                // calculate for the allowable action
+                this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
+                Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
+                // add the mask
+                for (int i = 0; i < 24; i++){
+                    addChecker(i, returnAction, nextActor, currentActor);
+                }
 
-            // check if next actor have any legal move action
-            boolean noMoveAction=true;
+                // check if next actor have any legal move action
+                boolean noMoveAction=true;
 
-            for (ArrayList<Action> value : returnAction.values()) {
-                System.out.println(value.size());
-                if (value.size() != 0) {
-                    noMoveAction = false;
+                for (ArrayList<Action> value : returnAction.values()) {
+                    System.out.println(value.size());
+                    if (value.size() != 0) {
+                        noMoveAction = false;
+                    }
+                }
+
+                System.out.println(nextActor.getActorname() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
+
+                if (noMoveAction){
+                    gameStatus.setText(currentActor.getActorname() + " won");
+                    displayWinner.setText(currentActor.getActorname() + " won");
+                    //backToMainButton.setText(currentActor.getActorname() + " won" + "\n" + "Back to main menu");
+                    this.endGame();
+                }
+                else{
+                    gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
                 }
             }
-
-            System.out.println(nextActor.getActorname() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
-
-            if (nextActor.getNumberOfTokensOnBoard()>=3 && noMoveAction == false){
+            else if (nextActor.getNumberOfTokensOnBoard() == 3){
+                // calculate for the allowable action
+                this.checkLegalMove.calculateLegalFly(nextActor, this.nodeList);
+                Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
+                // add the mask
+                for (int i = 0; i < 24; i++){
+                    addChecker(i, returnAction, nextActor, currentActor);
+                }
                 gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
             }
             else{
@@ -741,7 +759,6 @@ public class GameController implements Initializable {
                 //backToMainButton.setText(currentActor.getActorname() + " won" + "\n" + "Back to main menu");
                 this.endGame();
             }
-
         }
 
     }
@@ -991,15 +1008,26 @@ public class GameController implements Initializable {
             displayWinner.setText(currentActor.getActorname() + " won");
             endGame();
         }
-
-        // calculate for the allowable action
-        this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
-        Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
-        // add the mask
-        for (int i = 0; i < 24; i++){
-            addChecker(i, returnAction, nextActor, currentActor);
+        else if (nextActor.getNumberOfTokensOnBoard() == 3){
+            // calculate fly action for the allowable action
+            this.checkLegalMove.calculateLegalFly(nextActor, this.nodeList);
+            Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
+            // add the mask
+            for (int i = 0; i < 24; i++){
+                addChecker(i, returnAction, nextActor, currentActor);
+            }
+            gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
         }
-        gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+        else{
+            // calculate for the allowable action
+            this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
+            Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
+            // add the mask
+            for (int i = 0; i < 24; i++){
+                addChecker(i, returnAction, nextActor, currentActor);
+            }
+            gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+        }
     }
     /**
      * a method to call the removal of legal moves of one token on board when running normal game
