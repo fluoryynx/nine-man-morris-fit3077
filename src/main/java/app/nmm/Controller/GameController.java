@@ -1,5 +1,6 @@
 package app.nmm.Controller;
 
+import app.nmm.Application;
 import app.nmm.Data;
 import app.nmm.Logic.Action.Action;
 import app.nmm.Logic.Action.MoveTokenAction;
@@ -12,6 +13,7 @@ import app.nmm.Logic.Handler.CheckMill;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -25,6 +27,7 @@ import javafx.scene.text.Text;
 //import javafx.util.Pair;
 import org.javatuples.Pair;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -39,11 +42,13 @@ public class GameController implements Initializable {
     @FXML Text whiteTokenCount;
     @FXML Text blackTokenCount;
     @FXML Text gameStatus;
+    @FXML Text displayWinner;
     @FXML
     AnchorPane boardScene;
     Scene currentScene;
     @FXML
     Button startButton;
+    Button backToMainButton;
 
     private final boolean DEBUG = false;
     private ArrayList<app.nmm.Logic.Location.Node> nodeList;
@@ -110,6 +115,14 @@ public class GameController implements Initializable {
         Platform.exit();
     }
 
+
+    @FXML
+    void backToMain(MouseEvent event) throws IOException {
+        AnchorPane mainPageScene = FXMLLoader.load(Application.class.getResource("main.fxml"));
+        boardScene.getChildren().removeAll();
+        boardScene.getChildren().setAll(mainPageScene);
+    }
+
     /**
      * a method for a button to click to start the game
      * @param event
@@ -118,9 +131,11 @@ public class GameController implements Initializable {
     void startGame(MouseEvent event){
         // get the current scene and save as an attribute
         currentScene = startButton.getScene();
+
         // set overlay visibility to false
         Group group = (Group) currentScene.lookup("#overlay");
         group.setVisible(false);
+
         // find current suitable gamemode
         if (mode.equals("computer")){
             pvCMode();
@@ -132,6 +147,18 @@ public class GameController implements Initializable {
             tutorialMode();
         }
     }
+
+    @FXML void endGame(){
+
+        //set overlay visibility to true
+        Group group = (Group) currentScene.lookup("#end_game_overlay");
+        group.setVisible(true);
+
+        System.out.println(currentScene);
+        System.out.println("game end");
+
+    }
+
 
     /**
      * a method to show the hint
@@ -455,8 +482,29 @@ public class GameController implements Initializable {
         for (int i = 0; i < 24; i++){
             addChecker(i, returnAction, actor1, actor2);
         }
-        gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
 
+        System.out.println("return action: ");
+        System.out.println(returnAction);
+
+        // check if actor 1 have any legal move action
+        boolean noMoveAction=true;
+
+        for (ArrayList<Action> value : returnAction.values()) {
+            if (value.size() != 0) {
+                System.out.println(value.size());
+                noMoveAction = false;
+            }
+        }
+
+        if (actor1.checkLose() == false && noMoveAction == false){
+            gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
+        }
+        else{
+            gameStatus.setText("");
+            displayWinner.setText(actor2.getActorname() + " won");
+            //backToMainButton.setText(actor2.getActorname() + " won" + "\n" + "Back to main menu");
+            this.endGame();
+        }
     }
 
     /**
@@ -665,7 +713,27 @@ public class GameController implements Initializable {
             for (int i = 0; i < 24; i++){
                 addChecker(i, returnAction, nextActor, currentActor);
             }
-            gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+
+            // check if next actor have any legal move action
+            boolean noMoveAction=true;
+
+            for (ArrayList<Action> value : returnAction.values()) {
+                System.out.println(value.size());
+                if (value.size() != 0) {
+                    noMoveAction = false;
+                }
+            }
+
+            if (nextActor.checkLose() == false && noMoveAction == false){
+                gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+            }
+            else{
+                gameStatus.setText("");
+                displayWinner.setText(currentActor.getActorname() + " won");
+
+                //backToMainButton.setText(currentActor.getActorname() + " won" + "\n" + "Back to main menu");
+                this.endGame();
+            }
 
         }
 

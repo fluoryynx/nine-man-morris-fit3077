@@ -296,18 +296,38 @@
       </Group>
       <Group fx:id="overlay">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#000000ab" height="741.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#312c2cfa" height="741.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
               <Button fx:id="startButton" layoutX="260.0" layoutY="275.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="63.0" prefWidth="130.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Start" textAlignment="CENTER">
                   <font>
                       <Font name="Chalkboard" size="30.0" />
                   </font>
               </Button>
+      
+            <Text fx:id="gameStatus" layoutX="175.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
+               <font>
+                  <Font name="Chalkboard" size="24.0" />
+               </font>
+            </Text>
          </children>
       </Group>
-      <Text fx:id="gameStatus" layoutX="174.0" layoutY="571.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
-         <font>
-            <Font name="Chalkboard" size="24.0" />
-         </font>
-      </Text>
+
+        <Group fx:id="end_game_overlay" visible="false">
+            <children>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#120a0ab9" height="741.0" layoutX="6.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="367.0" layoutX="91.0" layoutY="89.0" stroke="BLACK" strokeType="INSIDE" width="455.0" />
+                <Button fx:id="endGameButton" layoutX="193.0" layoutY="349.0" mnemonicParsing="false" onMouseClicked="#backToMain" prefHeight="82.0" prefWidth="248.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text=" back to main" textAlignment="CENTER">
+                    <font>
+                        <Font name="Chalkboard" size="30.0" />
+                    </font>
+                </Button>
+
+                <Text fx:id="displayWinner" layoutX="168.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="319.0">
+                    <font>
+                        <Font name="Chalkboard" size="24.0" />
+                    </font>
+                </Text>
+
+            </children>
+        </Group>
     </children>
 </AnchorPane>
