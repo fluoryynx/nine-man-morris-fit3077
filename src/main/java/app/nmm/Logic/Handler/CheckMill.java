@@ -116,9 +116,6 @@ public class CheckMill {
         this.millNodes= new ArrayList<ArrayList<Integer>>();
     }
 
-//    public Map<Integer, ArrayList<ArrayList<Integer>>> getMillPosition(){
-//        return millPosition;
-//    }
 
     public ArrayList<ArrayList<Integer>> getMillNodes(Integer id){
         return this.millPosition.get(id);
