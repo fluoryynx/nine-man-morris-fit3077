@@ -563,9 +563,14 @@ public class GameController implements Initializable {
         // remove legal move image
         for (int nodeId : highlightedNode){
             removeImage(nodeId, "legalMove");
+
+        }
+        for(app.nmm.Logic.Location.Node node: this.nodeList){
+            int nodeId = node.getId();
             removeImage(nodeId,"transparent_mask");
 
         }
+
 
         //Remove mill if the token that is being moved is part of mill
         int currentNodeId = action.getNodeId();
