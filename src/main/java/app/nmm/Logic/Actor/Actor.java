@@ -17,6 +17,7 @@ public abstract class Actor {
         this.actorname = playerName;
         this.status = Capability.PUT_TOKEN;
         this.numberOfTokensInHand = 9;
+        this.numberOfTokensOnBoard = 0;
         this.actorID = actorID;
     }
 
@@ -55,7 +56,7 @@ public abstract class Actor {
     }
 
     public boolean checkLose(){
-        if (this.numberOfTokensOnBoard<3){
+        if (numberOfTokensOnBoard<3 &&  status == Capability.NORMAL){
             return true;
         }
         else{

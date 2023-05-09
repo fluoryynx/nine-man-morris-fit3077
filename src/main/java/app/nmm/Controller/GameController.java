@@ -428,7 +428,6 @@ public class GameController implements Initializable {
         }
 
 
-
     }
 
     /**
@@ -496,13 +495,15 @@ public class GameController implements Initializable {
             }
         }
 
-        if (actor1.checkLose() == false && noMoveAction == false){
+        System.out.println(actor1.getActorname() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
+
+        if (actor1.getNumberOfTokensOnBoard()>=3 && noMoveAction == false){
             gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
         }
         else{
-            gameStatus.setText("");
+            gameStatus.setText(actor2.getActorname() + " won");
             displayWinner.setText(actor2.getActorname() + " won");
-            //backToMainButton.setText(actor2.getActorname() + " won" + "\n" + "Back to main menu");
+
             this.endGame();
         }
     }
@@ -729,13 +730,14 @@ public class GameController implements Initializable {
                 }
             }
 
-            if (nextActor.checkLose() == false && noMoveAction == false){
+            System.out.println(nextActor.getActorname() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
+
+            if (nextActor.getNumberOfTokensOnBoard()>=3 && noMoveAction == false){
                 gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
             }
             else{
-                gameStatus.setText("");
+                gameStatus.setText(currentActor.getActorname() + " won");
                 displayWinner.setText(currentActor.getActorname() + " won");
-
                 //backToMainButton.setText(currentActor.getActorname() + " won" + "\n" + "Back to main menu");
                 this.endGame();
             }
@@ -816,6 +818,7 @@ public class GameController implements Initializable {
         }
         // Update current game status
         gameStatus.setText(currentActor.getActorname()+ " Select a Token to Remove.");
+
         if (currentActor.getTokenColour()== "White"){
             whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
 
@@ -886,6 +889,7 @@ public class GameController implements Initializable {
         if (currentActor.getNumberOfTokensInHand() == 0){
             currentActor.updateStatus(Capability.NORMAL);
         }
+
         // find if need to continue put token
         if (this.playerList.get(1).getStatus()==Capability.PUT_TOKEN){
             // for animation purposes
@@ -901,6 +905,8 @@ public class GameController implements Initializable {
             // start normal gameplay
             normalGamePlay();
         }
+
+
     }
 
     /**
@@ -978,6 +984,12 @@ public class GameController implements Initializable {
         }
         else {
             blackTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
+        }
+
+        // if opponent is left with 2 tokens
+        if (nextActor.getNumberOfTokensOnBoard()<3){
+            displayWinner.setText(currentActor.getActorname() + " won");
+            endGame();
         }
 
         // calculate for the allowable action

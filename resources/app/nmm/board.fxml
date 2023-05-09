@@ -303,14 +303,25 @@
                       <Font name="Chalkboard" size="30.0" />
                   </font>
               </Button>
-      
-            <Text fx:id="gameStatus" layoutX="175.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
+
+            <Text fx:id="gameStatus2" layoutX="175.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
                <font>
                   <Font name="Chalkboard" size="24.0" />
                </font>
             </Text>
          </children>
       </Group>
+
+        <Group fx:id="overlay2">
+            <children>
+                <Text fx:id="gameStatus" layoutX="175.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
+                    <font>
+                        <Font name="Chalkboard" size="24.0" />
+                    </font>
+                </Text>
+            </children>
+        </Group>
+
 
         <Group fx:id="end_game_overlay" visible="false">
             <children>
