@@ -303,8 +303,8 @@
                       <Font name="Chalkboard" size="30.0" />
                   </font>
               </Button>
-      
-            <Text fx:id="gameStatus" layoutX="175.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
+
+            <Text fx:id="gameStatus2" layoutX="175.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
                <font>
                   <Font name="Chalkboard" size="24.0" />
                </font>
@@ -312,9 +312,20 @@
          </children>
       </Group>
 
+        <Group fx:id="overlay2">
+            <children>
+                <Text fx:id="gameStatus" layoutX="175.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
+                    <font>
+                        <Font name="Chalkboard" size="24.0" />
+                    </font>
+                </Text>
+            </children>
+        </Group>
+
+
         <Group fx:id="end_game_overlay" visible="false">
             <children>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#120a0ae7" height="741.0" layoutX="6.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#312c2ce8" height="741.0" layoutX="6.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d2c1" height="367.0" layoutX="91.0" layoutY="89.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" style="-fx-background-radius: 20px; -fx-border-radius: 10px;" width="455.0" />
 
                 <Text fx:id="displayWinner" layoutX="159.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="319.0">
