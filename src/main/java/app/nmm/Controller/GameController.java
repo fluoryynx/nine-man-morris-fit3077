@@ -42,6 +42,7 @@ public class GameController implements Initializable {
     @FXML Text whiteTokenCount;
     @FXML Text blackTokenCount;
     @FXML Text gameStatus;
+    @FXML Text displayWinner;
     @FXML
     AnchorPane boardScene;
     Scene currentScene;
@@ -464,7 +465,9 @@ public class GameController implements Initializable {
             gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
         }
         else{
-            gameStatus.setText(actor2.getActorname() + " won");
+            gameStatus.setText("");
+            displayWinner.setText(actor2.getActorname() + " won");
+            //backToMainButton.setText(actor2.getActorname() + " won" + "\n" + "Back to main menu");
             this.endGame();
         }
     }
@@ -668,7 +671,10 @@ public class GameController implements Initializable {
                 gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
             }
             else{
-                gameStatus.setText(currentActor.getActorname() + " won");
+                gameStatus.setText("");
+                displayWinner.setText(currentActor.getActorname() + " won");
+
+                //backToMainButton.setText(currentActor.getActorname() + " won" + "\n" + "Back to main menu");
                 this.endGame();
             }
 
