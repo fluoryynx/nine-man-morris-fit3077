@@ -743,6 +743,13 @@ public class GameController implements Initializable {
         }
         // Update current game status
         gameStatus.setText(currentActor.getActorname()+ " Select a Token to Remove.");
+        if (currentActor.getTokenColour()== "White"){
+            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+
+        }else
+        {
+            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+        }
     }
 
     /**
@@ -796,9 +803,11 @@ public class GameController implements Initializable {
         //Update token count in UI accordingly
         if(nextActor.getTokenColour()== "White"){
             whiteTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
+            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
         }
         else {
             blackTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
+            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
         }
         // update the current player status
         if (currentActor.getNumberOfTokensInHand() == 0){
