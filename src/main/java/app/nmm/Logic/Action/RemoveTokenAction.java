@@ -16,13 +16,13 @@ public class RemoveTokenAction extends Action{
 
     /**
      * This method removes the token that is on the node that the player selected
-     * @param opposingPlayer The opponent
+     * @param currentPlayer The player currently taking the turn
      * @param nodeList List of nodes
      */
     @Override
-    public void execute(Actor opposingPlayer, List<Node> nodeList) {
+    public void execute(Actor currentPlayer, List<Node> nodeList) {
     nodeList.get(getNodeId()).removeToken();
-        opposingPlayer.subtractTokenOnBoard();
+    currentPlayer.subtractTokenOnBoard();
     }
 
 }

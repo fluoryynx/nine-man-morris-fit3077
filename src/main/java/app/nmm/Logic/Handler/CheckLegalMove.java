@@ -41,7 +41,7 @@ public class CheckLegalMove {
 
     }};
     private Map<Integer,ArrayList<Action>> currentActions = new HashMap<>();
-    private ArrayList<Action> currentRemovables = new ArrayList<>();
+    private Map<Integer,ArrayList<Action>> currentRemovables = new HashMap<>();
     /**
      * this method will be use then player has no tokens left in hand
      * check for positions that tokens on each given nodes can be moved to and add the movetokenaciton into the list
@@ -62,6 +62,7 @@ public class CheckLegalMove {
                 ArrayList<ArrayList<Action>> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode, actor.getTokenColour());
 
                 currentActions.put(i,listOfActions.get(0));
+                currentRemovables.put(i,listOfActions.get(1));
 
             }
         }
@@ -85,27 +86,21 @@ public class CheckLegalMove {
         return legalMoves;
     }
 
-    /**
-     * Gets all the possible enemy tokens that can be removed(Not in a mill)
-     * @param actor Current Player
-     * @param nodeList All possible nodes
-     */
-    public void  calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
-        // Ensure that possible removable tokens are always based on current board state
-        currentRemovables.clear();
+
+    public ArrayList<Action> calculateLegalRemove(Actor actor, ArrayList<Node> nodeList){
+        ArrayList<Action> legalRemoves= new ArrayList<Action>();
 
         for (int i = 0; i < nodeList.size(); i++) {
 
             if (nodeList.get(i).getToken() != null){
 
-
-                if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && !nodeList.get(i).getToken().getIsMill() ){ // if the token is not part of a mill
-                    currentRemovables.add(new RemoveTokenAction(i));
+                if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && nodeList.get(i).getToken().getIsMill() == false){ // if the token is not part of a mill
+                    legalRemoves.add(new RemoveTokenAction(i));
                 }
-
             }
         }
 
+        return legalRemoves;
     }
 
 
@@ -143,20 +138,7 @@ public class CheckLegalMove {
         return output;
     }
 
-    /**
-     * Getter for currentActions
-     * @return available move actions that can be made by current user
-     */
     public Map<Integer, ArrayList<Action>> getCurrentActions() {
         return currentActions;
     }
-
-    /**
-     * Getter for currentRemovables
-     * @return available enemy tokens that can be removed by current player
-     */
-    public ArrayList<Action> getCurrentRemovables() {
-        return currentRemovables;
-    }
-
 }
