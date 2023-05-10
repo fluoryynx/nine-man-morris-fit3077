@@ -149,14 +149,12 @@ public class GameController implements Initializable {
     }
 
     @FXML void endGame(){
-
         //set overlay visibility to true
         Group group = (Group) currentScene.lookup("#end_game_overlay");
         group.setVisible(true);
 
         System.out.println(currentScene);
         System.out.println("game end");
-
     }
 
 
@@ -272,7 +270,7 @@ public class GameController implements Initializable {
             putLegalMoveImage(id, returnAction.get(i), currentActor, nextActor,null);
         }
         // set the game status in the UI
-        gameStatus.setText(currentActor.getActorname() + "'s Turn To Place Token") ;
+        gameStatus.setText(currentActor.getTokenColour() + "'s Turn To Place Token") ;
     }
 
     /**
@@ -734,9 +732,8 @@ public class GameController implements Initializable {
                 System.out.println(nextActor.getActorname() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
 
                 if (noMoveAction){
-                    gameStatus.setText(currentActor.getActorname() + " won");
-                    displayWinner.setText(currentActor.getActorname() + " won");
-                    //backToMainButton.setText(currentActor.getActorname() + " won" + "\n" + "Back to main menu");
+                    gameStatus.setText(currentActor.getTokenColour() + " won");
+                    displayWinner.setText(currentActor.getTokenColour() + " won");
                     this.endGame();
                 }
                 else{
@@ -754,9 +751,8 @@ public class GameController implements Initializable {
                 gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
             }
             else{
-                gameStatus.setText(currentActor.getActorname() + " won");
-                displayWinner.setText(currentActor.getActorname() + " won");
-                //backToMainButton.setText(currentActor.getActorname() + " won" + "\n" + "Back to main menu");
+                gameStatus.setText(currentActor.getTokenColour() + " won");
+                displayWinner.setText(currentActor.getTokenColour() + " won");
                 this.endGame();
             }
         }
@@ -834,7 +830,7 @@ public class GameController implements Initializable {
                 putRemoveTokenImage(id,returnAction.get(i), currentActor, otherActor);
         }
         // Update current game status
-        gameStatus.setText(currentActor.getActorname()+ " Select a Token to Remove.");
+        gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
 
         if (currentActor.getTokenColour()== "White"){
             whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
@@ -941,7 +937,7 @@ public class GameController implements Initializable {
             moveRemoveTokenImage(id,returnAction.get(i), currentActor, otherActor);
         }
         // Update current game status
-        gameStatus.setText(currentActor.getActorname()+ " Select a Token to Remove.");
+        gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
     }
 
     /**
@@ -1005,7 +1001,7 @@ public class GameController implements Initializable {
 
         // if opponent is left with 2 tokens
         if (nextActor.getNumberOfTokensOnBoard()<3){
-            displayWinner.setText(currentActor.getActorname() + " won");
+            displayWinner.setText(currentActor.getTokenColour() + " won");
             endGame();
         }
         else if (nextActor.getNumberOfTokensOnBoard() == 3){
