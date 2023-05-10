@@ -307,12 +307,9 @@ public class GameController implements Initializable {
                 // continue and let the player choose to where to put
                 putTokenExecutor(action, currentActor, nextActor);
             }
-            else if(currentActor.getStatus() == Capability.NORMAL){
+            else {
                 // continue and start the game normally
                 moveTokenExecutor(action, currentActor,nextActor, highlightedNode);
-            }
-            else {
-                //TODO: implement fly
             }
         });
     }
