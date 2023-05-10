@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
+<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
     <children>
         <ImageView fitHeight="329.0" fitWidth="351.0" layoutX="159.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.4481201171875" AnchorPane.topAnchor="140.0">
             <image>
@@ -64,7 +66,7 @@
       </Group>
 
 
-        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#closeApplication" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Quit" textAlignment="CENTER">
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#showBackToMainOverlay" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Main Menu" textAlignment="CENTER">
             <font>
                 <Font name="Chalkboard" size="18.0" />
             </font>
@@ -295,7 +297,14 @@
             </ImageView>
          </children>
       </Group>
-      <Group fx:id="overlay">
+
+        <Text fx:id="gameStatus" layoutX="175.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
+            <font>
+                <Font name="Chalkboard" size="24.0" />
+            </font>
+        </Text>
+
+        <Group fx:id="overlay">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#302c2cc0" height="741.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
               <Button fx:id="startButton" layoutX="260.0" layoutY="275.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="63.0" prefWidth="130.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Start" textAlignment="CENTER">
@@ -306,12 +315,30 @@
          </children>
       </Group>
 
-        <Text fx:id="gameStatus" layoutX="175.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.0">
-            <font>
-                <Font name="Chalkboard" size="24.0" />
-            </font>
-        </Text>
+        <Group fx:id="pauseToMain" visible="false">
+            <children>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#302c2cc0" height="741.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="649.0" />
+                <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#d9d2c1" height="367.0" layoutX="103.0" layoutY="157.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="1.5" style="-fx-background-radius: 100px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 10px;" width="455.0" />
 
+                <Text layoutX="171.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you sure you want to go back to main menu? Your progress will not be saved." textAlignment="CENTER" wrappingWidth="319.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+                </Text>
+                <Button fx:id="confirmButton" layoutX="219.0" layoutY="391.0" mnemonicParsing="false" onMouseClicked="#backToMain" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Yes" textAlignment="CENTER" textOverrun="CLIP">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="unconfirmedButton" layoutX="357.0" layoutY="391.0" mnemonicParsing="false" onMouseClicked="#closeOverlay" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="No" textAlignment="CENTER" textOverrun="CLIP">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+
+
+            </children>
+        </Group>
 
         <Group fx:id="end_game_overlay" visible="false">
             <children>
@@ -323,7 +350,7 @@
                         <Font name="Chalkboard" size="48.0" />
                     </font>
                 </Text>
-                <Button fx:id="endGameButton" layoutX="207.0" layoutY="417.0" mnemonicParsing="false" onMouseClicked="#backToMain" prefHeight="82.0" prefWidth="248.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text=" Back to Main" textAlignment="CENTER" textOverrun="CLIP">
+                <Button fx:id="endGameButton" layoutX="207.0" layoutY="417.0" mnemonicParsing="false" onMouseClicked="#backToMain" prefHeight="82.0" prefWidth="248.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Back to Main" textAlignment="CENTER" textOverrun="CLIP">
                     <font>
                         <Font name="Chalkboard" size="30.0" />
                     </font>
