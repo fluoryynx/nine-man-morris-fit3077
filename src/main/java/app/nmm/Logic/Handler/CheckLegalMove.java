@@ -50,19 +50,13 @@ public class CheckLegalMove {
      * @return hashmap of move actions then can be perform on a given node
      */
     public void calculateLegalMove(Actor actor, ArrayList<Node> nodeList){
-        Map<Integer,ArrayList<ArrayList<Action>>> legalMoves= new HashMap<>();
-
         for (int i = 0; i < nodeList.size(); i++) {
             //if current node has a token that the current player owns, check adjacent nodes
-            if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour()==actor.getTokenColour()){
-
+            if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour().equals(actor.getTokenColour())){
                 ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i); // get adjacent nodes of that node
-
                 // process which adjacent node can the token on that given node be moved to
-                ArrayList<ArrayList<Action>> listOfActions = nodeList.get(i).allowableAction(nodeList,adjacentPositionOfNode, actor.getTokenColour());
-
-                currentActions.put(i,listOfActions.get(0));
-
+                ArrayList<Action> listOfActions = nodeList.get(i).allowableAction(nodeList, adjacentPositionOfNode);
+                currentActions.put(i,listOfActions);
             }
         }
     }
@@ -74,9 +68,7 @@ public class CheckLegalMove {
      * @return  an array list of put token actions then can be perform on a given node
      */
     public ArrayList<Action> calculateLegalPut(ArrayList<Node> nodeList){
-
         ArrayList<Action> legalMoves= new ArrayList<Action>();
-
         for (int i = 0; i < nodeList.size(); i++) {
             if (nodeList.get(i).getToken() == null){ // if the node does not contain a token
                 legalMoves.add(new PutTokenAction(i)); // add a put token action on that node
@@ -95,10 +87,9 @@ public class CheckLegalMove {
         currentRemovables.clear();
 
         for (int i = 0; i < nodeList.size(); i++) {
-
             if (nodeList.get(i).getToken() != null){
-
-                if (nodeList.get(i).getToken().getColour() != actor.getTokenColour() && !nodeList.get(i).getToken().getIsMill() ){ // if the token is not part of a mill
+                // if the token is not part of a mill
+                if (!nodeList.get(i).getToken().getColour().equals(actor.getTokenColour()) && !nodeList.get(i).getToken().getIsMill()){
                     currentRemovables.add(new RemoveTokenAction(i));
                 }
 
@@ -125,17 +116,12 @@ public class CheckLegalMove {
         }
         // If there is a node that has a current player's token, allow it to be moved to any empty nodes
         for (int i=0; i< nodeList.size(); i++){
-
             if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour() == actor.getTokenColour()){
-
                 ArrayList<Action> legalMoves= new ArrayList<Action>();
-
                 for (int j =0; j < emptyNodes.size(); j++){
                     legalMoves.add(new MoveTokenAction(i, emptyNodes.get(j)));
                 }
                 output.put(i,legalMoves);
-
-
             }
         }
         currentActions = output;
