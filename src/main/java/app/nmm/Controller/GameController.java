@@ -295,7 +295,7 @@ public class GameController implements Initializable {
         // photo fxid
         String legalMoveID = "legalMove";
         // add to the board
-        ImageView imageView = addItemToBoard(path,legalMoveID,-3,-3,24,25,childList);
+        ImageView imageView = addItemToBoard(path,legalMoveID,-3,-3,24,24,childList);
 
         // make imageview clickable
         imageView.setOnMouseClicked(event -> {
@@ -911,7 +911,7 @@ public class GameController implements Initializable {
         String paths = getTokenImagePath(tokenColour, "_Token_for_removing_token.png");
         String removeTokenID = "removeToken";
         // Adding image to the board
-        ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,25,childList);
+        ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,24,childList);
         // On-click event
         imageView.setOnMouseClicked(event ->{
             moveRemoveTokenExecutor(action, currentActor, otherActor);
