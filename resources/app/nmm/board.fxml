@@ -315,7 +315,7 @@
         </Text>
 
 
-        <Group fx:id="end_game_overlay">
+        <Group fx:id="end_game_overlay" visible="false">
             <children>
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#312c2ce8" height="741.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d2c1" height="367.0" layoutX="103.0" layoutY="89.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" style="-fx-background-radius: 20px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" width="455.0" />
