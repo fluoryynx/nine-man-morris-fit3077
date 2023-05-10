@@ -705,7 +705,7 @@ public class GameController implements Initializable {
                 for (int i = 0; i < 24; i++){
                     addChecker(i, returnAction, nextActor, currentActor);
                 }
-                gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+                gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
             }
         }
         // No mill form
@@ -729,7 +729,7 @@ public class GameController implements Initializable {
                     }
                 }
 
-                System.out.println(nextActor.getActorname() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
+                System.out.println(nextActor.getTokenColour() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
 
                 if (noMoveAction){
                     gameStatus.setText(currentActor.getTokenColour() + " won");
@@ -737,7 +737,7 @@ public class GameController implements Initializable {
                     this.endGame();
                 }
                 else{
-                    gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+                    gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
                 }
             }
             else if (nextActor.getNumberOfTokensOnBoard() == 3){
@@ -748,7 +748,7 @@ public class GameController implements Initializable {
                 for (int i = 0; i < 24; i++){
                     addChecker(i, returnAction, nextActor, currentActor);
                 }
-                gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+                gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
             }
             else{
                 gameStatus.setText(currentActor.getTokenColour() + " won");
@@ -1012,7 +1012,7 @@ public class GameController implements Initializable {
             for (int i = 0; i < 24; i++){
                 addChecker(i, returnAction, nextActor, currentActor);
             }
-            gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+            gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
         }
         else{
             // calculate for the allowable action
@@ -1022,7 +1022,7 @@ public class GameController implements Initializable {
             for (int i = 0; i < 24; i++){
                 addChecker(i, returnAction, nextActor, currentActor);
             }
-            gameStatus.setText(nextActor.getActorname()+ "'s Turn To Move");
+            gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
         }
     }
     /**
