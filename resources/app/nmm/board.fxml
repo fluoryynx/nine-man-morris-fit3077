@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
+<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
     <children>
         <ImageView fitHeight="329.0" fitWidth="351.0" layoutX="159.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.4481201171875" AnchorPane.topAnchor="140.0">
             <image>
@@ -313,17 +315,17 @@
         </Text>
 
 
-        <Group fx:id="end_game_overlay" visible="false">
+        <Group fx:id="end_game_overlay">
             <children>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#312c2ce8" height="741.0" layoutX="6.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d2c1" height="367.0" layoutX="91.0" layoutY="89.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" style="-fx-background-radius: 20px; -fx-border-radius: 10px;" width="455.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#312c2ce8" height="741.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d2c1" height="367.0" layoutX="103.0" layoutY="89.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" style="-fx-background-radius: 20px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" width="455.0" />
 
-                <Text fx:id="displayWinner" layoutX="159.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="319.0">
+                <Text fx:id="displayWinner" layoutX="171.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="319.0">
                     <font>
                         <Font name="Chalkboard" size="48.0" />
                     </font>
                 </Text>
-                <Button fx:id="endGameButton" layoutX="193.0" layoutY="349.0" mnemonicParsing="false" onMouseClicked="#backToMain" prefHeight="82.0" prefWidth="248.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text=" back to main" textAlignment="CENTER" textOverrun="CLIP">
+                <Button fx:id="endGameButton" layoutX="207.0" layoutY="349.0" mnemonicParsing="false" onMouseClicked="#backToMain" prefHeight="82.0" prefWidth="248.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text=" back to main" textAlignment="CENTER" textOverrun="CLIP">
                     <font>
                         <Font name="Chalkboard" size="30.0" />
                     </font>
