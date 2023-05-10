@@ -43,11 +43,6 @@ public class Node {
         this.contain=token;
     }
 
-    public void setId(int newId){
-        this.id=newId;
-    }
-
-
     /**
      * check if the node has a token on it
      * @return true is the node has a token on it. false otherwise
@@ -67,30 +62,19 @@ public class Node {
      *
      * @param nodeList
      * @param adjacentList
-     * @param tokenColour
+//     * @param tokenColour
      * @return a list of allowable actions
      */
-
-    public ArrayList<ArrayList<Action>> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList, String tokenColour) {
+    public ArrayList<Action> allowableAction(List<Node> nodeList, ArrayList<Integer> adjacentList) {
         ArrayList<Action> moveList = new ArrayList<>();
-        ArrayList<Action> removeList = new ArrayList<>();
-        ArrayList<ArrayList<Action>> allowableMoves = new ArrayList<>();
-
-
 
         for (int i = 0; i < adjacentList.size(); i++) { // check it's adjacent nodes
             if (nodeList.get(adjacentList.get(i)).contain==null){ // if the adjacent node is empty
                 // create and add a move token action towards that empty adjacent node into the list
                 moveList.add(new MoveTokenAction(this.id, adjacentList.get(i)));
             }
-            // if adjacent token is enemy token and is not part of a mill, consider it removable
-            else if ((nodeList.get(adjacentList.get(i)).contain.getColour() != tokenColour) && !nodeList.get(adjacentList.get(i)).contain.getIsMill()){
-                removeList.add((new RemoveTokenAction(adjacentList.get(i))));
-            }
         }
-        allowableMoves.add(moveList);
-        allowableMoves.add(removeList);
-        return allowableMoves;
+        return moveList;
     }
 
     @Override
