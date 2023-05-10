@@ -148,7 +148,9 @@ public class GameController implements Initializable {
         }
     }
 
-    @FXML void endGame(){
+    @FXML void endGame(Actor winner){
+        gameStatus.setText(winner.getTokenColour() + " won");
+        displayWinner.setText(winner.getTokenColour() + " won");
         //set overlay visibility to true
         Group group = (Group) currentScene.lookup("#end_game_overlay");
         group.setVisible(true);
@@ -290,13 +292,7 @@ public class GameController implements Initializable {
         removeImage(nodeId, "legalMove");
         // find the image, and put inside image view
         // get the correct path, mac and windows different way of calling path
-        String path;
-        if (System.getProperty("os.name").charAt(0) == 'W'){
-            path = windowsResourcePath + "Legal_Move.png";
-        }
-        else{
-            path = macResourcePath + "Legal_Move.png";
-        }
+        String path = getTokenImagePath("Legal_Move.png");
         // photo fxid
         String legalMoveID = "legalMove";
         // add to the board
@@ -332,7 +328,6 @@ public class GameController implements Initializable {
         // remove all legal moves images on the board by using the fxid of the image to find the images
         for (int i = 0; i < 24; i++){
             removeImage(i, "legalMove");
-
         }
         // subtract token count by executing the action
         action.execute(currentActor, nodeList);
@@ -403,7 +398,6 @@ public class GameController implements Initializable {
             else{
                 blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
             }
-
             // update the current player status
             if (currentActor.getNumberOfTokensInHand() == 0){
                 currentActor.updateStatus(Capability.NORMAL);
@@ -480,29 +474,19 @@ public class GameController implements Initializable {
             addChecker(i, returnAction, actor1, actor2);
         }
 
-        System.out.println("return action: ");
-        System.out.println(returnAction);
-
-        // check if actor 1 have any legal move action
-        boolean noMoveAction=true;
-
-        for (ArrayList<Action> value : returnAction.values()) {
-            if (value.size() != 0) {
-                System.out.println(value.size());
-                noMoveAction = false;
-            }
+        if (DEBUG){
+            System.out.println("return action: ");
+            System.out.println(returnAction);
         }
-
-        System.out.println(actor1.getActorname() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
-
-        if (actor1.getNumberOfTokensOnBoard()>=3 && noMoveAction == false){
-            gameStatus.setText(actor1.getActorname()+ "'s Turn To Move");
+        // check if actor 1 have any legal move action
+        if (checkIfHaveLegalMove(returnAction)){
+            if (DEBUG){
+                System.out.println(actor1.getTokenColour() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
+            }
+            gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
         }
         else{
-            gameStatus.setText(actor2.getActorname() + " won");
-            displayWinner.setText(actor2.getActorname() + " won");
-
-            this.endGame();
+            this.endGame(actor2);
         }
     }
 
@@ -517,13 +501,7 @@ public class GameController implements Initializable {
         // loop every group
         Group group = (Group) currentScene.lookup("#g"+nodeId);
         ObservableList<Node> childList =  group.getChildren();
-        String path = "";
-        if (System.getProperty("os.name").charAt(0) == 'W'){
-            path = windowsResourcePath + "transparent_mask.png";
-        }
-        else{
-            path = macResourcePath + "transparent_mask.png";
-        }
+        String path = getTokenImagePath("transparent_mask.png");
         // add a mask
         ImageView imageView = addItemToBoard(path,"transparent_mask",-3, -3, 24, 24, childList);
         // set the action when click the mask here
@@ -548,19 +526,14 @@ public class GameController implements Initializable {
                 // this action is for nodes with own token
                 ArrayList<Action> actionsList =  returnAction.get(nodeId);
                 imageView.setOnMouseClicked(event -> {
-
                         System.out.println("IM HERE from Normal with token");
                         String tokenColour =  this.nodeList.get(nodeId).getToken().getColour();
                         String paths = getTokenImagePath(tokenColour, "_Token_when_user_select.png");
-                        changeTokenImage(nodeId,tokenColour,paths,24,-3);
-
-
+                        changeTokenImage(nodeId,tokenColour, paths,24,-3);
                         validateActorSelection(actionsList,currentActor,nextActor, nodeId);
                 });
             }
-
         }
-
     }
 
 
@@ -610,15 +583,12 @@ public class GameController implements Initializable {
         // remove legal move image
         for (int nodeId : highlightedNode){
             removeImage(nodeId, "legalMove");
-
         }
+        // remove transparent mask on all nodes
         for(app.nmm.Logic.Location.Node node: this.nodeList){
             int nodeId = node.getId();
             removeImage(nodeId,"transparent_mask");
-
         }
-
-
         //Remove mill if the token that is being moved is part of mill
         int currentNodeId = action.getNodeId();
         ArrayList<ArrayList<Integer>> possibleMillPosition = checkMill.getMillNodes(currentNodeId);
@@ -630,7 +600,7 @@ public class GameController implements Initializable {
             for(int j = 0; j < possibleMillPosition.get(i).size(); j++){
                 int id  = possibleMillPosition.get(i).get(j);
                 if(this.nodeList.get(id).getToken()!= null && this.nodeList.get(id).getToken().getColour() == currentActor.getTokenColour()){
-                    if (this.nodeList.get(id).getToken().getIsMill() == true){
+                    if (this.nodeList.get(id).getToken().getIsMill()){
 
                         if( i == 0 ){
                             nodeList.get(id).getToken().setMillHorizontal(false);
@@ -639,16 +609,14 @@ public class GameController implements Initializable {
                             nodeList.get(id).getToken().setMillVertical(false);
                         }
 
-                        if (this.nodeList.get(id).getToken().getIsMill() == false){
+                        if (!this.nodeList.get(id).getToken().getIsMill()){
                             changeTokenImage(id, tokenColour, paths, 18,0);
                         }
-
                     }
                 }
                 else{
                     break;
                 }
-
             }
             if( i == 0 ){
                 nodeList.get(currentNodeId).getToken().setMillHorizontal(false);
@@ -711,39 +679,28 @@ public class GameController implements Initializable {
         // No mill form
         else{
             if (nextActor.getNumberOfTokensOnBoard() > 3){
-                // calculate for the allowable action
-                this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
-                Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
-                // add the mask
-                for (int i = 0; i < 24; i++){
-                    addChecker(i, returnAction, nextActor, currentActor);
-                }
-
-                // check if next actor have any legal move action
-                boolean noMoveAction=true;
-
-                for (ArrayList<Action> value : returnAction.values()) {
-                    System.out.println(value.size());
-                    if (value.size() != 0) {
-                        noMoveAction = false;
+                // calculate for the allowable action for next actor
+                checkLegalMove.calculateLegalMove(nextActor, nodeList);
+                Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
+                // find if the next actor has any legal moves the player can play
+                if (checkIfHaveLegalMove(returnAction)){
+                    // add the mask
+                    for (int i = 0; i < 24; i++){
+                        addChecker(i, returnAction, nextActor, currentActor);
                     }
-                }
-
-                System.out.println(nextActor.getTokenColour() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
-
-                if (noMoveAction){
-                    gameStatus.setText(currentActor.getTokenColour() + " won");
-                    displayWinner.setText(currentActor.getTokenColour() + " won");
-                    this.endGame();
+                    if (DEBUG){
+                        System.out.println(nextActor.getTokenColour() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
+                    }
+                    gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
                 }
                 else{
-                    gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
+                    endGame(currentActor);
                 }
             }
             else if (nextActor.getNumberOfTokensOnBoard() == 3){
-                // calculate for the allowable action
-                this.checkLegalMove.calculateLegalFly(nextActor, this.nodeList);
-                Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
+                // calculate for the allowable action for next actor
+                checkLegalMove.calculateLegalFly(nextActor, nodeList);
+                Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
                 // add the mask
                 for (int i = 0; i < 24; i++){
                     addChecker(i, returnAction, nextActor, currentActor);
@@ -751,23 +708,43 @@ public class GameController implements Initializable {
                 gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
             }
             else{
-                gameStatus.setText(currentActor.getTokenColour() + " won");
-                displayWinner.setText(currentActor.getTokenColour() + " won");
-                this.endGame();
+                endGame(currentActor);
             }
         }
 
     }
 
-    private String getTokenImagePath(String tokenColour, String imageName) {
-        String paths = "";
-        if (System.getProperty("os.name").substring(0,1) == "W"){
-            paths = windowsResourcePath + tokenColour + imageName;
+    /**
+     * a method to get a path of an image that has the color
+     * @param tokenColour - color of the image
+     * @param imageName - the image name
+     * @return - a path that for the image
+     */
+    public String getTokenImagePath(String tokenColour, String imageName) {
+        String path;
+        if (System.getProperty("os.name").charAt(0) == 'W'){
+            path = windowsResourcePath + tokenColour + imageName;
         }
         else{
-            paths = macResourcePath + tokenColour + imageName;
+            path = macResourcePath + tokenColour + imageName;
         }
-        return paths;
+        return path;
+    }
+
+    /**
+     * a method to get a path of an image
+     * @param imageName - the image name
+     * @return - a path that for the image
+     */
+    public String getTokenImagePath(String imageName){
+        String path;
+        if (System.getProperty("os.name").charAt(0) == 'W'){
+            path = windowsResourcePath + imageName;
+        }
+        else{
+            path = macResourcePath + imageName;
+        }
+        return path;
     }
 
     private void changeTokenImage(int id, String tokenColour, String paths, Integer size, Integer offSet) {
@@ -776,8 +753,7 @@ public class GameController implements Initializable {
         File newFile = new File(paths);
 
         // Change the graphic of the selected token to toke with highlight around.
-        for(int k = 0; k < currentChildList.size(); k++){
-            Node node = currentChildList.get(k);
+        for(Node node : currentChildList){
             if(node.getId().contains(tokenColour) ){
                 ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
                 ((ImageView) node).setFitWidth(size);
@@ -792,7 +768,6 @@ public class GameController implements Initializable {
     private void swapTokenToMill(int nodeId, ArrayList<Boolean> isMill, ArrayList<ArrayList<Integer>> millCombinationTokenPosition) {
         String tokenColour =  this.nodeList.get(nodeId).getToken().getColour();
         String paths = getTokenImagePath(tokenColour, "_Token_with_Mill.png");
-        File newFile = new File(paths);
 
         for (int i = 0; i < isMill.size(); i++){
             if (isMill.get(i)){
@@ -812,7 +787,6 @@ public class GameController implements Initializable {
         }
 
         changeTokenImage(nodeId,tokenColour,paths,24,-4);
-        Group currentGroup = (Group) currentScene.lookup("#g"+nodeId);
     }
 
     /**
@@ -825,14 +799,14 @@ public class GameController implements Initializable {
         // Get the available remove token actions
         ArrayList<Action> returnAction = this.checkLegalMove.getCurrentRemovables();
         // Places an image to indicate that token is removable for each action retrieved.
-        for (int i=0; i< returnAction.size(); i++){
-                int id = returnAction.get(i).getNodeId();
-                putRemoveTokenImage(id,returnAction.get(i), currentActor, otherActor);
+        for (Action action : returnAction){
+            int id = action.getNodeId();
+            putRemoveTokenImage(id, action, currentActor, otherActor);
         }
         // Update current game status
         gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
 
-        if (currentActor.getTokenColour()== "White"){
+        if (currentActor.getTokenColour().equals("White")){
             whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
 
         }else
@@ -858,7 +832,7 @@ public class GameController implements Initializable {
         String paths = getTokenImagePath(tokenColour, "_Token_for_removing_token.png");
         String removeTokenID = "removeToken"; //FxID for image
         // Adding image to the board
-        ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,25,childList);
+        ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,24,childList);
         // On-click event
         imageView.setOnMouseClicked(event ->{
             putRemoveTokenExecutor(action, currentActor, otherActor);
@@ -890,7 +864,7 @@ public class GameController implements Initializable {
             childList.remove(node);
         }
         //Update token count in UI accordingly
-        if(nextActor.getTokenColour()== "White"){
+        if(nextActor.getTokenColour().equals("White")){
             whiteTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
             blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
         }
@@ -905,12 +879,6 @@ public class GameController implements Initializable {
 
         // find if need to continue put token
         if (this.playerList.get(1).getStatus()==Capability.PUT_TOKEN){
-            // for animation purposes
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             // continue put
             showLegalPut(nextActor, currentActor);
         }
@@ -918,8 +886,6 @@ public class GameController implements Initializable {
             // start normal gameplay
             normalGamePlay();
         }
-
-
     }
 
     /**
@@ -932,9 +898,9 @@ public class GameController implements Initializable {
         // Get the available remove token actions
         ArrayList<Action> returnAction = this.checkLegalMove.getCurrentRemovables();
         //Places an image to indicate that token is removable for each action retrieved
-        for (int i=0; i< returnAction.size(); i++){
-            int id = returnAction.get(i).getNodeId();
-            moveRemoveTokenImage(id,returnAction.get(i), currentActor, otherActor);
+        for (Action action : returnAction){
+            int id = action.getNodeId();
+            moveRemoveTokenImage(id, action, currentActor, otherActor);
         }
         // Update current game status
         gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
@@ -992,20 +958,33 @@ public class GameController implements Initializable {
 
         }
         //Update token count in UI accordingly
-        if(nextActor.getTokenColour()== "White"){
+        if(nextActor.getTokenColour().equals("White")){
             whiteTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
         }
         else {
             blackTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
         }
 
-        // if opponent is left with 2 tokens
-        if (nextActor.getNumberOfTokensOnBoard()<3){
-            displayWinner.setText(currentActor.getTokenColour() + " won");
-            endGame();
+        if (nextActor.getNumberOfTokensOnBoard() > 3){
+            // calculate for the allowable action
+            this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
+            Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
+            if (checkIfHaveLegalMove(returnAction)){
+                // add the mask
+                for (int i = 0; i < 24; i++){
+                    addChecker(i, returnAction, nextActor, currentActor);
+                }
+                if (DEBUG){
+                    System.out.println(nextActor.getTokenColour() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
+                }
+                gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
+            }
+            else{
+                this.endGame(currentActor);
+            }
         }
         else if (nextActor.getNumberOfTokensOnBoard() == 3){
-            // calculate fly action for the allowable action
+            // calculate for the allowable action
             this.checkLegalMove.calculateLegalFly(nextActor, this.nodeList);
             Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
             // add the mask
@@ -1015,14 +994,7 @@ public class GameController implements Initializable {
             gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
         }
         else{
-            // calculate for the allowable action
-            this.checkLegalMove.calculateLegalMove(nextActor, this.nodeList);
-            Map<Integer, ArrayList<Action>> returnAction = this.checkLegalMove.getCurrentActions();
-            // add the mask
-            for (int i = 0; i < 24; i++){
-                addChecker(i, returnAction, nextActor, currentActor);
-            }
-            gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
+            this.endGame(currentActor);
         }
     }
     /**
@@ -1062,32 +1034,43 @@ public class GameController implements Initializable {
         Group group = (Group) currentScene.lookup("#g"+currentNodeID);
         ObservableList<Node> childList =  group.getChildren();
         Node node = childList.get(childList.size() - 1);
+
         if (DEBUG){
             System.out.println("change the image's action.");
         }
+
         String tokenColour =  this.nodeList.get(currentNodeID).getToken().getColour();
         if (nodeList.get(currentNodeID).getToken().getIsMill()){
-
            String paths = getTokenImagePath(tokenColour, "_Token_with_Mill.png");
            changeTokenImage(currentNodeID,tokenColour,paths,24,-3);
         }
         else{
             String paths = getTokenImagePath(tokenColour, "_Token.png");
             changeTokenImage(currentNodeID,tokenColour,paths,18,0);
-
         }
         this.prevNodeId = 0;
         this.clicked = false;
-       node.setOnMouseClicked(event -> {
+        node.setOnMouseClicked(event -> {
            System.out.println("IM HERE from Normal with token");
            System.out.println(actionsList.size());
            String tokenColour2 =  this.nodeList.get(currentNodeID).getToken().getColour();
 
            String paths2 = getTokenImagePath(tokenColour2, "_Token_when_user_select.png");
-            changeTokenImage(currentNodeID,tokenColour2,paths2,24,-3);
+           changeTokenImage(currentNodeID,tokenColour2,paths2,24,-3);
            validateActorSelection(actionsList,currentActor,nextActor, currentNodeID);
 
         });
 
+    }
+
+    boolean checkIfHaveLegalMove(Map<Integer, ArrayList<Action>> actionList){
+        boolean moveAction = false;
+        for (ArrayList<Action> value : actionList.values()) {
+            System.out.println(value.size());
+            if (value.size() != 0) {
+                moveAction = true;
+            }
+        }
+        return moveAction;
     }
 }
