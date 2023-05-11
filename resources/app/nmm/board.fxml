@@ -66,7 +66,7 @@
       </Group>
 
 
-        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#showBackToMainOverlay" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Main Menu" textAlignment="CENTER">
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#showBackToMainOverlay" prefHeight="39.0" prefWidth="130.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Main Menu" textAlignment="CENTER">
             <font>
                 <Font name="Chalkboard" size="18.0" />
             </font>
@@ -322,17 +322,17 @@
 
                 <Text layoutX="171.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you sure you want to go back to main menu? Your progress will not be saved." textAlignment="CENTER" wrappingWidth="319.0">
                <font>
-                  <Font size="24.0" />
+                  <Font name="Chalkboard" size="24.0" />
                </font>
                 </Text>
                 <Button fx:id="confirmButton" layoutX="219.0" layoutY="391.0" mnemonicParsing="false" onMouseClicked="#backToMain" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Yes" textAlignment="CENTER" textOverrun="CLIP">
                     <font>
-                        <Font size="18.0" />
+                        <Font name="Chalkboard" size="18.0" />
                     </font>
                 </Button>
                 <Button fx:id="unconfirmedButton" layoutX="357.0" layoutY="391.0" mnemonicParsing="false" onMouseClicked="#closeOverlay" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="No" textAlignment="CENTER" textOverrun="CLIP">
                     <font>
-                        <Font size="18.0" />
+                        <Font name="Chalkboard" size="18.0" />
                     </font>
                 </Button>
 
