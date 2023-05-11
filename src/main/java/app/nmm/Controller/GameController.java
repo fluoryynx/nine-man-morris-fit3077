@@ -48,6 +48,10 @@ public class GameController implements Initializable {
     Scene currentScene;
     @FXML
     Button startButton;
+    @FXML
+    Button confirmButton;
+    @FXML
+    Button unconfirmedButton;
 
     private final boolean DEBUG = false;
     private ArrayList<app.nmm.Logic.Location.Node> nodeList;
@@ -110,16 +114,23 @@ public class GameController implements Initializable {
      * @param event
      */
     @FXML
-    void closeApplication(MouseEvent event) {
-        Platform.exit();
-    }
-
-
-    @FXML
     void backToMain(MouseEvent event) throws IOException {
         AnchorPane mainPageScene = FXMLLoader.load(Application.class.getResource("main.fxml"));
         boardScene.getChildren().removeAll();
         boardScene.getChildren().setAll(mainPageScene);
+    }
+
+    @FXML
+    void closeOverlay(MouseEvent event) {
+        Group group = (Group) currentScene.lookup("#pauseToMain");
+        group.setVisible(false);
+    }
+
+    @FXML
+    void showBackToMainOverlay(MouseEvent event) {
+        // set overlay visibility to false
+        Group group = (Group) currentScene.lookup("#pauseToMain");
+        group.setVisible(true);
     }
 
     /**
