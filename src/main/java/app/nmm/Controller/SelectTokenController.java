@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -93,6 +94,20 @@ public class SelectTokenController implements Initializable {
         Data data = new Data(winner, loser, "player");
         System.out.println(data);
         AnchorPane boardScene = FXMLLoader.load(Application.class.getResource("board.fxml"));
+        Group group =  (Group) boardScene.lookup("#overlay");
+
+        for (Node node: group.getChildren()){
+            String id  = node.getId();
+            if ( id != null && id.equals("whitePlayerID")){
+                ((Text) node).setText(winner.getValue1());
+            }
+            else if (id != null && id.equals("blackPlayerID")){
+                ((Text) node).setText(loser.getValue1());
+            }
+        }
+        // set the text inside the Text node
+       ((Text)boardScene.lookup("#p1")).setText(winner.getValue1());
+        ((Text)boardScene.lookup("#p2")).setText(loser.getValue1());
         tokenScene.getChildren().removeAll();
         tokenScene.getChildren().setAll(boardScene);
     }
