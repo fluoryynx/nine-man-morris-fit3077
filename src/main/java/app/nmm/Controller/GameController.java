@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 //import javafx.util.Pair;
 import org.javatuples.Pair;
@@ -101,6 +102,9 @@ public class GameController implements Initializable {
         checkMill =  new CheckMill();
         checkLegalMove = new CheckLegalMove();
         locationList= new ArrayList<>();
+
+
+
         // Manually generate all the locations
         addLocation();
         // Use the locations generated and manually generate the nodes
