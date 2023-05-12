@@ -369,13 +369,7 @@ public class GameController implements Initializable {
             }
             else // If no removable tokens are available just continue
             {
-                // update the token count on the UI
-                if (currentActor.getTokenColour().equals("White")){
-                    whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-                }
-                else{
-                    blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-                }
+                updateTokenCount(currentActor);
 
                 // update the current player status
                 if (currentActor.getNumberOfTokensInHand() == 0){
@@ -401,12 +395,7 @@ public class GameController implements Initializable {
         // No mill form, continue
         else{
             // update the token count on the UI
-            if (currentActor.getTokenColour().equals("White")){
-                whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-            }
-            else{
-                blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-            }
+            updateTokenCount(currentActor);
             // update the current player status
             if (currentActor.getNumberOfTokensInHand() == 0){
                 currentActor.updateStatus(Capability.NORMAL);
@@ -429,6 +418,16 @@ public class GameController implements Initializable {
         }
 
 
+    }
+
+    private void updateTokenCount(Actor currentActor) {
+        // update the token count on the UI
+        if (currentActor.getTokenColour().equals("White")){
+            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+        }
+        else{
+            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+        }
     }
 
     /**
@@ -806,13 +805,7 @@ public class GameController implements Initializable {
         }
         // Update current game status
         gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
-        if (currentActor.getTokenColour().equals("White")){
-            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-
-        }else
-        {
-            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-        }
+        updateTokenCount(currentActor);
     }
 
     /**
@@ -953,12 +946,7 @@ public class GameController implements Initializable {
 
         }
         //Update token count in UI accordingly
-        if(nextActor.getTokenColour().equals("White")){
-            whiteTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
-        }
-        else {
-            blackTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
-        }
+        updateTokenCount(nextActor);
 
         if (nextActor.getNumberOfTokensOnBoard() > 3){
             // calculate for the allowable action
