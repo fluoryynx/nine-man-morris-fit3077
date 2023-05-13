@@ -162,9 +162,9 @@ public class GameController implements Initializable {
         }
     }
 
-    @FXML void endGame(Actor winner){
+    @FXML void endGame(Actor winner, String loseCondition){
         gameStatus.setText(winner.getTokenColour() + " won");
-        displayWinner.setText(winner.getTokenColour() + " won");
+        displayWinner.setText("Game over!" + "\n" + winner.getTokenColour() + " won" + "\n" + loseCondition);
         //set overlay visibility to true
         Group group = (Group) currentScene.lookup("#end_game_overlay");
         group.setVisible(true);
@@ -495,7 +495,7 @@ public class GameController implements Initializable {
             gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
         }
         else{
-            this.endGame(actor2);
+            this.endGame(actor2,actor1.getActorname() + " have no legal move");
         }
     }
 
@@ -699,7 +699,7 @@ public class GameController implements Initializable {
                     gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
                 }
                 else{
-                    endGame(currentActor);
+                    endGame(currentActor, nextActor.getActorname() + " have no legal moves");
                 }
             }
             else if (nextActor.getNumberOfTokensOnBoard() == 3){
@@ -713,7 +713,7 @@ public class GameController implements Initializable {
                 gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
             }
             else{
-                endGame(currentActor);
+                endGame(currentActor, nextActor.getActorname() + " have less than 3 tokens");
             }
         }
 
@@ -975,7 +975,7 @@ public class GameController implements Initializable {
                 gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
             }
             else{
-                endGame(currentActor);
+                endGame(currentActor, nextActor.getActorname() + " have no legal moves");
             }
         }
         else if (nextActor.getNumberOfTokensOnBoard() == 3){
@@ -989,7 +989,7 @@ public class GameController implements Initializable {
             gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
         }
         else{
-            endGame(currentActor);
+            endGame(currentActor, nextActor.getActorname() + " have less than 3 tokens");
         }
     }
     /**
