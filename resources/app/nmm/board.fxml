@@ -379,7 +379,7 @@
                   <Font name="Arial Black" size="36.0" />
                </font>
             </Text>
-            <Text fx:id="reasonWin" fill="#656060" layoutX="212.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="asfrawtwqrty wrtrtterghcegerverygexrgergregxxg" textAlignment="CENTER" wrappingWidth="238.0">
+            <Text fx:id="reasonWin" fill="#656060" layoutX="212.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="238.0">
                <font>
                   <Font name="Chalkboard" size="14.0" />
                </font>
