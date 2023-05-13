@@ -597,8 +597,8 @@ public class GameController implements Initializable {
             removeImage(nodeId,"transparent_mask");
         }
         //Remove mill if the token that is being moved is part of mill
-        int currentNodeId = action.getNodeId();
-        ArrayList<ArrayList<Integer>> possibleMillPosition = checkMill.getMillNodes(currentNodeId);
+        int nodeId = action.getNodeId();
+        ArrayList<ArrayList<Integer>> possibleMillPosition = checkMill.getMillNodes(nodeId);
         String tokenColour =  currentActor.getTokenColour();
         // change the graphic of the token
         String paths = getTokenImagePath(tokenColour, "_Token.png");
@@ -625,10 +625,10 @@ public class GameController implements Initializable {
                 }
             }
             if( i == 0 ){
-                nodeList.get(currentNodeId).getToken().setMillHorizontal(false);
+                nodeList.get(nodeId).getToken().setMillHorizontal(false);
             }
             else{
-                nodeList.get(currentNodeId).getToken().setMillVertical(false);
+                nodeList.get(nodeId).getToken().setMillVertical(false);
             }
         }
 
@@ -639,7 +639,7 @@ public class GameController implements Initializable {
         prevNodeId = 0;
         // get node id
         // use node id to remove the token from the board
-        int nodeId = action.getNodeId();
+        nodeId = action.getNodeId();
         ObservableList<Node> childList =  getChildList(nodeId);
         while (childList.size() > 1) {
             Node node = childList.get(childList.size() - 1);
