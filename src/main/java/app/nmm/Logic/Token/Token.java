@@ -17,16 +17,9 @@ public class Token {
     }
 
     // getters and setters
-    public Boolean getIsMillHorizontal(){
-        return this.isMillHorizontal;
-    }
-
-    public Boolean getMillVertical() {return isMillVertical;}
-
     public void setMillHorizontal(Boolean millHorizontal) {
         isMillHorizontal = millHorizontal;
     }
-
     public void setMillVertical(Boolean millVertical) {
         isMillVertical = millVertical;
     }

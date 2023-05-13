@@ -370,13 +370,7 @@ public class GameController implements Initializable {
             }
             else // If no removable tokens are available just continue
             {
-                // update the token count on the UI
-                if (currentActor.getTokenColour().equals("White")){
-                    whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-                }
-                else{
-                    blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-                }
+                updateTokenCount(currentActor);
 
                 // update the current player status
                 if (currentActor.getNumberOfTokensInHand() == 0){
@@ -402,12 +396,7 @@ public class GameController implements Initializable {
         // No mill form, continue
         else{
             // update the token count on the UI
-            if (currentActor.getTokenColour().equals("White")){
-                whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-            }
-            else{
-                blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-            }
+            updateTokenCount(currentActor);
             // update the current player status
             if (currentActor.getNumberOfTokensInHand() == 0){
                 currentActor.updateStatus(Capability.NORMAL);
@@ -430,6 +419,22 @@ public class GameController implements Initializable {
         }
 
 
+    }
+
+    /***
+     * a method to update token count on the UI
+     *
+     * @param currentActor current Actor that make the move
+     */
+
+    private void updateTokenCount(Actor currentActor) {
+        // update the token count on the UI
+        if (currentActor.getTokenColour().equals("White")){
+            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+        }
+        else{
+            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
+        }
     }
 
     /**
@@ -599,25 +604,34 @@ public class GameController implements Initializable {
             removeImage(nodeId,"transparent_mask");
         }
         //Remove mill if the token that is being moved is part of mill
-        int currentNodeId = action.getNodeId();
-        ArrayList<ArrayList<Integer>> possibleMillPosition = checkMill.getMillNodes(currentNodeId);
+        int nodeId = action.getNodeId();
+        ArrayList<ArrayList<Integer>> possibleMillPosition = checkMill.getMillNodes(nodeId);
         String tokenColour =  currentActor.getTokenColour();
         // change the graphic of the token
         String paths = getTokenImagePath(tokenColour, "_Token.png");
 
+        // Loop through each of the possible mill set
         for(int i = 0; i < possibleMillPosition.size(); i++){
+            // Check each position if mill exist
             for(int j = 0; j < possibleMillPosition.get(i).size(); j++){
                 int id  = possibleMillPosition.get(i).get(j);
+                // Check if the token in the node is belonged to the current used
                 if(nodeList.get(id).getToken()!= null && nodeList.get(id).getToken().getColour().equals(currentActor.getTokenColour())){
+                    //Check if the token is part of a mill
                     if (nodeList.get(id).getToken().getIsMill()){
+
+                        // Check if mill is belong to the horizontal or vertical mill set and change the mill status into false
                         if( i == 0 ){
+
                             nodeList.get(id).getToken().setMillHorizontal(false);
                         }
                         else{
                             nodeList.get(id).getToken().setMillVertical(false);
                         }
 
+                        // Check if the current token is still part of a mill set.
                         if (!nodeList.get(id).getToken().getIsMill()){
+                            // change the token image if it is not part of the mill set
                             changeTokenImage(id, tokenColour, paths, 18,0);
                         }
                     }
@@ -626,11 +640,12 @@ public class GameController implements Initializable {
                     break;
                 }
             }
+            //Change the status of mill in the token that is being moved to false if it is belonged to any mill set.
             if( i == 0 ){
-                nodeList.get(currentNodeId).getToken().setMillHorizontal(false);
+                nodeList.get(nodeId).getToken().setMillHorizontal(false);
             }
             else{
-                nodeList.get(currentNodeId).getToken().setMillVertical(false);
+                nodeList.get(nodeId).getToken().setMillVertical(false);
             }
         }
 
@@ -641,7 +656,7 @@ public class GameController implements Initializable {
         prevNodeId = 0;
         // get node id
         // use node id to remove the token from the board
-        int nodeId = action.getNodeId();
+        nodeId = action.getNodeId();
         ObservableList<Node> childList =  getChildList(nodeId);
         while (childList.size() > 1) {
             Node node = childList.get(childList.size() - 1);
@@ -657,15 +672,15 @@ public class GameController implements Initializable {
 
 
         // Check mill and highlight if the node form a mill
-        int targetNodeId = ((MoveTokenAction)action).getTargetId();
-        ArrayList<Boolean> isMill = checkMill.checkPossibleMill(nodeList,targetNodeId);
-        ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillNodes(targetNodeId);
+        targetId = ((MoveTokenAction)action).getTargetId();
+        ArrayList<Boolean> isMill = checkMill.checkPossibleMill(nodeList,targetId);
+        ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillNodes(targetId);
         // Check if there are any possible tokens to be removed on the board
         checkLegalMove.calculateLegalRemove(currentActor,nodeList);
 
         // If a mill is formed
         if(isMill.get(0)|| isMill.get(1)){
-            swapTokenToMill(targetNodeId, isMill, millCombinationTokenPosition);
+            swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
             // If there are removable opponent tokens
             if (checkLegalMove.getCurrentRemovables().size()>0){
                 showMoveRemoval(currentActor,nextActor);
@@ -769,12 +784,22 @@ public class GameController implements Initializable {
         }
     }
 
+    /***
+     *  A method that swap the image of the token to mill graphic if mill form
+     * @param nodeId node that is being executed
+     * @param isMill list of boolean indicating if the particular mill set form a mill
+     * @param millCombinationTokenPosition list of possible mill set
+     */
     private void swapTokenToMill(int nodeId, ArrayList<Boolean> isMill, ArrayList<ArrayList<Integer>> millCombinationTokenPosition) {
         String tokenColour =  this.nodeList.get(nodeId).getToken().getColour();
         String paths = getTokenImagePath(tokenColour, "_Token_with_Mill.png");
+        // Loop through each mill set
         for (int i = 0; i < isMill.size(); i++){
+            // Check if the mill set form a mill
             if (isMill.get(i)){
+                // Loop through each node id in the possible mill set list
                 for(int currentNodeId : millCombinationTokenPosition.get(i)){
+                    // Update the status of the token according to its mill direction(Horizontal, Vertical)
                     if (i == 0){
                         nodeList.get(currentNodeId).getToken().setMillHorizontal(true);
                         nodeList.get(nodeId).getToken().setMillHorizontal(true);
@@ -784,10 +809,12 @@ public class GameController implements Initializable {
                         nodeList.get(currentNodeId).getToken().setMillVertical(true);
                         nodeList.get(nodeId).getToken().setMillVertical(true);
                     }
+                    // Change the image of the token to graphic will mill highlight
                     changeTokenImage(currentNodeId,tokenColour,paths,24,-3);
                 }
             }
         }
+        // Change the current token to graphic with mill highlight
         changeTokenImage(nodeId,tokenColour,paths,24,-4);
     }
 
@@ -807,13 +834,7 @@ public class GameController implements Initializable {
         }
         // Update current game status
         gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
-        if (currentActor.getTokenColour().equals("White")){
-            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-
-        }else
-        {
-            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-        }
+        updateTokenCount(currentActor);
     }
 
     /**
@@ -954,12 +975,7 @@ public class GameController implements Initializable {
 
         }
         //Update token count in UI accordingly
-        if(nextActor.getTokenColour().equals("White")){
-            whiteTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
-        }
-        else {
-            blackTokenCount.setText(Integer.toString(nextActor.getNumberOfTokensOnBoard()));
-        }
+        updateTokenCount(nextActor);
 
         if (nextActor.getNumberOfTokensOnBoard() > 3){
             // calculate for the allowable action
