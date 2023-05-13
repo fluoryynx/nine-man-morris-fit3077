@@ -655,15 +655,15 @@ public class GameController implements Initializable {
 
 
         // Check mill and highlight if the node form a mill
-        int targetNodeId = ((MoveTokenAction)action).getTargetId();
-        ArrayList<Boolean> isMill = checkMill.checkPossibleMill(nodeList,targetNodeId);
-        ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillNodes(targetNodeId);
+        targetId = ((MoveTokenAction)action).getTargetId();
+        ArrayList<Boolean> isMill = checkMill.checkPossibleMill(nodeList,targetId);
+        ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillNodes(targetId);
         // Check if there are any possible tokens to be removed on the board
         checkLegalMove.calculateLegalRemove(currentActor,nodeList);
 
         // If a mill is formed
         if(isMill.get(0)|| isMill.get(1)){
-            swapTokenToMill(targetNodeId, isMill, millCombinationTokenPosition);
+            swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
             // If there are removable opponent tokens
             if (checkLegalMove.getCurrentRemovables().size()>0){
                 showMoveRemoval(currentActor,nextActor);
