@@ -17,11 +17,9 @@ public class Token {
     }
 
     // getters and setters
-
     public void setMillHorizontal(Boolean millHorizontal) {
         isMillHorizontal = millHorizontal;
     }
-
     public void setMillVertical(Boolean millVertical) {
         isMillVertical = millVertical;
     }

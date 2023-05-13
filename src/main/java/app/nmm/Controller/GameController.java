@@ -420,6 +420,12 @@ public class GameController implements Initializable {
 
     }
 
+    /***
+     * a method to update token count on the UI
+     *
+     * @param currentActor current Actor that make the move
+     */
+
     private void updateTokenCount(Actor currentActor) {
         // update the token count on the UI
         if (currentActor.getTokenColour().equals("White")){
@@ -603,19 +609,28 @@ public class GameController implements Initializable {
         // change the graphic of the token
         String paths = getTokenImagePath(tokenColour, "_Token.png");
 
+        // Loop through each of the possible mill set
         for(int i = 0; i < possibleMillPosition.size(); i++){
+            // Check each position if mill exist
             for(int j = 0; j < possibleMillPosition.get(i).size(); j++){
                 int id  = possibleMillPosition.get(i).get(j);
+                // Check if the token in the node is belonged to the current used
                 if(nodeList.get(id).getToken()!= null && nodeList.get(id).getToken().getColour().equals(currentActor.getTokenColour())){
+                    //Check if the token is part of a mill
                     if (nodeList.get(id).getToken().getIsMill()){
+
+                        // Check if mill is belong to the horizontal or vertical mill set and change the mill status into false
                         if( i == 0 ){
+
                             nodeList.get(id).getToken().setMillHorizontal(false);
                         }
                         else{
                             nodeList.get(id).getToken().setMillVertical(false);
                         }
 
+                        // Check if the current token is still part of a mill set.
                         if (!nodeList.get(id).getToken().getIsMill()){
+                            // change the token image if it is not part of the mill set
                             changeTokenImage(id, tokenColour, paths, 18,0);
                         }
                     }
@@ -624,6 +639,7 @@ public class GameController implements Initializable {
                     break;
                 }
             }
+            //Change the status of mill in the token that is being moved to false if it is belonged to any mill set.
             if( i == 0 ){
                 nodeList.get(nodeId).getToken().setMillHorizontal(false);
             }
@@ -767,12 +783,22 @@ public class GameController implements Initializable {
         }
     }
 
+    /***
+     *  A method that swap the image of the token to mill graphic if mill form
+     * @param nodeId node that is being executed
+     * @param isMill list of boolean indicating if the particular mill set form a mill
+     * @param millCombinationTokenPosition list of possible mill set
+     */
     private void swapTokenToMill(int nodeId, ArrayList<Boolean> isMill, ArrayList<ArrayList<Integer>> millCombinationTokenPosition) {
         String tokenColour =  this.nodeList.get(nodeId).getToken().getColour();
         String paths = getTokenImagePath(tokenColour, "_Token_with_Mill.png");
+        // Loop through each mill set
         for (int i = 0; i < isMill.size(); i++){
+            // Check if the mill set form a mill
             if (isMill.get(i)){
+                // Loop through each node id in the possible mill set list
                 for(int currentNodeId : millCombinationTokenPosition.get(i)){
+                    // Update the status of the token according to its mill direction(Horizontal, Vertical)
                     if (i == 0){
                         nodeList.get(currentNodeId).getToken().setMillHorizontal(true);
                         nodeList.get(nodeId).getToken().setMillHorizontal(true);
@@ -782,10 +808,12 @@ public class GameController implements Initializable {
                         nodeList.get(currentNodeId).getToken().setMillVertical(true);
                         nodeList.get(nodeId).getToken().setMillVertical(true);
                     }
+                    // Change the image of the token to graphic will mill highlight
                     changeTokenImage(currentNodeId,tokenColour,paths,24,-3);
                 }
             }
         }
+        // Change the current token to graphic with mill highlight
         changeTokenImage(nodeId,tokenColour,paths,24,-4);
     }
 
