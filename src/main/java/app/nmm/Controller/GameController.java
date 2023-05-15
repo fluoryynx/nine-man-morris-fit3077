@@ -768,11 +768,23 @@ public class GameController implements Initializable {
         return path;
     }
 
+    /**
+     * A method to change the image of a token
+     * @param nodeId - The id of the node to be changed
+     * @param tokenColour - The colour of the token to be changed
+     * @param paths - The path of the image to be changed to
+     * @param size -   The size of the image to be changed to
+     * @param offSet - The offset of the image to be changed to
+     */
+
     private void changeTokenImage(int nodeId, String tokenColour, String paths, Integer size, Integer offSet) {
+        // Get the list of children of the node
         ObservableList<Node>currentChildList =  getChildList(nodeId);
+        // Create a new file with the path of the image
         File newFile = new File(paths);
         // Change the graphic of the selected token to toke with highlight around.
         for(Node node : currentChildList){
+            // If the node is an image view and the id contains the colour of the token
             if(node.getId().contains(tokenColour) ){
                 ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
                 ((ImageView) node).setFitWidth(size);
