@@ -162,9 +162,15 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * display the winner and reason the other player loss in an overlay
+     * @param winner
+     * @param loseCondition
+     */
     @FXML void endGame(Actor winner, String loseCondition){
         gameStatus.setText(winner.getTokenColour() + " won");
         displayWinner.setText(winner.getTokenColour() + " won" );
+        System.out.println(loseCondition);
         reasonWin.setText(loseCondition);
         //set overlay visibility to true
         Group group = (Group) currentScene.lookup("#end_game_overlay");
@@ -418,7 +424,6 @@ public class GameController implements Initializable {
             }
         }
 
-
     }
 
     /***
@@ -500,7 +505,7 @@ public class GameController implements Initializable {
             }
             gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
         }
-        else{
+        else{ // if actor 1 has no legal moves then declare the other actor as winner
             this.endGame(actor2,actor1.getTokenColour() + " have no legal move");
         }
     }
