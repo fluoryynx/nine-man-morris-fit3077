@@ -20,6 +20,10 @@ public class Application extends javafx.application.Application {
         stage.setTitle("Nine Man's Morris");
         stage.setScene(scene);
         stage.show();
+        // set the minimum height of the application window
+//        stage.setMinHeight(778);
+//        stage.setMinWidth(665);
+        stage.setResizable(false);
     }
 
     public static void main(String[] args) {
