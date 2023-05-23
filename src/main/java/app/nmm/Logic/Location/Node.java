@@ -18,12 +18,10 @@ public class Node {
     /**
      * constructor
      * @param id
-     * @param position
      */
-    public Node(int id, Pair<Integer,Integer> position){
+    public Node(int id){
         this.id=id;
         this.contain= null;
-        this.position= position;
     }
 
     // getters and setters
@@ -35,9 +33,6 @@ public class Node {
         return this.id;
     }
 
-    public Pair<Integer,Integer> getPosition(){
-        return this.position;
-    }
 
     public void addToken(Token token){
         this.contain=token;

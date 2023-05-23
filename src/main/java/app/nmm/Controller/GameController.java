@@ -10,7 +10,7 @@ import app.nmm.Logic.Actor.Player;
 import app.nmm.Logic.Capability.Capability;
 import app.nmm.Logic.Handler.CheckLegalMove;
 import app.nmm.Logic.Handler.CheckMill;
-import javafx.application.Platform;
+import app.nmm.UiEditor.BoardSceneEditor;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,15 +19,11 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-//import javafx.util.Pair;
 import org.javatuples.Pair;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -60,11 +56,11 @@ public class GameController implements Initializable {
     private CheckMill checkMill;
     private CheckLegalMove checkLegalMove;
     private ArrayList<Actor> playerList;
-    private ArrayList<Pair<Integer,Integer>> locationList;
     private boolean clicked = false;
     private int prevNodeId;
     private final String windowsResourcePath = "resources\\Graphic\\";
     private final String macResourcePath = "resources/Graphic/";
+    private BoardSceneEditor sceneEditor;
 
 
     /**
@@ -102,14 +98,12 @@ public class GameController implements Initializable {
         nodeList =  new ArrayList<>();
         checkMill =  new CheckMill();
         checkLegalMove = new CheckLegalMove();
-        locationList= new ArrayList<>();
 
 
-        // Manually generate all the locations
-        addLocation();
+
         // Use the locations generated and manually generate the nodes
         for(int i = 0; i < 24; i++){
-            nodeList.add(new app.nmm.Logic.Location.Node(i, locationList.get(i)));
+            nodeList.add(new app.nmm.Logic.Location.Node(i));
         }
     }
 
@@ -145,6 +139,7 @@ public class GameController implements Initializable {
     void startGame(MouseEvent event){
         // get the current scene and save as an attribute
         currentScene = startButton.getScene();
+        sceneEditor =  new BoardSceneEditor(currentScene,boardScene);
 
         // set overlay visibility to false
         Group group = (Group) currentScene.lookup("#overlay");
@@ -230,51 +225,8 @@ public class GameController implements Initializable {
         }
     }
 
-    /**
-     * a method to manually generate locations and add into the arraylist
-     */
-    public void addLocation(){
-        this.locationList.add(new Pair(205,186));
-        this.locationList.add(new Pair(315,186));
-        this.locationList.add(new Pair(425,186));
-        this.locationList.add(new Pair(231,211));
-        this.locationList.add(new Pair(315,211));
-        this.locationList.add(new Pair(399,211));
-        this.locationList.add(new Pair(257,236));
-        this.locationList.add(new Pair(315,236));
-        this.locationList.add(new Pair(373,236));
-        this.locationList.add(new Pair(205,296));
-        this.locationList.add(new Pair(231,296));
-        this.locationList.add(new Pair(257,296));
-        this.locationList.add(new Pair(373,296));
-        this.locationList.add(new Pair(399,296));
-        this.locationList.add(new Pair(425,296));
-        this.locationList.add(new Pair(257,353));
-        this.locationList.add(new Pair(315,353));
-        this.locationList.add(new Pair(373,353));
-        this.locationList.add(new Pair(231,380));
-        this.locationList.add(new Pair(315,380));
-        this.locationList.add(new Pair(399,380));
-        this.locationList.add(new Pair(205,406));
-        this.locationList.add(new Pair(315,406));
-        this.locationList.add(new Pair(425,406));
 
-    }
 
-    /**
-     * remove image from the board
-     * @param nodeId - int, nodeId
-     * @param nodeFxId - String, type of image (the fxid)
-     */
-    public void removeImage(int nodeId, String nodeFxId){
-        ObservableList<Node> childList =  getChildList(nodeId);
-        if (childList.size() > 1){
-            Node node =  childList.get(childList.size()-1);
-            if (node.getId().equals(nodeFxId)){
-                childList.remove(node);
-            }
-        }
-    }
 
     /**
      * a main method to call putLegalMoveImage repeatedly to put the image on the board
@@ -307,33 +259,35 @@ public class GameController implements Initializable {
      */
     @FXML
     public void putLegalMoveImage(int nodeId, Action action, Actor currentActor, Actor nextActor, ArrayList<Integer>highlightedNode) {
-        // get current group using nodeId
-        ObservableList<Node> childList =  getChildList(nodeId);
         // remove any extra children
-        removeImage(nodeId, "legalMove");
+        sceneEditor.removeImage(nodeId, "legalMove");
         // find the image, and put inside image view
         // get the correct path, mac and windows different way of calling path
         String path = getTokenImagePath("Legal_Move.png");
         // photo fxid
         String legalMoveID = "legalMove";
         // add to the board
-        ImageView imageView = addItemToBoard(path,legalMoveID,-3,-3,24,24,childList);
+        ImageView imageView = sceneEditor.addItemToBoard(path,legalMoveID,-3,-3,24,24,nodeId);
 
         // make imageview clickable
         imageView.setOnMouseClicked(event -> {
-            if (DEBUG){
-                System.out.println("IM HERE");
-            }
-            // if currently still in put token phase
-            if (currentActor.getStatus() == Capability.PUT_TOKEN) {
-                // continue and let the player choose to where to put
-                putTokenExecutor(action, currentActor, nextActor);
-            }
-            else {
-                // continue and start the game normally
-                moveTokenExecutor(action, currentActor,nextActor, highlightedNode);
-            }
+            selectExecutor(action, currentActor, nextActor, highlightedNode);
         });
+    }
+
+    private void selectExecutor(Action action, Actor currentActor, Actor nextActor, ArrayList<Integer> highlightedNode) {
+        if (DEBUG){
+            System.out.println("IM HERE");
+        }
+        // if currently still in put token phase
+        if (currentActor.getStatus() == Capability.PUT_TOKEN) {
+            // continue and let the player choose to where to put
+            putTokenExecutor(action, currentActor, nextActor);
+        }
+        else {
+            // continue and start the game normally
+            moveTokenExecutor(action, currentActor, nextActor, highlightedNode);
+        }
     }
 
     /**
@@ -345,19 +299,18 @@ public class GameController implements Initializable {
     void putTokenExecutor(Action action, Actor currentActor, Actor nextActor){
         // remove all legal moves images on the board by using the fxid of the image to find the images
         for (int i = 0; i < 24; i++){
-            removeImage(i, "legalMove");
+            sceneEditor.removeImage(i, "legalMove");
         }
         // subtract token count by executing the action
         action.execute(currentActor, nodeList);
         // get necessary information to add to the board
         int nodeId = action.getNodeId();
-        ObservableList<Node> childList =  getChildList(nodeId);
         String tokenColour = currentActor.getTokenColour();
         String tokenID = tokenColour + "token"+ (9 - currentActor.getNumberOfTokensInHand());
-        String path = getTokenImagePath(tokenColour,"_Token.png");
+        String path = getTokenImagePath(tokenColour+"_Token.png");
 
         // add token to board
-        addItemToBoard(path, tokenID,0,0,18,18 ,childList);
+        sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,nodeId);
 
         // Check if form mill
         ArrayList<Boolean> isMill = checkMill.checkPossibleMill(nodeList,action.getNodeId());
@@ -376,7 +329,7 @@ public class GameController implements Initializable {
             }
             else // If no removable tokens are available just continue
             {
-                updateTokenCount(currentActor);
+                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, currentActor.getTokenColour(), currentActor.getNumberOfTokensOnBoard());
 
                 // update the current player status
                 if (currentActor.getNumberOfTokensInHand() == 0){
@@ -402,7 +355,7 @@ public class GameController implements Initializable {
         // No mill form, continue
         else{
             // update the token count on the UI
-            updateTokenCount(currentActor);
+            sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, currentActor.getTokenColour(), currentActor.getNumberOfTokensOnBoard());
             // update the current player status
             if (currentActor.getNumberOfTokensInHand() == 0){
                 currentActor.updateStatus(Capability.NORMAL);
@@ -426,51 +379,9 @@ public class GameController implements Initializable {
 
     }
 
-    /***
-     * a method to update token count on the UI
-     *
-     * @param currentActor current Actor that make the move
-     */
 
-    private void updateTokenCount(Actor currentActor) {
-        // update the token count on the UI
-        if (currentActor.getTokenColour().equals("White")){
-            whiteTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-        }
-        else{
-            blackTokenCount.setText(Integer.toString(currentActor.getNumberOfTokensOnBoard()));
-        }
-    }
 
-    /**
-     * a method to put the image on the board
-     * @param pathname the path to locate the image
-     * @param itemID the fxid to be assigned
-     * @param xLayout x coordinate
-     * @param yLayout y coordinate
-     * @param fitWidth width of the image
-     * @param fitHeight height of the image
-     * @param childList the list the item to be added into
-     * @return
-     */
-    @FXML
-    public ImageView addItemToBoard(String pathname, String itemID, int xLayout, int yLayout, int fitWidth, int fitHeight, ObservableList<Node> childList) {
-        // get the file
-        File file = new File(pathname);
-        // convert to image
-        Image image = new Image(file.toURI().toString());
-        ImageView imageView = new ImageView();
-        // set the image view properties
-        imageView.setImage(image);
-        imageView.setFitWidth(fitWidth);
-        imageView.setFitHeight(fitHeight);
-        imageView.setLayoutX(xLayout);
-        imageView.setLayoutY(yLayout);
-        // id: "w" + "token" + "tokencount"
-        imageView.setId(itemID);
-        childList.add(imageView);
-        return imageView;
-    }
+
 
     /**
      * a method to run the normal gameplay
@@ -478,7 +389,7 @@ public class GameController implements Initializable {
     public void normalGamePlay() {
         // clear remaining legal move image on the board
         for (int i = 0; i < 24; i++){
-            removeImage(i, "legalMove");
+            sceneEditor.removeImage(i, "legalMove");
         }
         if (DEBUG){
             System.out.println("DONE");
@@ -519,77 +430,58 @@ public class GameController implements Initializable {
     @FXML
     void addChecker(int nodeId, Map<Integer, ArrayList<Action>> returnAction,Actor currentActor, Actor nextActor){
         // loop every group
-        ObservableList<Node> childList =  getChildList(nodeId);
         String path = getTokenImagePath("transparent_mask.png");
         // add a mask
-        ImageView imageView = addItemToBoard(path,"transparent_mask",-3, -3, 24, 24, childList);
+        ImageView imageView = sceneEditor.addItemToBoard(path,"transparent_mask",-3, -3, 24, 24, nodeId);
         // set the action when click the mask here
-        if(! nodeList.get(nodeId).hasToken()){
-            // this action is for nodes without token
-            imageView.setOnMouseClicked(event -> {
-                String msg = "fuck off";
-                System.out.println("IM HERE from Normal without token");
-                System.out.println(msg);
-            });
-        }
-        else{
-            if(!currentActor.getTokenColour().equals(nodeList.get(nodeId).getToken().getColour())){
-                // this action is for nodes with enemy token
-                imageView.setOnMouseClicked(event -> {
-                    System.out.println("IM HERE from Normal with token");
-                    String msg = "But Not my turn la!!!";
-                    System.out.println(msg);
-                });
-            }
-            else{
+        if(nodeList.get(nodeId).hasToken() && currentActor.getTokenColour().equals(nodeList.get(nodeId).getToken().getColour())){
+
                 // this action is for nodes with own token
                 ArrayList<Action> actionsList =  returnAction.get(nodeId);
                 imageView.setOnMouseClicked(event -> {
-                        System.out.println("IM HERE from Normal with token");
-                        String tokenColour =  nodeList.get(nodeId).getToken().getColour();
-                        String paths = getTokenImagePath(tokenColour, "_Token_when_user_select.png");
-                        changeTokenImage(nodeId,tokenColour, paths,24,-3);
-                        validateActorSelection(actionsList,currentActor,nextActor, nodeId);
+                    selectedToken(nodeId, currentActor, nextActor, actionsList);
                 });
-            }
+
         }
     }
 
 
-    /**
-     * a method to add legal moves on the tokens
-     * @param allowableActions
-     * @param currentActor
-     * @param nextActor
-     */
-    void validateActorSelection(ArrayList<Action> allowableActions, Actor currentActor, Actor nextActor, Integer currentNodeID){
-        // if action is not null
-        if(allowableActions != null){
+    private void selectedToken(int nodeId, Actor currentActor, Actor nextActor, ArrayList<Action> actionsList) {
+        System.out.println("IM HERE from Normal with token");
+        String tokenColour =  nodeList.get(nodeId).getToken().getColour();
+        String paths = getTokenImagePath(tokenColour+"_Token_when_user_select.png");
+        sceneEditor.changeTokenImage(nodeId,tokenColour, paths,24,-3);
+
+        // if action is not null, remove legal move from previous selected token and show current legal move for current token
+        if(actionsList != null){
             ArrayList<Integer> highlighted_node = new ArrayList<>();
-            for(Action action: allowableActions) {
+            for(Action action: actionsList) {
                 int targetID = ((MoveTokenAction) action).getTargetId();
                 highlighted_node.add(targetID);
             };
             if (DEBUG){
                 System.out.println("IM HERE from Normal with token2");
             }
-            if (clicked && prevNodeId != currentNodeID){
+            if (clicked && prevNodeId != nodeId){
                 ArrayList<Action> previousNodeAction = checkLegalMove.getCurrentActions().get(prevNodeId);
                 unhighlightSelectedToken(prevNodeId,previousNodeAction,currentActor,nextActor);
             }
 
-                // add unhighlight action to mask to the current node
-                addUnhighlightSelectedToken(currentNodeID, allowableActions, currentActor, nextActor);
-                clicked = true;
-                prevNodeId = currentNodeID;
-                // put legal image
-                for(Action action: allowableActions){
-                    int targetID =  ((MoveTokenAction) action).getTargetId();
-                    putLegalMoveImage(targetID, action, currentActor, nextActor, highlighted_node);
+            // add unhighlight action to mask to the current node
+            addUnhighlightSelectedToken(nodeId, actionsList, currentActor, nextActor);
+            clicked = true;
+            prevNodeId = nodeId;
+            // put legal image
+            for(Action action: actionsList){
+                int targetID =  ((MoveTokenAction) action).getTargetId();
+                putLegalMoveImage(targetID, action, currentActor, nextActor, highlighted_node);
 
-                }
+            }
         }
     }
+
+
+
 
     /**
      * a method to call for the player to move the token here
@@ -601,19 +493,19 @@ public class GameController implements Initializable {
     void moveTokenExecutor(Action action, Actor currentActor, Actor nextActor, ArrayList<Integer> highlightedNode){
         // remove legal move image
         for (int nodeId : highlightedNode){
-            removeImage(nodeId, "legalMove");
+            sceneEditor.removeImage(nodeId, "legalMove");
         }
         // remove transparent mask on all nodes
         for(app.nmm.Logic.Location.Node node: this.nodeList){
             int nodeId = node.getId();
-            removeImage(nodeId,"transparent_mask");
+            sceneEditor.removeImage(nodeId,"transparent_mask");
         }
         //Remove mill if the token that is being moved is part of mill
         int nodeId = action.getNodeId();
         ArrayList<ArrayList<Integer>> possibleMillPosition = checkMill.getMillNodes(nodeId);
         String tokenColour =  currentActor.getTokenColour();
         // change the graphic of the token
-        String paths = getTokenImagePath(tokenColour, "_Token.png");
+        String paths = getTokenImagePath(tokenColour+"_Token.png");
 
         // Loop through each of the possible mill set
         for(int i = 0; i < possibleMillPosition.size(); i++){
@@ -637,7 +529,7 @@ public class GameController implements Initializable {
                         // Check if the current token is still part of a mill set.
                         if (!nodeList.get(id).getToken().getIsMill()){
                             // change the token image if it is not part of the mill set
-                            changeTokenImage(id, tokenColour, paths, 18,0);
+                            sceneEditor.changeTokenImage(id, tokenColour, paths, 18,0);
                         }
                     }
                 }
@@ -662,7 +554,7 @@ public class GameController implements Initializable {
         // get node id
         // use node id to remove the token from the board
         nodeId = action.getNodeId();
-        ObservableList<Node> childList =  getChildList(nodeId);
+        ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
         while (childList.size() > 1) {
             Node node = childList.get(childList.size() - 1);
             childList.remove(node);
@@ -670,10 +562,9 @@ public class GameController implements Initializable {
         // get node id
         // add token to new location
         int targetId = ((MoveTokenAction)action).getTargetId();
-        childList =  getChildList(targetId);
-        String path = getTokenImagePath(tokenColour, "_Token.png");
+        String path = getTokenImagePath(tokenColour+"_Token.png");
         String tokenID =  tokenColour+"token" +targetId;
-        addItemToBoard(path, tokenID,0,0,18,18 ,childList);
+        sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,targetId);
 
 
         // Check mill and highlight if the node form a mill
@@ -740,22 +631,6 @@ public class GameController implements Initializable {
 
     }
 
-    /**
-     * a method to get a path of an image that has the color
-     * @param tokenColour - color of the image
-     * @param imageName - the image name
-     * @return - a path that for the image
-     */
-    public String getTokenImagePath(String tokenColour, String imageName) {
-        String path;
-        if (System.getProperty("os.name").charAt(0) == 'W'){
-            path = windowsResourcePath + tokenColour + imageName;
-        }
-        else{
-            path = macResourcePath + tokenColour + imageName;
-        }
-        return path;
-    }
 
     /**
      * a method to get a path of an image
@@ -773,33 +648,6 @@ public class GameController implements Initializable {
         return path;
     }
 
-    /**
-     * A method to change the image of a token
-     * @param nodeId - The id of the node to be changed
-     * @param tokenColour - The colour of the token to be changed
-     * @param paths - The path of the image to be changed to
-     * @param size -   The size of the image to be changed to
-     * @param offSet - The offset of the image to be changed to
-     */
-
-    private void changeTokenImage(int nodeId, String tokenColour, String paths, Integer size, Integer offSet) {
-        // Get the list of children of the node
-        ObservableList<Node>currentChildList =  getChildList(nodeId);
-        // Create a new file with the path of the image
-        File newFile = new File(paths);
-        // Change the graphic of the selected token to toke with highlight around.
-        for(Node node : currentChildList){
-            // If the node is an image view and the id contains the colour of the token
-            if(node.getId().contains(tokenColour) ){
-                ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
-                ((ImageView) node).setFitWidth(size);
-                ((ImageView) node).setFitHeight(size);
-                ((ImageView) node).setLayoutX(offSet);
-                ((ImageView) node).setLayoutY(offSet);
-                break;
-            }
-        }
-    }
 
     /***
      *  A method that swap the image of the token to mill graphic if mill form
@@ -809,7 +657,7 @@ public class GameController implements Initializable {
      */
     private void swapTokenToMill(int nodeId, ArrayList<Boolean> isMill, ArrayList<ArrayList<Integer>> millCombinationTokenPosition) {
         String tokenColour =  this.nodeList.get(nodeId).getToken().getColour();
-        String paths = getTokenImagePath(tokenColour, "_Token_with_Mill.png");
+        String paths = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
         // Loop through each mill set
         for (int i = 0; i < isMill.size(); i++){
             // Check if the mill set form a mill
@@ -827,12 +675,12 @@ public class GameController implements Initializable {
                         nodeList.get(nodeId).getToken().setMillVertical(true);
                     }
                     // Change the image of the token to graphic will mill highlight
-                    changeTokenImage(currentNodeId,tokenColour,paths,24,-3);
+                    sceneEditor.changeTokenImage(currentNodeId,tokenColour,paths,24,-3);
                 }
             }
         }
         // Change the current token to graphic with mill highlight
-        changeTokenImage(nodeId,tokenColour,paths,24,-4);
+        sceneEditor.changeTokenImage(nodeId,tokenColour,paths,24,-4);
     }
 
     /**
@@ -851,7 +699,7 @@ public class GameController implements Initializable {
         }
         // Update current game status
         gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
-        updateTokenCount(currentActor);
+        sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, currentActor.getTokenColour(), currentActor.getNumberOfTokensOnBoard());
     }
 
     /**
@@ -863,14 +711,12 @@ public class GameController implements Initializable {
      */
     @FXML
     private void putRemoveTokenImage(int nodeId,Action action, Actor currentActor, Actor otherActor ){
-        // Get current group using nodeId
-        ObservableList<Node> childList =  getChildList(nodeId);
         // Get the color of the removable token, create path to relevant image
         String tokenColour = nodeList.get(nodeId).getToken().getColour();
-        String paths = getTokenImagePath(tokenColour, "_Token_for_removing_token.png");
+        String paths = getTokenImagePath(tokenColour+"_Token_for_removing_token.png");
         String removeTokenID = "removeToken"; //FxID for image
         // Adding image to the board
-        ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,24,childList);
+        ImageView imageView = sceneEditor.addItemToBoard(paths,removeTokenID,-3,-3,24,24,nodeId);
         // On-click event
         imageView.setOnMouseClicked(event ->{
             putRemoveTokenExecutor(action, currentActor, otherActor);
@@ -887,7 +733,7 @@ public class GameController implements Initializable {
     void putRemoveTokenExecutor(Action action, Actor currentActor, Actor nextActor){
         // Remove all the Removable Token images on board based on FxID of image assigned earlier
         for (int i=0; i<24; i++){
-            removeImage(i, "removeToken");
+            sceneEditor.removeImage(i, "removeToken");
         }
         // Remove token action is called, update token count for opponent
         action.execute(nextActor, nodeList);
@@ -895,7 +741,7 @@ public class GameController implements Initializable {
         // Get nodeId for token that is to be removed
         int nodeId = action.getNodeId();
         // Removal of said token on board
-        ObservableList<Node> childList =  getChildList(nodeId);
+        ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
         while (childList.size() > 1) {
             Node node = childList.get(childList.size() - 1);
             childList.remove(node);
@@ -951,18 +797,16 @@ public class GameController implements Initializable {
      */
     @FXML
     private void moveRemoveTokenImage(int nodeId,Action action, Actor currentActor, Actor otherActor ){
-        // Get current group based on nodeId
-        ObservableList<Node> childList =  getChildList(nodeId);
         // Removal of the mask for each node so that the player is enforced to only remove opponent tokens if available
         for (int i=0; i<24; i++){
-            removeImage(i,"transparent_mask");
+            sceneEditor.removeImage(i,"transparent_mask");
         }
         // Get color of removable token, create path to relevant image
         String tokenColour = nodeList.get(nodeId).getToken().getColour();
-        String paths = getTokenImagePath(tokenColour, "_Token_for_removing_token.png");
+        String paths = getTokenImagePath(tokenColour+"_Token_for_removing_token.png");
         String removeTokenID = "removeToken";
         // Adding image to the board
-        ImageView imageView = addItemToBoard(paths,removeTokenID,-3,-3,24,24,childList);
+        ImageView imageView = sceneEditor.addItemToBoard(paths,removeTokenID,-3,-3,24,24,nodeId);
         // On-click event
         imageView.setOnMouseClicked(event ->{
             moveRemoveTokenExecutor(action, currentActor, otherActor);
@@ -978,21 +822,21 @@ public class GameController implements Initializable {
     void moveRemoveTokenExecutor(Action action, Actor currentActor, Actor nextActor){
         // Remove all the Removable Token images on board based on FxID of image assigned earlier
         for (int i=0; i<24; i++){
-            removeImage(i, "removeToken");
+            sceneEditor.removeImage(i, "removeToken");
         }
         // Remove token action is called, update token count for opponent
         action.execute(nextActor, nodeList);
         // Get nodeId for token that is to be removed
         int nodeId = action.getNodeId();
         // Removal of said token on board
-        ObservableList<Node> childList =  getChildList(nodeId);
+        ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
         while (childList.size() > 1) {
             Node node = childList.get(childList.size() - 1);
             childList.remove(node);
 
         }
         //Update token count in UI accordingly
-        updateTokenCount(nextActor);
+        sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, nextActor.getTokenColour(), nextActor.getNumberOfTokensOnBoard());
 
         if (nextActor.getNumberOfTokensOnBoard() > 3){
             // calculate for the allowable action
@@ -1034,7 +878,7 @@ public class GameController implements Initializable {
      * @param nextActor
      */
     void addUnhighlightSelectedToken(int currentNodeID, ArrayList<Action> actionsList, Actor currentActor, Actor nextActor){
-        ObservableList<Node> childList =  getChildList(currentNodeID);
+        ObservableList<Node> childList =  sceneEditor.getChildList(currentNodeID);
         Node node = childList.get(childList.size() - 1);
         node.setOnMouseClicked(event -> {
             if (DEBUG){
@@ -1055,9 +899,9 @@ public class GameController implements Initializable {
         // remove the legal move image
         for(Action action: actionsList) {
             int targetID = ((MoveTokenAction) action).getTargetId();
-            removeImage(targetID, "legalMove");
+            sceneEditor.removeImage(targetID, "legalMove");
         }
-        ObservableList<Node> childList =  getChildList(currentNodeID);
+        ObservableList<Node> childList =  sceneEditor.getChildList(currentNodeID);
         Node node = childList.get(childList.size() - 1);
 
         if (DEBUG){
@@ -1066,24 +910,18 @@ public class GameController implements Initializable {
 
         String tokenColour =  nodeList.get(currentNodeID).getToken().getColour();
         if (nodeList.get(currentNodeID).getToken().getIsMill()){
-           String paths = getTokenImagePath(tokenColour, "_Token_with_Mill.png");
-           changeTokenImage(currentNodeID,tokenColour,paths,24,-3);
+           String paths = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
+            sceneEditor.changeTokenImage(currentNodeID,tokenColour,paths,24,-3);
         }
         else{
-            String paths = getTokenImagePath(tokenColour, "_Token.png");
-            changeTokenImage(currentNodeID,tokenColour,paths,18,0);
+            String paths = getTokenImagePath(tokenColour+"_Token.png");
+            sceneEditor.changeTokenImage(currentNodeID,tokenColour,paths,18,0);
         }
         prevNodeId = 0;
         clicked = false;
         node.setOnMouseClicked(event -> {
-            if (DEBUG){
-                System.out.println("IM HERE from Normal with token");
-            }
-           String tokenColour2 =  nodeList.get(currentNodeID).getToken().getColour();
+            selectedToken(currentNodeID, currentActor, nextActor, actionsList);
 
-           String paths2 = getTokenImagePath(tokenColour2, "_Token_when_user_select.png");
-           changeTokenImage(currentNodeID,tokenColour2,paths2,24,-3);
-           validateActorSelection(actionsList,currentActor,nextActor, currentNodeID);
         });
 
     }
@@ -1102,8 +940,5 @@ public class GameController implements Initializable {
         return moveAction;
     }
 
-    ObservableList<Node> getChildList(int nodeId){
-        Group group = (Group) currentScene.lookup("#g"+nodeId);
-        return group.getChildren();
-    }
+
 }
