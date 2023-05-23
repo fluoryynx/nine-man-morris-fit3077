@@ -70,6 +70,7 @@ public class GameController implements Initializable {
     private final String macResourcePath = "resources/Graphic/";
     private boolean hint = false;
     private boolean hintClicked = false;
+    private String turn = "";
 
     /**
      * initialise method. to initalise winner and loser value before starting the game
@@ -290,7 +291,7 @@ public class GameController implements Initializable {
                 removeImage(i, "legalMove");
             }
 
-            //hint = false;
+            hint = false;
             showReachableTokens(adjacentNodes, currentActor,otherActor);
         });
     }
@@ -316,9 +317,9 @@ public class GameController implements Initializable {
                 removeImage(i, "hints");
             }
 
-            hint = false;
             hintButton.setText("off");
-            normalGamePlay();
+            //hintClicked = true;
+            normalGamePlay(turn);
         });
     }
 
@@ -327,8 +328,8 @@ public class GameController implements Initializable {
         hint = true;
         hintButton.setText("on");
         System.out.println("hint clicked");
-        //hintClicked= true;
-        normalGamePlay();
+        hintClicked= true;
+        normalGamePlay(turn);
     }
 
     /**
@@ -505,7 +506,7 @@ public class GameController implements Initializable {
                 }
                 else{
                     // start normal gameplay
-                    normalGamePlay();
+                    normalGamePlay("");
                 }
             }
         }
@@ -530,7 +531,7 @@ public class GameController implements Initializable {
             }
             else{
                 // start normal gameplay
-                normalGamePlay();
+                normalGamePlay("");
             }
         }
 
@@ -585,7 +586,7 @@ public class GameController implements Initializable {
     /**
      * a method to run the normal gameplay
      */
-    public void normalGamePlay() {
+    public void normalGamePlay(String colour) {
         // clear remaining legal move image on the board
         for (int i = 0; i < 24; i++){
             removeImage(i, "legalMove");
@@ -598,15 +599,21 @@ public class GameController implements Initializable {
         Actor actor1 = playerList.get(0);
         Actor actor2 =  playerList.get(1);
 
-        if (hintClicked){ // if the player clicks the hint button during their turn, dont switch player turn
+//        if (hintClicked){ // if the player clicks the hint button during their turn, dont switch player turn
+//            actor1 = playerList.get(1);
+//            actor2 =  playerList.get(0);
+//            hintClicked = false;
+//        }
+
+        if (colour != "" && colour != actor1.getTokenColour()){
             actor1 = playerList.get(1);
             actor2 =  playerList.get(0);
-            hintClicked = false;
         }
 
         // get available action
         checkLegalMove.calculateLegalMove(actor1, nodeList);
         Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
+
         for (int i = 0; i < 24; i++){
             addChecker(i, returnAction, actor1, actor2);
         }
@@ -621,6 +628,7 @@ public class GameController implements Initializable {
                 System.out.println(actor1.getTokenColour() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
             }
             gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
+            turn = actor1.getTokenColour();
 
             if (hint){
                 showHint(actor1,actor2);
@@ -726,9 +734,9 @@ public class GameController implements Initializable {
             removeImage(nodeId, "legalMove");
         }
 
-        if (hint){
-            showHint(currentActor,nextActor);
-        }
+//        if (hint){
+//            showHint(currentActor,nextActor);
+//        }
 
         // remove transparent mask on all nodes
         for(app.nmm.Logic.Location.Node node: this.nodeList){
@@ -827,6 +835,7 @@ public class GameController implements Initializable {
                     addChecker(i, returnAction, nextActor, currentActor);
                 }
                 gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
+                turn = nextActor.getTokenColour();
             }
         }
         // No mill form
@@ -845,6 +854,7 @@ public class GameController implements Initializable {
                         System.out.println(nextActor.getTokenColour() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
                     }
                     gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
+                    turn = nextActor.getTokenColour();
                 }
                 else{
                     endGame(currentActor, nextActor.getTokenColour() + " have no legal moves");
@@ -859,6 +869,7 @@ public class GameController implements Initializable {
                     addChecker(i, returnAction, nextActor, currentActor);
                 }
                 gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
+                turn = nextActor.getTokenColour();
             }
             else{
                 endGame(currentActor, nextActor.getTokenColour() + " have less than 3 tokens");
@@ -1047,7 +1058,7 @@ public class GameController implements Initializable {
         }
         else{
             // start normal gameplay
-            normalGamePlay();
+            normalGamePlay("");
         }
     }
 
