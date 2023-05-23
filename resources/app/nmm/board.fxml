@@ -69,11 +69,13 @@
                 <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
-      <Button layoutX="563.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#showHint" prefHeight="39.0" prefWidth="61.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Off" textAlignment="CENTER" textFill="RED">
+
+      <Button fx:id="hintButton" layoutX="563.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onHint" prefHeight="39.0" prefWidth="61.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Off" textAlignment="CENTER" textFill="RED">
          <font>
             <Font name="Chalkboard" size="18.0" />
          </font>
       </Button>
+
       <Text layoutX="514.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint: ">
          <font>
             <Font name="Chalkboard" size="18.0" />

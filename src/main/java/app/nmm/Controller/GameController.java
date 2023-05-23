@@ -55,6 +55,9 @@ public class GameController implements Initializable {
     @FXML
     Button unconfirmedButton;
 
+    @FXML
+    Button hintButton;
+
     private final boolean DEBUG = false;
     private ArrayList<app.nmm.Logic.Location.Node> nodeList;
     private CheckMill checkMill;
@@ -65,7 +68,8 @@ public class GameController implements Initializable {
     private int prevNodeId;
     private final String windowsResourcePath = "resources\\Graphic\\";
     private final String macResourcePath = "resources/Graphic/";
-
+    private boolean hint = false;
+    private boolean hintClicked = false;
 
     /**
      * initialise method. to initalise winner and loser value before starting the game
@@ -184,17 +188,6 @@ public class GameController implements Initializable {
 
 
     /**
-     * a method to show the hint
-     */
-    @FXML
-    void showHint(){
-        // TODO: implement hint function
-        if (DEBUG){
-            System.out.println("No hint yet");
-        }
-    }
-
-    /**
      * a method  to start a game between player and player
      */
     void pvpMode(){
@@ -229,6 +222,7 @@ public class GameController implements Initializable {
             System.out.println("Hi");
         }
     }
+
 
     /**
      * a method to manually generate locations and add into the arraylist
@@ -276,6 +270,117 @@ public class GameController implements Initializable {
         }
     }
 
+
+    @FXML
+    private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor, Actor otherActor){
+        System.out.println("put hint image");
+        // Get current group using nodeId
+        ObservableList<Node> childList =  getChildList(nodeId);
+
+        String paths = getTokenImagePath("Legal_Move.png");
+        String hintTokenID = "legalMove"; //FxID for image
+
+        // Adding image to the board
+        ImageView imageView = addItemToBoard(paths,hintTokenID,-3,-3,24,24,childList);
+
+        // On-click event
+        imageView.setOnMouseClicked(event ->{
+
+            for (int i=0;i<nodeList.size();i++){
+                removeImage(i, "legalMove");
+            }
+
+            //hint = false;
+            showReachableTokens(adjacentNodes, currentActor,otherActor);
+        });
+    }
+
+    @FXML
+    private void putReachableTokenImage(int nodeId, Actor currentActor, Actor otherActor){
+        // Get current group using nodeId
+        ObservableList<Node> childList =  getChildList(nodeId);
+
+        // Get the color of the removable token, create path to relevant image
+        String tokenColour = currentActor.getTokenColour();
+        String paths = getTokenImagePath(tokenColour + "_Token_hint.png");
+
+        String hintTokenID = "hints"; //FxID for image
+
+        // Adding image to the board
+        ImageView imageView = addItemToBoard(paths,hintTokenID,-3,-3,24,24,childList);
+
+        // On-click event
+        imageView.setOnMouseClicked(event ->{
+
+            for (int i =0 ; i< nodeList.size() ; i++){
+                removeImage(i, "hints");
+            }
+
+            hint = false;
+            hintButton.setText("off");
+            normalGamePlay();
+        });
+    }
+
+    @FXML
+    void onHint(MouseEvent event){
+        hint = true;
+        hintButton.setText("on");
+        System.out.println("hint clicked");
+        //hintClicked= true;
+        normalGamePlay();
+    }
+
+    /**
+     * a method to show the hint
+     */
+    public void showHint(Actor currentActor, Actor otherActor){
+        System.out.println("show hint");
+
+        // TODO: implement hint function
+        CheckLegalMove checkLegalMove = new CheckLegalMove();
+        String colour = currentActor.getTokenColour();
+
+        for (int i=0; i<nodeList.size();i++){
+
+            if (nodeList.get(i).getToken() == null){ // if that node is empty
+                ArrayList<Integer> adjacentNodes = checkLegalMove.getAdjacent(i);
+                System.out.println("node is empty");
+                System.out.println(adjacentNodes);
+
+                for (int j=0;j<adjacentNodes.size(); j++){ // if that empty node is reachable by any tokens
+
+                    if (nodeList.get(adjacentNodes.get(j)).getToken() != null){
+
+                        if (nodeList.get(adjacentNodes.get(j)).getToken().getColour() == colour){ // if reachable
+                            System.out.println("reachable");
+
+                            // highlight that position //
+                            putHintImage(i, adjacentNodes, currentActor, otherActor);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @FXML
+    void showReachableTokens(ArrayList<Integer> adjacentNodes, Actor currentActor, Actor otherActor){
+
+        for (int i=0;i<adjacentNodes.size(); i++){
+
+            if (nodeList.get(adjacentNodes.get(i)).getToken() != null){
+
+                if (nodeList.get(adjacentNodes.get(i)).getToken().getColour() == currentActor.getTokenColour()){
+                    putReachableTokenImage(adjacentNodes.get(i), currentActor, otherActor);
+                }
+            }
+        }
+    }
+
+
     /**
      * a main method to call putLegalMoveImage repeatedly to put the image on the board
      * @param currentActor
@@ -297,6 +402,7 @@ public class GameController implements Initializable {
         gameStatus.setText(currentActor.getTokenColour() + "'s Turn To Place Token") ;
     }
 
+
     /**
      * a method to put legal move photo on the board
      * @param nodeId current node id
@@ -314,8 +420,10 @@ public class GameController implements Initializable {
         // find the image, and put inside image view
         // get the correct path, mac and windows different way of calling path
         String path = getTokenImagePath("Legal_Move.png");
+
         // photo fxid
         String legalMoveID = "legalMove";
+
         // add to the board
         ImageView imageView = addItemToBoard(path,legalMoveID,-3,-3,24,24,childList);
 
@@ -324,6 +432,7 @@ public class GameController implements Initializable {
             if (DEBUG){
                 System.out.println("IM HERE");
             }
+
             // if currently still in put token phase
             if (currentActor.getStatus() == Capability.PUT_TOKEN) {
                 // continue and let the player choose to where to put
@@ -347,6 +456,7 @@ public class GameController implements Initializable {
         for (int i = 0; i < 24; i++){
             removeImage(i, "legalMove");
         }
+
         // subtract token count by executing the action
         action.execute(currentActor, nodeList);
         // get necessary information to add to the board
@@ -487,6 +597,13 @@ public class GameController implements Initializable {
         // same idea for two players for normal phase
         Actor actor1 = playerList.get(0);
         Actor actor2 =  playerList.get(1);
+
+        if (hintClicked){ // if the player clicks the hint button during their turn, dont switch player turn
+            actor1 = playerList.get(1);
+            actor2 =  playerList.get(0);
+            hintClicked = false;
+        }
+
         // get available action
         checkLegalMove.calculateLegalMove(actor1, nodeList);
         Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
@@ -504,6 +621,11 @@ public class GameController implements Initializable {
                 System.out.println(actor1.getTokenColour() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
             }
             gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
+
+            if (hint){
+                showHint(actor1,actor2);
+            }
+
         }
         else{ // if actor 1 has no legal moves then declare the other actor as winner
             this.endGame(actor2,actor1.getTokenColour() + " have no legal move");
@@ -603,6 +725,11 @@ public class GameController implements Initializable {
         for (int nodeId : highlightedNode){
             removeImage(nodeId, "legalMove");
         }
+
+        if (hint){
+            showHint(currentActor,nextActor);
+        }
+
         // remove transparent mask on all nodes
         for(app.nmm.Logic.Location.Node node: this.nodeList){
             int nodeId = node.getId();
