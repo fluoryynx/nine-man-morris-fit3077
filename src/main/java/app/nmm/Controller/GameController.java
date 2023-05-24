@@ -182,7 +182,7 @@ public class GameController implements Initializable {
 
 
     @FXML
-    private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor){
+    private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor, Actor nextActor){
         System.out.println("put hint image");
         // Get current group using nodeId
         ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
@@ -204,12 +204,12 @@ public class GameController implements Initializable {
             hint = false;
             hintButton.setText("off");
             hintButton.setTextFill(Color.RED);
-            showReachableTokens(adjacentNodes, currentActor);
+            showReachableTokens(adjacentNodes, currentActor, nextActor);
         });
     }
 
     @FXML
-    private void putReachableTokenImage(int nodeId, Actor currentActor){
+    private void putReachableTokenImage(int nodeId, Actor currentActor, Actor nextActor){
 
 
         // Get the color of the removable token, create path to relevant image
@@ -220,6 +220,7 @@ public class GameController implements Initializable {
 
         // Adding image to the board
         ImageView imageView = sceneEditor.addItemToBoard(paths,hintTokenID,-3,-3,24,24,nodeId);
+        Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
 
         // On-click event
         imageView.setOnMouseClicked(event ->{
@@ -233,6 +234,8 @@ public class GameController implements Initializable {
             hintButton.setTextFill(Color.RED);
             //hintClicked = true;
             normalGamePlay(turn);
+            ArrayList<Action> actionsList= returnAction.get(nodeId);
+            selectedToken(nodeId, currentActor, nextActor, actionsList);
 
         });
     }
@@ -285,7 +288,7 @@ public class GameController implements Initializable {
 
                             // highlight that position //
                             sceneEditor.removeImage(i, "legalMove");
-                            putHintImage(i, adjacentNodes, currentActor);
+                            putHintImage(i, adjacentNodes, currentActor, otherActor);
 
                         }
                     }
@@ -296,14 +299,14 @@ public class GameController implements Initializable {
 
 
     @FXML
-    void showReachableTokens(ArrayList<Integer> adjacentNodes, Actor currentActor){
+    void showReachableTokens(ArrayList<Integer> adjacentNodes, Actor currentActor, Actor nextActor){
 
         for (int i=0;i<adjacentNodes.size(); i++){
 
             if (nodeList.get(adjacentNodes.get(i)).getToken() != null){
 
                 if (nodeList.get(adjacentNodes.get(i)).getToken().getColour() == currentActor.getTokenColour()){
-                    putReachableTokenImage(adjacentNodes.get(i), currentActor);
+                    putReachableTokenImage(adjacentNodes.get(i), currentActor, nextActor);
                 }
             }
         }
@@ -539,6 +542,7 @@ public class GameController implements Initializable {
             System.out.println("return action: ");
             System.out.println(returnAction);
         }
+
         // check if actor 1 have any legal move action
         if (checkIfHaveLegalMove(returnAction, actor1.getTokenColour())){
             if (DEBUG){
