@@ -10,6 +10,7 @@ import app.nmm.Logic.Actor.Player;
 import app.nmm.Logic.Capability.Capability;
 import app.nmm.Logic.Handler.CheckLegalMove;
 import app.nmm.Logic.Handler.CheckMill;
+import app.nmm.Logic.Token.Token;
 import app.nmm.UiEditor.BoardSceneEditor;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -105,6 +106,7 @@ public class GameController implements Initializable {
         for(int i = 0; i < 24; i++){
             nodeList.add(new app.nmm.Logic.Location.Node(i));
         }
+
     }
 
     /**
@@ -212,7 +214,7 @@ public class GameController implements Initializable {
         //Add Player and Computer into the game
         playerList.add(new Player("White", p1.getText(),0));
         playerList.add(new Computer("Black", "Comp",1));
-        // TODO: implement player vs computer mode
+        showLegalPut(playerList.get(0), playerList.get(1));
     }
 
     /**
@@ -320,62 +322,46 @@ public class GameController implements Initializable {
         checkLegalMove.calculateLegalRemove(currentActor, nodeList);
 
         // If mill is formed, provide the current player option to remove enemy token
-        if(isMill.get(0) || isMill.get(1)){
+        if(isMill.get(0) || isMill.get(1)) {
             swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition);
-
-            //If removable tokens are on board
-            if (checkLegalMove.getCurrentRemovables().size()>0){
-                showPutRemovable(currentActor,nextActor);
-            }
-            else // If no removable tokens are available just continue
-            {
-                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, currentActor.getTokenColour(), currentActor.getNumberOfTokensOnBoard());
-
-                // update the current player status
-                if (currentActor.getNumberOfTokensInHand() == 0){
-                    currentActor.updateStatus(Capability.NORMAL);
-                }
-                // find if need to continue put token
-                if (playerList.get(1).getStatus()==Capability.PUT_TOKEN){
-                    // for animation purposes
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    // continue put
-                    showLegalPut(nextActor, currentActor);
-                }
-                else{
-                    // start normal gameplay
-                    normalGamePlay();
-                }
-            }
         }
-        // No mill form, continue
-        else{
-            // update the token count on the UI
+        //If removable tokens are on board
+        if ((isMill.get(0) || isMill.get(1)) && checkLegalMove.getCurrentRemovables().size()>0){
+            showPutRemovable(currentActor,nextActor);
+            }
+        else // If no removable tokens are available just continue
+        {
             sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, currentActor.getTokenColour(), currentActor.getNumberOfTokensOnBoard());
+
             // update the current player status
             if (currentActor.getNumberOfTokensInHand() == 0){
                 currentActor.updateStatus(Capability.NORMAL);
             }
             // find if need to continue put token
             if (playerList.get(1).getStatus()==Capability.PUT_TOKEN){
-                // for animation purposes
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+
+                if (nextActor instanceof Computer){
+                    ArrayList<Action> allowableAction =  checkLegalMove.calculateLegalPut(nodeList);
+                    checkLegalMove.calculateLegalRemove(nextActor,nodeList);
+                    ArrayList<Action> removableActions =  checkLegalMove.getCurrentRemovables();
+                    action =  ((Computer) nextActor).getAction(allowableAction,removableActions,nodeList,checkMill);
+                    putTokenExecutor(action,nextActor,currentActor);
                 }
-                // continue put
-                showLegalPut(nextActor, currentActor);
+                else
+                {
+                    // continue put
+                    showLegalPut(nextActor, currentActor);
+                }
+
             }
             else{
                 // start normal gameplay
                 normalGamePlay();
             }
+
         }
+
 
     }
 
@@ -573,62 +559,61 @@ public class GameController implements Initializable {
         ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillNodes(targetId);
         // Check if there are any possible tokens to be removed on the board
         checkLegalMove.calculateLegalRemove(currentActor,nodeList);
-
         // If a mill is formed
-        if(isMill.get(0)|| isMill.get(1)){
+        if((isMill.get(0)|| isMill.get(1))){
             swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
-            // If there are removable opponent tokens
-            if (checkLegalMove.getCurrentRemovables().size()>0){
-                showMoveRemoval(currentActor,nextActor);
-            }
-            // If no tokens can be removed then just continue
-            else{
-                // calculate for the allowable action
-                checkLegalMove.calculateLegalMove(nextActor, nodeList);
-                Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-                // add the mask
-                for (int i = 0; i < 24; i++){
-                    addChecker(i, returnAction, nextActor, currentActor);
-                }
-                gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
-            }
         }
-        // No mill form
+
+        if((isMill.get(0)|| isMill.get(1)) && checkLegalMove.getCurrentRemovables().size()>0) {
+
+
+            // If there are removable opponent tokens
+                showMoveRemoval(currentActor,nextActor);
+        }
         else{
+            if (nextActor.getNumberOfTokensOnBoard() < 3){
+                endGame(currentActor, nextActor.getTokenColour() + " have less than 3 tokens");
+            }
+
             if (nextActor.getNumberOfTokensOnBoard() > 3){
                 // calculate for the allowable action for next actor
                 checkLegalMove.calculateLegalMove(nextActor, nodeList);
-                Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-                // find if the next actor has any legal moves the player can play
-                if (checkIfHaveLegalMove(returnAction, nextActor.getTokenColour())){
-                    // add the mask
-                    for (int i = 0; i < 24; i++){
-                        addChecker(i, returnAction, nextActor, currentActor);
-                    }
-                    if (DEBUG){
-                        System.out.println(nextActor.getTokenColour() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
-                    }
-                    gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
-                }
-                else{
-                    endGame(currentActor, nextActor.getTokenColour() + " have no legal moves");
-                }
             }
-            else if (nextActor.getNumberOfTokensOnBoard() == 3){
+            else {
                 // calculate for the allowable action for next actor
                 checkLegalMove.calculateLegalFly(nextActor, nodeList);
-                Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-                // add the mask
-                for (int i = 0; i < 24; i++){
-                    addChecker(i, returnAction, nextActor, currentActor);
-                }
-                gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
             }
-            else{
-                endGame(currentActor, nextActor.getTokenColour() + " have less than 3 tokens");
+            Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
+            if(! checkIfHaveLegalMove(returnAction,nextActor.getTokenColour())){
+                this.endGame(nextActor,nextActor.getTokenColour() + " have no legal move");
             }
+
+
+
+            // find if the next actor has any legal moves the player can play
+            processNextActorTurn(nextActor, currentActor, returnAction);
         }
 
+    }
+
+    private void processNextActorTurn(Actor currentActor, Actor nextActor, Map<Integer, ArrayList<Action>> returnAction) {
+        Action action;
+        if (currentActor instanceof Computer){
+
+            checkLegalMove.calculateLegalRemove(currentActor, nodeList);
+            ArrayList<Action> removableAction = checkLegalMove.getCurrentRemovables();
+            action = ((Computer) currentActor).getAction(returnAction, removableAction, nodeList, checkMill);
+
+            moveTokenExecutor(action, currentActor, nextActor, new ArrayList<>());
+
+        }
+        else{
+            // add the mask
+            for (int i = 0; i < 24; i++){
+                addChecker(i, returnAction, currentActor, nextActor);
+            }
+            gameStatus.setText(currentActor.getTokenColour()+ "'s Turn To Move");
+        }
     }
 
 
@@ -761,8 +746,21 @@ public class GameController implements Initializable {
         }
         // find if need to continue put token
         if (playerList.get(1).getStatus()==Capability.PUT_TOKEN){
-            // continue put
-            showLegalPut(nextActor, currentActor);
+
+
+            if (nextActor instanceof Computer){
+                ArrayList<Action> allowableAction =  checkLegalMove.calculateLegalPut(nodeList);
+                checkLegalMove.calculateLegalRemove(nextActor,nodeList);
+                ArrayList<Action> removableActions =  checkLegalMove.getCurrentRemovables();
+                action =  ((Computer) nextActor).getAction(allowableAction,removableActions,nodeList,checkMill);
+                putTokenExecutor(action,nextActor,currentActor);
+            }
+            else
+            {
+                // continue put
+                showLegalPut(nextActor, currentActor);
+            }
+
         }
         else{
             // start normal gameplay
@@ -838,37 +836,28 @@ public class GameController implements Initializable {
         //Update token count in UI accordingly
         sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, nextActor.getTokenColour(), nextActor.getNumberOfTokensOnBoard());
 
-        if (nextActor.getNumberOfTokensOnBoard() > 3){
-            // calculate for the allowable action
-            checkLegalMove.calculateLegalMove(nextActor, nodeList);
-            Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-            if (checkIfHaveLegalMove(returnAction, nextActor.getTokenColour())){
-                // add the mask
-                for (int i = 0; i < 24; i++){
-                    addChecker(i, returnAction, nextActor, currentActor);
-                }
-                if (DEBUG){
-                    System.out.println(nextActor.getTokenColour() + " number of tokens left: " + nextActor.getNumberOfTokensOnBoard());
-                }
-                gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
-            }
-            else{
-                endGame(currentActor, nextActor.getTokenColour() + " have no legal moves");
-            }
-        }
-        else if (nextActor.getNumberOfTokensOnBoard() == 3){
-            // calculate for the allowable action
-            checkLegalMove.calculateLegalFly(nextActor, nodeList);
-            Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-            // add the mask
-            for (int i = 0; i < 24; i++){
-                addChecker(i, returnAction, nextActor, currentActor);
-            }
-            gameStatus.setText(nextActor.getTokenColour()+ "'s Turn To Move");
-        }
-        else{
+        if (nextActor.getNumberOfTokensOnBoard() < 3){
             endGame(currentActor, nextActor.getTokenColour() + " have less than 3 tokens");
         }
+
+        if (nextActor.getNumberOfTokensOnBoard() > 3){
+            // calculate for the allowable action for next actor
+            checkLegalMove.calculateLegalMove(nextActor, nodeList);
+        }
+        else {
+            // calculate for the allowable action for next actor
+            checkLegalMove.calculateLegalFly(nextActor, nodeList);
+        }
+
+        if(! checkIfHaveLegalMove(checkLegalMove.getCurrentActions(),nextActor.getTokenColour())){
+            this.endGame(nextActor,nextActor.getTokenColour() + " have no legal move");
+        }
+
+
+        Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
+        // find if the next actor has any legal moves the player can play
+        processNextActorTurn(nextActor, currentActor, returnAction);
+
     }
     /**
      * a method to call the removal of legal moves of one token on board when running normal game

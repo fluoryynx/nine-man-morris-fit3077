@@ -1,6 +1,7 @@
 package app.nmm.Logic.Handler;
 
 import app.nmm.Logic.Location.Node;
+import javafx.scene.Parent;
 import org.javatuples.Pair;
 //import javafx.util.Pair;
 
@@ -124,13 +125,13 @@ public class CheckMill {
     /**
      * check whether a mill is form after token is placed on the node
      * @param nodeList list of all nodes on the board
-     * @param nodeId the node where player recently placed token on
+     * @param targetPosition the node where player recently placed token on
      * @return true if a mill is formed
      */
-    public ArrayList<Boolean> checkPossibleMill(ArrayList<Node> nodeList, Integer nodeId) {
+    public ArrayList<Boolean> checkPossibleMill(ArrayList<Node> nodeList, Integer targetPosition) {
 
         // get corresponding mill list
-        ArrayList<ArrayList<Integer>> nodeToCheck = millPosition.get(nodeId);
+        ArrayList<ArrayList<Integer>> nodeToCheck = millPosition.get(targetPosition);
         ArrayList<Boolean> result = new ArrayList<Boolean>();
         result.add(false);
         result.add(false);
@@ -146,8 +147,9 @@ public class CheckMill {
 
                 if (nodeList.get(theNode).getToken() != null) {
 
+
                     // if the node contains player's token
-                    if (nodeList.get(theNode).getToken().getColour() == nodeList.get(nodeId).getToken().getColour()) {
+                    if (nodeList.get(theNode).getToken().getColour() == nodeList.get(targetPosition).getToken().getColour()) {
                         millCheck += 1;
                     }
                     else{
@@ -164,10 +166,74 @@ public class CheckMill {
                     result.set(1,true);
                     this.millNodes.add(nodeToCheck.get(i));
                 }
-
             }
         }
         return result;
+    }
+
+
+    /**
+     * check whether a mill is form after token is placed on the node
+     * @param nodeList list of all nodes on the board
+     * @param targetPosition the node where player recently placed token on
+     * @param  colour colour of current Player
+     * @return true if a mill is formed
+     */
+    public Pair<ArrayList<Boolean>,ArrayList<ArrayList<Integer>>> checkPossibleMill(ArrayList<Node> nodeList, Integer targetPosition, String colour, String status) {
+
+        // get corresponding mill list
+        ArrayList<ArrayList<Integer>> nodeToCheck = millPosition.get(targetPosition);
+        ArrayList<Boolean> result = new ArrayList<Boolean>();
+        result.add(false);
+        result.add(false);
+
+        this.millNodes = new ArrayList<ArrayList<Integer>>();
+
+        for (int i = 0; i < nodeToCheck.size(); i++) {
+
+            Integer millCheck = 0; // if it reaches 2 means mill is formed
+
+            for (int j = 0; j < nodeToCheck.get(i).size(); j++) {
+
+                Integer theNode = nodeToCheck.get(i).get(j);
+
+                if (nodeList.get(theNode).getToken() != null) {
+
+                    // for token to find action
+                    if (colour != null && nodeList.get(theNode).getToken().getColour() == colour){
+                        millCheck += 1;
+                    }
+                    // if the node contains player's token
+                    else if (colour == null && nodeList.get(theNode).getToken().getColour() == nodeList.get(targetPosition).getToken().getColour()) {
+                        millCheck += 1;
+                    }
+                    else{
+                        break;
+                    }
+
+                }
+
+                if (millCheck == 2 && i==0){ // first mill found
+                    result.set(0,true);
+                    this.millNodes.add(nodeToCheck.get(i));
+
+                }
+                else if (millCheck == 2 && i==1){ // second mill found
+                    result.set(1,true);
+                    this.millNodes.add(nodeToCheck.get(i));
+                }
+                else if (status == "CheckOpponent" && millCheck == 1 && i==0){ // second mill found
+                    result.set(0,true);
+                    this.millNodes.add(nodeToCheck.get(i));
+                }
+                else if (status == "CheckOpponent"  && millCheck == 1 && i==1){ // second mill found
+                    result.set(1,true);
+                    this.millNodes.add(nodeToCheck.get(i));
+                }
+
+            }
+        }
+        return new Pair<>(result,nodeToCheck);
     }
 
 

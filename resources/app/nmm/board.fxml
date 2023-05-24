@@ -321,12 +321,12 @@
                   <Image url="@../../Graphic/Black_Token_Big.png" />
                </image>
             </ImageView>
-            <Text fx:id="whitePlayerID" layoutX="214.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="78.21630859375">
+            <Text fx:id="whitePlayerID" layoutX="201.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="103.21630859375">
                <font>
                   <Font name="Chalkboard" size="24.0" />
                </font>
             </Text>
-            <Text fx:id="blackPlayerID" layoutX="351.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="78.21630859375">
+            <Text fx:id="blackPlayerID" layoutX="338.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="103.21630859375">
                <font>
                   <Font name="Chalkboard" size="24.0" />
                </font>
