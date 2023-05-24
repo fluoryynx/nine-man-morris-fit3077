@@ -104,8 +104,6 @@ public class GameController implements Initializable {
         checkMill =  new CheckMill();
         checkLegalMove = new CheckLegalMove();
 
-
-
         // Use the locations generated and manually generate the nodes
         for(int i = 0; i < 24; i++){
             nodeList.add(new app.nmm.Logic.Location.Node(i));
@@ -184,7 +182,7 @@ public class GameController implements Initializable {
 
 
     @FXML
-    private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor, Actor otherActor){
+    private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor){
         System.out.println("put hint image");
         // Get current group using nodeId
         ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
@@ -200,17 +198,19 @@ public class GameController implements Initializable {
 
             for (int i=0;i<nodeList.size();i++){
                 sceneEditor.removeImage(i, "legalMove");
+                sceneEditor.removeImage(i, "hints");
             }
 
             hint = false;
-            showReachableTokens(adjacentNodes, currentActor,otherActor);
+            hintButton.setText("off");
+            hintButton.setTextFill(Color.RED);
+            showReachableTokens(adjacentNodes, currentActor);
         });
     }
 
     @FXML
-    private void putReachableTokenImage(int nodeId, Actor currentActor, Actor otherActor){
-        // Get current group using nodeId
-        ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
+    private void putReachableTokenImage(int nodeId, Actor currentActor){
+
 
         // Get the color of the removable token, create path to relevant image
         String tokenColour = currentActor.getTokenColour();
@@ -226,6 +226,7 @@ public class GameController implements Initializable {
 
             for (int i =0 ; i< nodeList.size() ; i++){
                 sceneEditor.removeImage(i, "hints");
+                sceneEditor.removeImage(i, "legalMove");
             }
 
             hintButton.setText("off");
@@ -239,19 +240,23 @@ public class GameController implements Initializable {
     @FXML
     void onHint(MouseEvent event){
 
-        if (!hint){
+        for (int i =0 ; i< nodeList.size() ; i++){
+            sceneEditor.removeImage(i, "hints");
+            sceneEditor.removeImage(i, "legalMove");
+            sceneEditor.removeImage(i,"transparent_mask");
+        }
+
+        if (!hint){ // on hint
             System.out.println("hint on");
             hint = true;
             hintButton.setText("on");
             hintButton.setTextFill(Color.GREEN);
         }
-        else{
+        else{ // off hint
             hint = false;
+            hintButton.setText("off");
+            hintButton.setTextFill(Color.RED);
             System.out.println("hint off");
-            for (int i =0 ; i< nodeList.size() ; i++){
-                sceneEditor.removeImage(i, "hints");
-                sceneEditor.removeImage(i, "legalMove");
-            }
         }
         normalGamePlay(turn);
 
@@ -263,7 +268,6 @@ public class GameController implements Initializable {
     public void showHint(Actor currentActor, Actor otherActor){
         System.out.println("show hint");
 
-        // TODO: implement hint function
         CheckLegalMove checkLegalMove = new CheckLegalMove();
         String colour = currentActor.getTokenColour();
 
@@ -271,8 +275,6 @@ public class GameController implements Initializable {
 
             if (nodeList.get(i).getToken() == null){ // if that node is empty
                 ArrayList<Integer> adjacentNodes = checkLegalMove.getAdjacent(i);
-                System.out.println("node is empty");
-                System.out.println(adjacentNodes);
 
                 for (int j=0;j<adjacentNodes.size(); j++){ // if that empty node is reachable by any tokens
 
@@ -282,7 +284,7 @@ public class GameController implements Initializable {
                             System.out.println("reachable");
 
                             // highlight that position //
-                            putHintImage(i, adjacentNodes, currentActor, otherActor);
+                            putHintImage(i, adjacentNodes, currentActor);
 
                         }
                     }
@@ -293,14 +295,14 @@ public class GameController implements Initializable {
 
 
     @FXML
-    void showReachableTokens(ArrayList<Integer> adjacentNodes, Actor currentActor, Actor otherActor){
+    void showReachableTokens(ArrayList<Integer> adjacentNodes, Actor currentActor){
 
         for (int i=0;i<adjacentNodes.size(); i++){
 
             if (nodeList.get(adjacentNodes.get(i)).getToken() != null){
 
                 if (nodeList.get(adjacentNodes.get(i)).getToken().getColour() == currentActor.getTokenColour()){
-                    putReachableTokenImage(adjacentNodes.get(i), currentActor, otherActor);
+                    putReachableTokenImage(adjacentNodes.get(i), currentActor);
                 }
             }
         }
@@ -465,6 +467,7 @@ public class GameController implements Initializable {
                 }
                 else{
                     // start normal gameplay
+                    hintButton.setVisible(true);
                     normalGamePlay("");
                 }
             }
@@ -490,6 +493,7 @@ public class GameController implements Initializable {
             }
             else{
                 // start normal gameplay
+                hintButton.setVisible(true);
                 normalGamePlay("");
             }
         }
@@ -627,11 +631,14 @@ public class GameController implements Initializable {
             sceneEditor.removeImage(nodeId, "legalMove");
         }
 
+        hintButton.setVisible(true);
+
         // remove transparent mask on all nodes
         for(app.nmm.Logic.Location.Node node: this.nodeList){
             int nodeId = node.getId();
             sceneEditor.removeImage(nodeId,"transparent_mask");
             sceneEditor.removeImage(nodeId, "hints");
+            sceneEditor.removeImage(nodeId, "legalMove");
         }
 
         //Remove mill if the token that is being moved is part of mill
@@ -752,6 +759,7 @@ public class GameController implements Initializable {
             }
             else if (nextActor.getNumberOfTokensOnBoard() == 3){
                 // calculate for the allowable action for next actor
+                hintButton.setVisible(false);
                 checkLegalMove.calculateLegalFly(nextActor, nodeList);
                 Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
                 // add the mask
@@ -784,7 +792,6 @@ public class GameController implements Initializable {
         }
         return path;
     }
-
 
     /***
      *  A method that swap the image of the token to mill graphic if mill form
@@ -903,6 +910,7 @@ public class GameController implements Initializable {
         }
         else{
             // start normal gameplay
+            hintButton.setVisible(true);
             normalGamePlay("");
         }
     }
