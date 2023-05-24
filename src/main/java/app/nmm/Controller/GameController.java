@@ -284,6 +284,7 @@ public class GameController implements Initializable {
                             System.out.println("reachable");
 
                             // highlight that position //
+                            sceneEditor.removeImage(i, "legalMove");
                             putHintImage(i, adjacentNodes, currentActor);
 
                         }
