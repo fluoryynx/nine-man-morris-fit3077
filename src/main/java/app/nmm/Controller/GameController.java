@@ -22,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.javatuples.Pair;
 import java.io.IOException;
@@ -228,6 +229,7 @@ public class GameController implements Initializable {
             }
 
             hintButton.setText("off");
+            hintButton.setTextFill(Color.RED);
             //hintClicked = true;
             normalGamePlay(turn);
 
@@ -236,11 +238,23 @@ public class GameController implements Initializable {
 
     @FXML
     void onHint(MouseEvent event){
-        System.out.println("hint clicked");
-        hint = true;
-        hintButton.setText("on");
-        System.out.println("hint clicked");
+
+        if (!hint){
+            System.out.println("hint on");
+            hint = true;
+            hintButton.setText("on");
+            hintButton.setTextFill(Color.GREEN);
+        }
+        else{
+            hint = false;
+            System.out.println("hint off");
+            for (int i =0 ; i< nodeList.size() ; i++){
+                sceneEditor.removeImage(i, "hints");
+                sceneEditor.removeImage(i, "legalMove");
+            }
+        }
         normalGamePlay(turn);
+
     }
 
     /**
