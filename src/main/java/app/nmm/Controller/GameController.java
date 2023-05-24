@@ -221,7 +221,7 @@ public class GameController implements Initializable {
     void tutorialMode(){
         // TODO: implement tutorial mode
         if (DEBUG){
-            System.out.println("Hi");
+            System.out.println("Tutorial Time");
         }
     }
 
