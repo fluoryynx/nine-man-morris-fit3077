@@ -19,12 +19,15 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.javatuples.Pair;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -211,33 +214,36 @@ public class GameController implements Initializable {
     @FXML
     private void putReachableTokenImage(int nodeId, Actor currentActor, Actor nextActor){
 
-
         // Get the color of the removable token, create path to relevant image
         String tokenColour = currentActor.getTokenColour();
         String paths = getTokenImagePath(tokenColour + "_Token_hint.png");
 
-        String hintTokenID = "hints"; //FxID for image
+        //String hintTokenID = "hints"; //FxID for image
 
         // Adding image to the board
-        ImageView imageView = sceneEditor.addItemToBoard(paths,hintTokenID,-3,-3,24,24,nodeId);
-        Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
+        //ImageView imageView = sceneEditor.addItemToBoard(paths,hintTokenID,-3,-3,24,24,nodeId);
 
-        // On-click event
-        imageView.setOnMouseClicked(event ->{
+        sceneEditor.changeTokenImage(nodeId,tokenColour,paths,24,-4);
 
-            for (int i =0 ; i< nodeList.size() ; i++){
-                sceneEditor.removeImage(i, "hints");
-                sceneEditor.removeImage(i, "legalMove");
-            }
+//        Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
+//
+//        // On-click event
+//        imageView.setOnMouseClicked(event ->{
+//
+//            for (int i =0 ; i< nodeList.size() ; i++){
+//                sceneEditor.removeImage(i, "hints");
+//                sceneEditor.removeImage(i, "legalMove");
+//            }
+//
+//            hintButton.setText("off");
+//            hintButton.setTextFill(Color.RED);
+//            //hintClicked = true;
+//            normalGamePlay(turn);
+//            ArrayList<Action> actionsList= returnAction.get(nodeId);
+//            selectedToken(nodeId, currentActor, nextActor, actionsList);
+//
+//        });
 
-            hintButton.setText("off");
-            hintButton.setTextFill(Color.RED);
-            //hintClicked = true;
-            normalGamePlay(turn);
-            ArrayList<Action> actionsList= returnAction.get(nodeId);
-            selectedToken(nodeId, currentActor, nextActor, actionsList);
-
-        });
     }
 
     @FXML
@@ -349,8 +355,6 @@ public class GameController implements Initializable {
     }
 
 
-
-
     /**
      * a main method to call putLegalMoveImage repeatedly to put the image on the board
      * @param currentActor
@@ -396,6 +400,7 @@ public class GameController implements Initializable {
         imageView.setOnMouseClicked(event -> {
             selectExecutor(action, currentActor, nextActor, highlightedNode);
         });
+
     }
 
     private void selectExecutor(Action action, Actor currentActor, Actor nextActor, ArrayList<Integer> highlightedNode) {
@@ -589,6 +594,25 @@ public class GameController implements Initializable {
     private void selectedToken(int nodeId, Actor currentActor, Actor nextActor, ArrayList<Action> actionsList) {
         System.out.println("IM HERE from Normal with token");
         String tokenColour =  nodeList.get(nodeId).getToken().getColour();
+
+        // switch back the token images
+        for (int i=0;i<nodeList.size();i++){
+
+            if (nodeList.get(i).getToken() != null){
+                if (nodeList.get(i).getToken().getColour() == tokenColour){
+                    String imagePath = "";
+                    if (nodeList.get(i).getToken().getIsMill()){
+                        imagePath = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
+                    }
+                    else{
+                        imagePath = getTokenImagePath(tokenColour +"_Token.png");
+                    }
+                    sceneEditor.changeTokenImage(i,tokenColour, imagePath,24,-3);
+                }
+            }
+
+        }
+
         String paths = getTokenImagePath(tokenColour+"_Token_when_user_select.png");
         sceneEditor.changeTokenImage(nodeId,tokenColour, paths,24,-3);
 

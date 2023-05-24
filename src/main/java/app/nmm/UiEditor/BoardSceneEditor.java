@@ -101,6 +101,26 @@ public class BoardSceneEditor extends SceneEditor {
     }
 
 
+    public void swapToHint(int nodeId, String tokenColour, String paths, Integer size, Integer offSet) {
+        // Get the list of children of the node
+        ObservableList<Node>currentChildList =  getChildList(nodeId);
+        // Create a new file with the path of the image
+        File newFile = new File(paths);
+        // Change the graphic of the selected token to toke with highlight around.
+        for(Node node : currentChildList){
+            // If the node is an image view and the id contains the colour of the token
+            if(node.getId().contains(tokenColour) ){
+                ((ImageView) node).setImage(new Image(newFile.toURI().toString()));
+                ((ImageView) node).setFitWidth(size);
+                ((ImageView) node).setFitHeight(size);
+                ((ImageView) node).setLayoutX(offSet);
+                ((ImageView) node).setLayoutY(offSet);
+                break;
+            }
+        }
+    }
+
+
     /***
      * a method to update token count on the UI
      * @param whiteTokenCount
