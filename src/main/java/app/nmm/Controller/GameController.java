@@ -969,7 +969,13 @@ public class GameController implements Initializable {
         sceneEditor.removeImage(nodeId, "legalMove");
         // find the image, and put inside image view
         // get the correct path, mac and windows different way of calling path
-        String path = getTokenImagePath("Legal_Move.png");
+        String path;
+        if ((tutorial == 2 || tutorial == 3) && nodeId == 18){
+            path = getTokenImagePath("tutorial_highlight.png");
+        }
+        else {
+            path = getTokenImagePath("Legal_Move.png");
+        }
         // photo fxid
         String legalMoveID = "legalMove";
         // add to the board
@@ -1046,12 +1052,22 @@ public class GameController implements Initializable {
         for (Integer id : whiteTokenId){
             PutTokenAction action = new PutTokenAction(id);
             action.execute(playerList.get(0),nodeList);
-            String tokenColour = "White";
-            String tokenID = "WhitetutorialToken";
-            String path = getTokenImagePath(tokenColour+"_Token.png");
-            // add token to board
-            sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,id);
-            sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
+            if (id == 19){
+                String tokenColour = "White";
+                String tokenID = "WhitetutorialToken";
+                String path = getTokenImagePath(tokenColour+"_Token_hint.png");
+                // add token to board
+                sceneEditor.addItemToBoard(path, tokenID,-3,-3,24,24 ,id);
+                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
+            }
+            else{
+                String tokenColour = "White";
+                String tokenID = "WhitetutorialToken";
+                String path = getTokenImagePath(tokenColour+"_Token.png");
+                // add token to board
+                sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,id);
+                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
+            }
         }
         for (Integer id : blackTokenId){
             PutTokenAction action = new PutTokenAction(id);
@@ -1326,8 +1342,8 @@ public class GameController implements Initializable {
             sceneEditor.changeTokenImage(currentNodeID,tokenColour,paths,24,-3);
         }
         else{
-            String paths = getTokenImagePath(tokenColour+"_Token.png");
-            sceneEditor.changeTokenImage(currentNodeID,tokenColour,paths,18,0);
+            String paths = getTokenImagePath(tokenColour+"_Token_hint.png");
+            sceneEditor.changeTokenImage(currentNodeID,tokenColour,paths,24,-3);
         }
         prevNodeId = 0;
         clicked = false;
@@ -1353,12 +1369,22 @@ public class GameController implements Initializable {
         for (Integer id : whiteTokenId){
             PutTokenAction action = new PutTokenAction(id);
             action.execute(playerList.get(0),nodeList);
-            String tokenColour = "White";
-            String tokenID = "WhitetutorialToken";
-            String path = getTokenImagePath(tokenColour+"_Token.png");
-            // add token to board
-            sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,id);
-            sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
+            if (id == 4){
+                String tokenColour = "White";
+                String tokenID = "WhitetutorialToken";
+                String path = getTokenImagePath(tokenColour+"_Token_hint.png");
+                // add token to board
+                sceneEditor.addItemToBoard(path, tokenID,-3,-3,24,24 ,id);
+                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
+            }
+            else{
+                String tokenColour = "White";
+                String tokenID = "WhitetutorialToken";
+                String path = getTokenImagePath(tokenColour+"_Token.png");
+                // add token to board
+                sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,id);
+                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
+            }
         }
         for (Integer id : blackTokenId){
             PutTokenAction action = new PutTokenAction(id);
