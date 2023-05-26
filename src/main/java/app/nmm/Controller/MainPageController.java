@@ -76,8 +76,9 @@ public class MainPageController implements Initializable {
                 ((Text) node).setText(loser.getValue1());
             }
         }
-        ((Text)boardScene.lookup("#p1")).setText("p1");
-        ((Text)boardScene.lookup("#p2")).setText("tutorial");
+        // set the text inside the Text node
+        ((Text)boardScene.lookup("#p1")).setText(winner.getValue1());
+        ((Text)boardScene.lookup("#p2")).setText(loser.getValue1());
         mainPageScene.getChildren().removeAll();
         mainPageScene.getChildren().setAll(boardScene);
     }
