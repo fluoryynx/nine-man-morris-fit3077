@@ -240,9 +240,10 @@ public class Computer extends Actor {
 
             for (int i=0; i<nodeToCheck.size();i++){
                 for (int j=0; j<nodeToCheck.get(i).size();j++){
-                    int adjacentNode = nodeToCheck.get(i).get(j);
-                    if(nodeList.get(adjacentNode).getToken().getColour() == this.getTokenColour()){
-                        return action;
+                    Integer adjacentNode = nodeToCheck.get(i).get(j);
+                    if(nodeList.get(adjacentNode).getToken().getColour() != this.getTokenColour()){
+                        output = action;
+                        return output;
                     }
                 }
             }
