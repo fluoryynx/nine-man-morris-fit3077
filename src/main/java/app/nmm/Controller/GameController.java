@@ -323,19 +323,17 @@ public class GameController implements Initializable {
 
         // If mill is formed, provide the current player option to remove enemy token
         if(isMill.get(0) || isMill.get(1)) {
-            swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition);
-        }
-        //If removable tokens are on board
-        if ((isMill.get(0) || isMill.get(1)) && checkLegalMove.getCurrentRemovables().size()>0){
-            if (currentActor instanceof Computer){
-                checkLegalMove.calculateLegalRemove(currentActor,nodeList);
+            if (currentActor instanceof Computer && checkLegalMove.getCurrentRemovables().size()>0){
                 action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill);
                 putRemoveTokenExecutor(action,currentActor,nextActor);
             }
             else{
-                showPutRemovable(currentActor,nextActor);
+                swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition);
             }
-
+        }
+        //If removable tokens are on board
+        if ((isMill.get(0) || isMill.get(1)) && checkLegalMove.getCurrentRemovables().size()>0 && currentActor instanceof Player){
+            showPutRemovable(currentActor,nextActor);
             }
         else // If no removable tokens are available just continue
         {

@@ -237,18 +237,18 @@ public class Computer extends Actor {
         for (Action action : removeOpponentTokenActionList){
             int id = action.getNodeId();
             ArrayList<ArrayList<Integer>> nodeToCheck = millChecker.getMillNodes(id);
+            System.out.println(nodeToCheck);
 
             for (int i=0; i<nodeToCheck.size();i++){
                 for (int j=0; j<nodeToCheck.get(i).size();j++){
-                    Integer adjacentNode = nodeToCheck.get(i).get(j);
-                    if(nodeList.get(adjacentNode).getToken().getColour() != this.getTokenColour()){
-                        output = action;
-                        return output;
+                    Integer millFormingNodes = nodeToCheck.get(i).get(j);
+                    if(nodeList.get(millFormingNodes).hasToken() && nodeList.get(millFormingNodes).getToken().getColour() == nodeList.get(id).getToken().getColour()){
+                            output = action;
+                            break;
                     }
                 }
             }
         }
-
 
         if (output == null){
 
@@ -257,8 +257,6 @@ public class Computer extends Actor {
 
             output = removeOpponentTokenActionList.get(randIdx);
         }
-
-
 
         return output;
 
