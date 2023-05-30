@@ -231,6 +231,37 @@ public class Computer extends Actor {
 
     }
 
+    public Action getRemoveAction(ArrayList<Action> removeOpponentTokenActionList, ArrayList<Node> nodeList, CheckMill millChecker){
+        Action output =  null;
+
+        for (Action action : removeOpponentTokenActionList){
+            int id = action.getNodeId();
+            ArrayList<ArrayList<Integer>> nodeToCheck = millChecker.getMillNodes(id);
+
+            for (int i=0; i<nodeToCheck.size();i++){
+                for (int j=0; j<nodeToCheck.get(i).size();j++){
+                    int adjacentNode = nodeToCheck.get(i).get(j);
+                    if(nodeList.get(adjacentNode).getToken().getColour() == this.getTokenColour()){
+                        return action;
+                    }
+                }
+            }
+        }
+
+
+        if (output == null){
+
+            int size = removeOpponentTokenActionList.size();
+            int randIdx = new Random().nextInt(size);
+
+            output = removeOpponentTokenActionList.get(randIdx);
+        }
+
+
+
+        return output;
+
+    }
 
 
 }

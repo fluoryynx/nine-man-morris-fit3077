@@ -327,7 +327,15 @@ public class GameController implements Initializable {
         }
         //If removable tokens are on board
         if ((isMill.get(0) || isMill.get(1)) && checkLegalMove.getCurrentRemovables().size()>0){
-            showPutRemovable(currentActor,nextActor);
+            if (currentActor instanceof Computer){
+                checkLegalMove.calculateLegalRemove(currentActor,nodeList);
+                action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill);
+                putRemoveTokenExecutor(action,currentActor,nextActor);
+            }
+            else{
+                showPutRemovable(currentActor,nextActor);
+            }
+
             }
         else // If no removable tokens are available just continue
         {
