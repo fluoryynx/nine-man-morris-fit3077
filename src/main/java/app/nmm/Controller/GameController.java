@@ -324,6 +324,7 @@ public class GameController implements Initializable {
         // If mill is formed, provide the current player option to remove enemy token
         if(isMill.get(0) || isMill.get(1)) {
             if (currentActor instanceof Computer && checkLegalMove.getCurrentRemovables().size()>0){
+                swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition);
                 action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill);
                 putRemoveTokenExecutor(action,currentActor,nextActor);
             }
@@ -567,14 +568,20 @@ public class GameController implements Initializable {
         checkLegalMove.calculateLegalRemove(currentActor,nodeList);
         // If a mill is formed
         if((isMill.get(0)|| isMill.get(1))){
-            swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
+            if (currentActor instanceof Computer && checkLegalMove.getCurrentRemovables().size()>0){
+                swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
+                action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill);
+                moveRemoveTokenExecutor(action,currentActor,nextActor);
+            }
+            else{
+                swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
+            }
         }
 
-        if((isMill.get(0)|| isMill.get(1)) && checkLegalMove.getCurrentRemovables().size()>0) {
-
+        if((isMill.get(0)|| isMill.get(1)) && checkLegalMove.getCurrentRemovables().size()>0 && currentActor instanceof Player) {
 
             // If there are removable opponent tokens
-                showMoveRemoval(currentActor,nextActor);
+            showMoveRemoval(currentActor,nextActor);
         }
         else{
             if (nextActor.getNumberOfTokensOnBoard() < 3){

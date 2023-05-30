@@ -237,7 +237,6 @@ public class Computer extends Actor {
         for (Action action : removeOpponentTokenActionList){
             int id = action.getNodeId();
             ArrayList<ArrayList<Integer>> nodeToCheck = millChecker.getMillNodes(id);
-            System.out.println(nodeToCheck);
 
             for (int i=0; i<nodeToCheck.size();i++){
                 for (int j=0; j<nodeToCheck.get(i).size();j++){
