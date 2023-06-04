@@ -6,11 +6,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.javatuples.Pair;
 
@@ -53,6 +55,18 @@ public class MainPageController implements Initializable {
         System.out.println(mainPageScene);
         mainPageScene.getChildren().removeAll();
         mainPageScene.getChildren().setAll(boardScene);
+
+        Group group =  (Group) boardScene.lookup("#overlay");
+
+        for (Node node: group.getChildren()){
+            String id  = node.getId();
+            if ( id != null && id.equals("whitePlayerID")){
+                ((Text) node).setText(winner.getValue1());
+            }
+            else if (id != null && id.equals("blackPlayerID")){
+                ((Text) node).setText(loser.getValue1());
+            }
+        }
     }
 
     @FXML
@@ -64,6 +78,19 @@ public class MainPageController implements Initializable {
         Data data = new Data (winner, loser, "tutorial");
 
         AnchorPane boardScene = FXMLLoader.load(Application.class.getResource("board.fxml"));
+        Group group =  (Group) boardScene.lookup("#overlay");
+        for (Node node: group.getChildren()){
+            String id  = node.getId();
+            if ( id != null && id.equals("whitePlayerID")){
+                ((Text) node).setText(winner.getValue1());
+            }
+            else if (id != null && id.equals("blackPlayerID")){
+                ((Text) node).setText(loser.getValue1());
+            }
+        }
+        // set the text inside the Text node
+        ((Text)boardScene.lookup("#p1")).setText(winner.getValue1());
+        ((Text)boardScene.lookup("#p2")).setText(loser.getValue1());
         mainPageScene.getChildren().removeAll();
         mainPageScene.getChildren().setAll(boardScene);
     }

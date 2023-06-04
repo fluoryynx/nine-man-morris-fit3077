@@ -50,7 +50,8 @@ public class CheckLegalMove {
      * @return hashmap of move actions then can be perform on a given node
      */
     public void calculateLegalMove(Actor actor, ArrayList<Node> nodeList){
-        for (int i = 0; i < nodeList.size(); i++) {
+        currentActions.clear();
+        for (int i = 0; i < 24 ; i++) {
             //if current node has a token that the current player owns, check adjacent nodes
             if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour().equals(actor.getTokenColour())){
                 ArrayList<Integer> adjacentPositionOfNode=adjacentPosition.get(i); // get adjacent nodes of that node
@@ -71,7 +72,7 @@ public class CheckLegalMove {
      */
     public ArrayList<Action> calculateLegalPut(ArrayList<Node> nodeList){
         ArrayList<Action> legalMoves= new ArrayList<Action>();
-        for (int i = 0; i < nodeList.size(); i++) {
+        for (int i = 0; i < 24 ; i++) {
             if (nodeList.get(i).getToken() == null){ // if the node does not contain a token
                 legalMoves.add(new PutTokenAction(i)); // add a put token action on that node
             }
@@ -88,7 +89,7 @@ public class CheckLegalMove {
         // Ensure that possible removable tokens are always based on current board state
         currentRemovables.clear();
 
-        for (int i = 0; i < nodeList.size(); i++) {
+        for (int i = 0; i < 24; i++) {
             if (nodeList.get(i).getToken() != null){
                 // if the token is not part of a mill
                 if (!nodeList.get(i).getToken().getColour().equals(actor.getTokenColour()) && !nodeList.get(i).getToken().getIsMill()){
@@ -111,13 +112,13 @@ public class CheckLegalMove {
 
         Map<Integer,ArrayList<Action>> output = new HashMap<>();
         ArrayList<Integer> emptyNodes = new ArrayList<>(); //Stores all nodes that do not have a token
-        for (int i = 0; i < nodeList.size(); i++) {
+        for (int i = 0; i < 24; i++) {
             if (nodeList.get(i).getToken() == null){
                 emptyNodes.add(i);
             }
         }
         // If there is a node that has a current player's token, allow it to be moved to any empty nodes
-        for (int i=0; i< nodeList.size(); i++){
+        for (int i=0; i< 24; i++){
             if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour() == actor.getTokenColour()){
                 ArrayList<Action> legalMoves= new ArrayList<Action>();
                 for (int j =0; j < emptyNodes.size(); j++){

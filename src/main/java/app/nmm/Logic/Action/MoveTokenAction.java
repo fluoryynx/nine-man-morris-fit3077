@@ -37,4 +37,9 @@ public class MoveTokenAction extends Action{
         nodeList.get(targetId).addToken(nodeList.get(getNodeId()).getToken());
         nodeList.get(getNodeId()).removeToken();
     }
+
+    @Override
+    public String toString() {
+        return "from :" + super.getNodeId() + " to: " + targetId;
+    }
 }

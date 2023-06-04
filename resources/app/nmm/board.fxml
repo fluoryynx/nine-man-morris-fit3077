@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
+<AnchorPane fx:id="boardScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="649.0" style="-fx-background-color: #D9D2C1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.nmm.Controller.GameController">
     <children>
         <ImageView fitHeight="329.0" fitWidth="351.0" layoutX="159.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.4481201171875" AnchorPane.topAnchor="140.0">
             <image>
@@ -303,36 +305,36 @@
         </Text>
 
         <Group fx:id="overlay">
-            <children>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#302c2cc0" height="741.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
-                <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#d9d2c1" height="265.0" layoutX="148.0" layoutY="154.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="1.5" style="-fx-background-radius: 100px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 10px;" width="354.0" />
-                <Button fx:id="startButton" layoutX="260.0" layoutY="339.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="63.0" prefWidth="130.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Start" textAlignment="CENTER">
-                    <font>
-                        <Font name="Chalkboard" size="30.0" />
-                    </font>
-                </Button>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="228.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../Graphic/White_Token_Big.png" />
-                    </image>
-                </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="365.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../Graphic/Black_Token_Big.png" />
-                    </image>
-                </ImageView>
-                <Text fx:id="whitePlayerID" layoutX="214.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="78.21630859375">
-                    <font>
-                        <Font name="Chalkboard" size="24.0" />
-                    </font>
-                </Text>
-                <Text fx:id="blackPlayerID" layoutX="351.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="78.21630859375">
-                    <font>
-                        <Font name="Chalkboard" size="24.0" />
-                    </font>
-                </Text>
-            </children>
-        </Group>
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#302c2cc0" height="741.0" stroke="BLACK" strokeType="INSIDE" width="649.0" />
+            <Rectangle arcHeight="30.0" arcWidth="30.0" fill="#d9d2c1" height="265.0" layoutX="148.0" layoutY="154.0" stroke="BLACK" strokeLineJoin="ROUND" strokeType="INSIDE" strokeWidth="1.5" style="-fx-background-radius: 100px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 10px;" width="354.0" />
+              <Button fx:id="startButton" layoutX="260.0" layoutY="339.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="63.0" prefWidth="130.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Start" textAlignment="CENTER">
+                  <font>
+                      <Font name="Chalkboard" size="30.0" />
+                  </font>
+              </Button>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="228.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/White_Token_Big.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="365.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Graphic/Black_Token_Big.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="whitePlayerID" layoutX="201.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="103.21630859375">
+               <font>
+                  <Font name="Chalkboard" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="blackPlayerID" layoutX="338.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="103.21630859375">
+               <font>
+                  <Font name="Chalkboard" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </Group>
 
         <Group fx:id="pauseToMain" visible="false">
             <children>
@@ -387,6 +389,11 @@
 
             </children>
         </Group>
+      <Button fx:id="tutorialNext" layoutX="546.0" layoutY="667.0" mnemonicParsing="false" onMouseClicked="#showHint" prefHeight="43.0" prefWidth="78.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 15px; -fx-border-radius: 10px; -fx-border-color: #000000; -fx-border-width: 2px;" text="Next" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Chalkboard" size="18.0" />
+         </font>
+      </Button>
     </children>
     <opaqueInsets>
         <Insets />
