@@ -21,11 +21,15 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.javatuples.Pair;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -50,6 +54,9 @@ public class GameController implements Initializable {
     @FXML Button unconfirmedButton;
     @FXML Button tutorialNext;
 
+    @FXML
+    Button hintButton;
+
     private final boolean DEBUG = false;
     private ArrayList<app.nmm.Logic.Location.Node> nodeList;
     private CheckMill checkMill;
@@ -61,7 +68,8 @@ public class GameController implements Initializable {
     private final String windowsResourcePath = "resources\\Graphic\\";
     private final String macResourcePath = "resources/Graphic/";
     private BoardSceneEditor sceneEditor;
-
+    private boolean hint = false;
+    private String turn = "";
 
     /**
      * initialise method. to initalise winner and loser value before starting the game
@@ -172,14 +180,137 @@ public class GameController implements Initializable {
     }
 
 
+    @FXML
+    private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor, Actor nextActor){
+        System.out.println("put hint image");
+        // Get current group using nodeId
+        ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
+
+        String paths = getTokenImagePath("Legal_Move.png");
+        String hintTokenID = "legalMove"; //FxID for image
+
+        // Adding image to the board
+        ImageView imageView = sceneEditor.addItemToBoard(paths,hintTokenID,-3,-3,24,24,nodeId);
+
+        // On-click event
+        imageView.setOnMouseClicked(event ->{
+
+            for (int i=0;i<nodeList.size();i++){
+                sceneEditor.removeImage(i, "legalMove");
+                sceneEditor.removeImage(i, "hints");
+            }
+
+            hint = false;
+            hintButton.setText("off");
+            hintButton.setTextFill(Color.RED);
+            showReachableTokens(adjacentNodes, currentActor, nextActor);
+        });
+    }
+
+    @FXML
+    private void putReachableTokenImage(int nodeId, Actor currentActor, Actor nextActor){
+
+        // Get the color of the removable token, create path to relevant image
+        String tokenColour = currentActor.getTokenColour();
+        String paths = getTokenImagePath(tokenColour + "_Token_hint.png");
+
+        //String hintTokenID = "hints"; //FxID for image
+
+        // Adding image to the board
+        //ImageView imageView = sceneEditor.addItemToBoard(paths,hintTokenID,-3,-3,24,24,nodeId);
+
+        sceneEditor.changeTokenImage(nodeId,tokenColour,paths,24,-4);
+
+//        Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
+//
+//        // On-click event
+//        imageView.setOnMouseClicked(event ->{
+//
+//            for (int i =0 ; i< nodeList.size() ; i++){
+//                sceneEditor.removeImage(i, "hints");
+//                sceneEditor.removeImage(i, "legalMove");
+//            }
+//
+//            hintButton.setText("off");
+//            hintButton.setTextFill(Color.RED);
+//            //hintClicked = true;
+//            normalGamePlay(turn);
+//            ArrayList<Action> actionsList= returnAction.get(nodeId);
+//            selectedToken(nodeId, currentActor, nextActor, actionsList);
+//
+//        });
+
+    }
+
+    @FXML
+    void onHint(MouseEvent event){
+
+        for (int i =0 ; i< nodeList.size() ; i++){
+            sceneEditor.removeImage(i, "hints");
+            sceneEditor.removeImage(i, "legalMove");
+            sceneEditor.removeImage(i,"transparent_mask");
+        }
+
+        if (!hint){ // on hint
+            System.out.println("hint on");
+            hint = true;
+            hintButton.setText("on");
+            hintButton.setTextFill(Color.GREEN);
+        }
+        else{ // off hint
+            hint = false;
+            hintButton.setText("off");
+            hintButton.setTextFill(Color.RED);
+            System.out.println("hint off");
+        }
+        normalGamePlay(turn);
+
+    }
+
     /**
      * a method to show the hint
      */
+    public void showHint(Actor currentActor, Actor otherActor){
+        System.out.println("show hint");
+
+        CheckLegalMove checkLegalMove = new CheckLegalMove();
+        String colour = currentActor.getTokenColour();
+
+        for (int i=0; i<nodeList.size();i++){
+
+            if (nodeList.get(i).getToken() == null){ // if that node is empty
+                ArrayList<Integer> adjacentNodes = checkLegalMove.getAdjacent(i);
+
+                for (int j=0;j<adjacentNodes.size(); j++){ // if that empty node is reachable by any tokens
+
+                    if (nodeList.get(adjacentNodes.get(j)).getToken() != null){
+
+                        if (nodeList.get(adjacentNodes.get(j)).getToken().getColour() == colour){ // if reachable
+                            System.out.println("reachable");
+
+                            // highlight that position //
+                            sceneEditor.removeImage(i, "legalMove");
+                            putHintImage(i, adjacentNodes, currentActor, otherActor);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     @FXML
-    void showHint(){
-        // TODO: implement hint function
-        if (DEBUG){
-            System.out.println("No hint yet");
+    void showReachableTokens(ArrayList<Integer> adjacentNodes, Actor currentActor, Actor nextActor){
+
+        for (int i=0;i<adjacentNodes.size(); i++){
+
+            if (nodeList.get(adjacentNodes.get(i)).getToken() != null){
+
+                if (nodeList.get(adjacentNodes.get(i)).getToken().getColour() == currentActor.getTokenColour()){
+                    putReachableTokenImage(adjacentNodes.get(i), currentActor, nextActor);
+                }
+            }
         }
     }
 
@@ -227,8 +358,6 @@ public class GameController implements Initializable {
     }
 
 
-
-
     /**
      * a main method to call putLegalMoveImage repeatedly to put the image on the board
      * @param currentActor
@@ -274,6 +403,7 @@ public class GameController implements Initializable {
         imageView.setOnMouseClicked(event -> {
             selectExecutor(action, currentActor, nextActor, highlightedNode);
         });
+
     }
 
     private void selectExecutor(Action action, Actor currentActor, Actor nextActor, ArrayList<Integer> highlightedNode) {
@@ -363,7 +493,8 @@ public class GameController implements Initializable {
             }
             else{
                 // start normal gameplay
-                normalGamePlay();
+                hintButton.setVisible(true);
+                normalGamePlay("");
             }
 
         }
@@ -378,7 +509,7 @@ public class GameController implements Initializable {
     /**
      * a method to run the normal gameplay
      */
-    public void normalGamePlay() {
+    public void normalGamePlay(String colour) {
         // clear remaining legal move image on the board
         for (int i = 0; i < 24; i++){
             sceneEditor.removeImage(i, "legalMove");
@@ -386,10 +517,18 @@ public class GameController implements Initializable {
         if (DEBUG){
             System.out.println("DONE");
         }
+
         // start gameplay
         // same idea for two players for normal phase
         Actor actor1 = playerList.get(0);
         Actor actor2 =  playerList.get(1);
+
+        if (colour != "" && actor1.getTokenColour()!= colour){
+            actor1 = playerList.get(1);
+            actor2 =  playerList.get(0);
+        }
+
+
         // get available action
         checkLegalMove.calculateLegalMove(actor1, nodeList);
         Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
@@ -401,12 +540,19 @@ public class GameController implements Initializable {
             System.out.println("return action: ");
             System.out.println(returnAction);
         }
+
         // check if actor 1 have any legal move action
         if (checkIfHaveLegalMove(returnAction, actor1.getTokenColour())){
             if (DEBUG){
                 System.out.println(actor1.getTokenColour() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
             }
+            turn = actor1.getTokenColour();
             gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
+
+            if(hint){
+                showHint(actor1,actor2);
+            }
+
         }
         else{ // if actor 1 has no legal moves then declare the other actor as winner
             this.endGame(actor2,actor1.getTokenColour() + " have no legal move");
@@ -428,11 +574,11 @@ public class GameController implements Initializable {
         // set the action when click the mask here
         if(nodeList.get(nodeId).hasToken() && currentActor.getTokenColour().equals(nodeList.get(nodeId).getToken().getColour())){
 
-                // this action is for nodes with own token
-                ArrayList<Action> actionsList =  returnAction.get(nodeId);
-                imageView.setOnMouseClicked(event -> {
-                    selectedToken(nodeId, currentActor, nextActor, actionsList);
-                });
+            // this action is for nodes with own token
+            ArrayList<Action> actionsList =  returnAction.get(nodeId);
+            imageView.setOnMouseClicked(event -> {
+                selectedToken(nodeId, currentActor, nextActor, actionsList);
+            });
 
         }
     }
@@ -441,6 +587,25 @@ public class GameController implements Initializable {
     private void selectedToken(int nodeId, Actor currentActor, Actor nextActor, ArrayList<Action> actionsList) {
         System.out.println("IM HERE from Normal with token");
         String tokenColour =  nodeList.get(nodeId).getToken().getColour();
+
+        // switch back the token images
+        for (int i=0;i<nodeList.size();i++){
+
+            if (nodeList.get(i).getToken() != null){
+                if (nodeList.get(i).getToken().getColour() == tokenColour){
+                    String imagePath = "";
+                    if (nodeList.get(i).getToken().getIsMill()){
+                        imagePath = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
+                    }
+                    else{
+                        imagePath = getTokenImagePath(tokenColour +"_Token.png");
+                    }
+                    sceneEditor.changeTokenImage(i,tokenColour, imagePath,24,-3);
+                }
+            }
+
+        }
+
         String paths = getTokenImagePath(tokenColour+"_Token_when_user_select.png");
         sceneEditor.changeTokenImage(nodeId,tokenColour, paths,24,-3);
 
@@ -487,11 +652,17 @@ public class GameController implements Initializable {
         for (int nodeId : highlightedNode){
             sceneEditor.removeImage(nodeId, "legalMove");
         }
+
+        hintButton.setVisible(true);
+
         // remove transparent mask on all nodes
         for(app.nmm.Logic.Location.Node node: this.nodeList){
             int nodeId = node.getId();
             sceneEditor.removeImage(nodeId,"transparent_mask");
+            sceneEditor.removeImage(nodeId, "hints");
+            sceneEditor.removeImage(nodeId, "legalMove");
         }
+
         //Remove mill if the token that is being moved is part of mill
         int nodeId = action.getNodeId();
         ArrayList<ArrayList<Integer>> possibleMillPosition = checkMill.getMillNodes(nodeId);
@@ -593,6 +764,7 @@ public class GameController implements Initializable {
             }
             else {
                 // calculate for the allowable action for next actor
+                hintButton.setVisible(false);
                 checkLegalMove.calculateLegalFly(nextActor, nodeList);
             }
             Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
@@ -644,7 +816,6 @@ public class GameController implements Initializable {
         }
         return path;
     }
-
 
     /***
      *  A method that swap the image of the token to mill graphic if mill form
@@ -776,7 +947,8 @@ public class GameController implements Initializable {
         }
         else{
             // start normal gameplay
-            normalGamePlay();
+            hintButton.setVisible(true);
+            normalGamePlay("");
         }
     }
 
@@ -822,6 +994,7 @@ public class GameController implements Initializable {
             moveRemoveTokenExecutor(action, currentActor, otherActor);
         });
     }
+
     /**
      * Method that is called when the image created by moveRemoveTokenImage is clicked.
      * Removes the image and removes the token on the board, then proceeds to the next player (Move Phase)
@@ -911,7 +1084,7 @@ public class GameController implements Initializable {
 
         String tokenColour =  nodeList.get(currentNodeID).getToken().getColour();
         if (nodeList.get(currentNodeID).getToken().getIsMill()){
-           String paths = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
+            String paths = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
             sceneEditor.changeTokenImage(currentNodeID,tokenColour,paths,24,-3);
         }
         else{

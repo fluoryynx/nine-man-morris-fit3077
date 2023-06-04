@@ -62,6 +62,8 @@ public class CheckLegalMove {
         }
     }
 
+
+
     /**
      * this method will be used when both players are in PUT_TOKEN phase,
      * ends when both players have placed 9 tokens on the board(tokens on hand ==0.)
@@ -144,5 +146,11 @@ public class CheckLegalMove {
     public ArrayList<Action> getCurrentRemovables() {
         return currentRemovables;
     }
+
+    public ArrayList<Integer> getAdjacent(Integer i) {
+        return adjacentPosition.get(i);
+    }
+
+
 
 }
