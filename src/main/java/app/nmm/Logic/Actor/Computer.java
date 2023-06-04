@@ -136,14 +136,13 @@ public class Computer extends Actor {
             output = allowableActionList.get(randomKey).get(randIdx);
 
             boolean cond1 = (finalPos != null && initialPos != null);
-            boolean cond2 = (output.getNodeId() == finalPos && ((MoveTokenAction) output).getTargetId() == initialPos);
             if (!cond1){
                 initialPos = output.getNodeId();
                 finalPos = ((MoveTokenAction) output).getTargetId();
                 System.out.println(output.toString());
                 return output;
             }
-
+            boolean cond2 = (output.getNodeId() == finalPos && ((MoveTokenAction) output).getTargetId() == initialPos);
             if (cond1&& ! cond2){
                 initialPos = output.getNodeId();
                 finalPos = ((MoveTokenAction) output).getTargetId();
