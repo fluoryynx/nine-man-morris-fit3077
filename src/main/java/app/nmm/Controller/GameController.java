@@ -1287,7 +1287,7 @@ public class GameController implements Initializable {
     }
 
 
-    private void selectedTokenTutorial(int nodeId, Actor currentActor, ArrayList<Action> actionsList) {
+    void selectedTokenTutorial(int nodeId, Actor currentActor, ArrayList<Action> actionsList) {
         System.out.println("IM HERE from Normal with token");
         String tokenColour =  "White";
         String paths = getTokenImagePath(tokenColour+"_Token_when_user_select.png");
@@ -1371,17 +1371,15 @@ public class GameController implements Initializable {
         ArrayList<ArrayList<Integer>> millCombinationTokenPosition = checkMill.getMillNodes(targetId);
         // Check if there are any possible tokens to be removed on the board
         checkLegalMove.calculateLegalRemove(currentActor,nodeList);
-        swapTokenToMillTutorial(targetId, isMill, millCombinationTokenPosition);
+        swapTokenToMillTutorial(targetId);
         showMoveRemovalTutorial(currentActor);
     }
 
     /***
      *  A method that swap the image of the token to mill graphic if mill form
      * @param nodeId node that is being executed
-     * @param isMill list of boolean indicating if the particular mill set form a mill
-     * @param millCombinationTokenPosition list of possible mill set
      */
-    private void swapTokenToMillTutorial(int nodeId, ArrayList<Boolean> isMill, ArrayList<ArrayList<Integer>> millCombinationTokenPosition) {
+    void swapTokenToMillTutorial(int nodeId) {
         String tokenColour =  this.nodeList.get(nodeId).getToken().getColour();
         String paths = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
         // Change the current token to graphic with mill highlight
@@ -1395,13 +1393,13 @@ public class GameController implements Initializable {
      * @param currentActor Current Player
      */
     @FXML
-    private void showMoveRemovalTutorial(Actor currentActor){
+    void showMoveRemovalTutorial(Actor currentActor){
         // Get the available remove token actions
         ArrayList<Action> returnAction = checkLegalMove.getCurrentRemovables();
         //Places an image to indicate that token is removable for each action retrieved
         for (Action action : returnAction){
             int id = action.getNodeId();
-            moveRemoveTokenImageTutorial(id, action, currentActor);
+            moveRemoveTokenImageTutorial(id, action);
         }
         // Update current game status
         gameStatus.setText(currentActor.getTokenColour()+ " Select a Token to Remove.");
@@ -1411,10 +1409,9 @@ public class GameController implements Initializable {
      * Method to put images for token that can be removed on board(move phase)
      * @param nodeId The node of token that can be removed
      * @param action Remove action
-     * @param currentActor Current Player
      */
     @FXML
-    private void moveRemoveTokenImageTutorial(int nodeId,Action action, Actor currentActor){
+    void moveRemoveTokenImageTutorial(int nodeId,Action action){
         // Removal of the mask for each node so that the player is enforced to only remove opponent tokens if available
         for (int i=0; i<24; i++){
             sceneEditor.removeImage(i,"transparent_mask");
@@ -1427,16 +1424,15 @@ public class GameController implements Initializable {
         ImageView imageView = sceneEditor.addItemToBoard(paths,removeTokenID,-3,-3,24,24,nodeId);
         // On-click event
         imageView.setOnMouseClicked(event ->{
-            moveRemoveTokenExecutorTutorial(action, currentActor);
+            moveRemoveTokenExecutorTutorial(action);
         });
     }
     /**
      * Method that is called when the image created by moveRemoveTokenImage is clicked.
      * Removes the image and removes the token on the board, then proceeds to the next player (Move Phase)
      * @param action RemoveAction on a specific token on a node
-     * @param currentActor Current Player
      */
-    void moveRemoveTokenExecutorTutorial(Action action, Actor currentActor){
+    void moveRemoveTokenExecutorTutorial(Action action){
         Actor nextActor = playerList.get(1);
         // Remove all the Removable Token images on board based on FxID of image assigned earlier
         for (int i=0; i<24; i++){
