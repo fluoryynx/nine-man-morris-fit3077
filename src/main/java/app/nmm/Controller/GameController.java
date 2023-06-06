@@ -488,13 +488,14 @@ public class GameController implements Initializable {
 
         // If mill is formed, provide the current player option to remove enemy token
         if(isMill.get(0) || isMill.get(1)) {
+            // if the current player is Computer and there are removables
             if (currentActor instanceof Computer && checkLegalMove.getCurrentRemovables().size()>0){
-                swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition);
-                action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill);
-                putRemoveTokenExecutor(action,currentActor,nextActor);
+                swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition); //updates token image to show mill
+                action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill); // calibrates which token to remove
+                putRemoveTokenExecutor(action,currentActor,nextActor); // removes the token that was calibrated
             }
             else{
-                swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition);
+                swapTokenToMill(action.getNodeId(), isMill, millCombinationTokenPosition); // regular update token image to show mill
             }
         }
         //If removable tokens are on board
@@ -786,13 +787,14 @@ public class GameController implements Initializable {
         checkLegalMove.calculateLegalRemove(currentActor,nodeList);
         // If a mill is formed
         if((isMill.get(0)|| isMill.get(1))){
+            // If Current player is a computer and there are removable tokens on board
             if (currentActor instanceof Computer && checkLegalMove.getCurrentRemovables().size()>0){
-                swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
-                action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill);
-                moveRemoveTokenExecutor(action,currentActor,nextActor);
+                swapTokenToMill(targetId, isMill, millCombinationTokenPosition); //update token image on board to show mill
+                action = ((Computer) currentActor).getRemoveAction(checkLegalMove.getCurrentRemovables(),nodeList,checkMill); // calibrates which token to remove
+                moveRemoveTokenExecutor(action,currentActor,nextActor); // removes the token that was calibrated
             }
             else{
-                swapTokenToMill(targetId, isMill, millCombinationTokenPosition);
+                swapTokenToMill(targetId, isMill, millCombinationTokenPosition); // updates the token image to show mill
             }
         }
 

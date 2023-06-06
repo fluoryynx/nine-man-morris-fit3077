@@ -230,13 +230,24 @@ public class Computer extends Actor {
 
     }
 
+    /**
+     * This method calibrates the token to be removed from all the possible tokens that can be removed on board
+     * This heuristic prioritizes if any row is occupied by 2 of the opponent tokens
+     * @param removeOpponentTokenActionList Possible tokens that can be removed
+     * @param nodeList The list of nodes
+     * @param millChecker To check which group of nodes can potentially form a mill
+     * @return
+     */
     public Action getRemoveAction(ArrayList<Action> removeOpponentTokenActionList, ArrayList<Node> nodeList, CheckMill millChecker){
-        Action output =  null;
+        Action output =  null; // initializes the output to be null
 
+        // Loops through the list of tokens that can be removed to calculate which token to remove
         for (Action action : removeOpponentTokenActionList){
             int id = action.getNodeId();
+            // to get the neighbouring nodes that can form a mill based on the node where the removable token is at
             ArrayList<ArrayList<Integer>> nodeToCheck = millChecker.getMillNodes(id);
 
+            // if 2/3 nodes in a row is occupied by an opponent's token, select that token to be removed
             for (int i=0; i<nodeToCheck.size();i++){
                 for (int j=0; j<nodeToCheck.get(i).size();j++){
                     Integer millFormingNodes = nodeToCheck.get(i).get(j);
@@ -247,7 +258,7 @@ public class Computer extends Actor {
                 }
             }
         }
-
+        // if no tokens were found based on the above heuristic, randomly select one removable token on board
         if (output == null){
 
             int size = removeOpponentTokenActionList.size();
