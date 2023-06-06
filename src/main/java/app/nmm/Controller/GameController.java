@@ -649,10 +649,13 @@ public class GameController implements Initializable {
         }
 
         String paths = getTokenImagePath(tokenColour+"_Token_when_user_select.png");
-        sceneEditor.changeTokenImage(nodeId,tokenColour, paths,24,-3);
+
+        if (!hint){
+            sceneEditor.changeTokenImage(nodeId,tokenColour, paths,24,-3);
+        }
 
         // if action is not null, remove legal move from previous selected token and show current legal move for current token
-        if(actionsList != null && !gameEnd){
+        if(actionsList != null && !gameEnd && !hint ){
             ArrayList<Integer> highlighted_node = new ArrayList<>();
             for(Action action: actionsList) {
                 int targetID = ((MoveTokenAction) action).getTargetId();
@@ -823,7 +826,6 @@ public class GameController implements Initializable {
             }
 
         }
-
     }
 
     private void processNextActorTurn(Actor currentActor, Actor nextActor, Map<Integer, ArrayList<Action>> returnAction) {
@@ -1091,6 +1093,7 @@ public class GameController implements Initializable {
         processNextActorTurn(nextActor, currentActor, returnAction);
 
     }
+
     /**
      * a method to call the removal of legal moves of one token on board when running normal game
      * @param currentNodeID
