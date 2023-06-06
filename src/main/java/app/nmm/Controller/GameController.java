@@ -241,6 +241,7 @@ public class GameController implements Initializable {
 
         if (!hint){ // on hint
             System.out.println("hint on");
+
             hint = true;
             hintButton.setText("on");
             hintButton.setTextFill(Color.GREEN);
@@ -251,6 +252,7 @@ public class GameController implements Initializable {
             hintButton.setTextFill(Color.RED);
             System.out.println("hint off");
         }
+        System.out.println(turn);
         normalGamePlay(turn);
 
     }
@@ -503,6 +505,7 @@ public class GameController implements Initializable {
         for (int i = 0; i < 24; i++){
             sceneEditor.removeImage(i, "legalMove");
         }
+
         if (DEBUG){
             System.out.println("DONE");
         }
@@ -792,6 +795,7 @@ public class GameController implements Initializable {
             for (int i = 0; i < 24; i++){
                 addChecker(i, returnAction, currentActor, nextActor);
             }
+            turn = currentActor.getTokenColour();
             gameStatus.setText(currentActor.getTokenColour()+ "'s Turn To Move");
         }
     }
