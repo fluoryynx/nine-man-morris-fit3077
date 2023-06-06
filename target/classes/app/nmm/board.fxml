@@ -74,7 +74,7 @@
                 <Font name="Chalkboard" size="18.0" />
             </font>
         </Button>
-        <Text layoutX="514.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint: ">
+        <Text fx:id="hintText" layoutX="514.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint: " visible="false">
             <font>
                 <Font name="Chalkboard" size="18.0" />
             </font>
