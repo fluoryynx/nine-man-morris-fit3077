@@ -5,4 +5,7 @@
 3. Locate your Operating System folder and run the NMM.jar by double clicking the jar file. If double clicking does not open the game, open terminal or command prompt inside the folder, and type in "java -jar NMM.jar"
 
 # YouTube Link
+## Sprint 3
 https://www.youtube.com/watch?v=kR9K8Zcwcdw
+
+## Sprint 4
