@@ -688,7 +688,7 @@ public class GameController implements Initializable {
                         // Check if the current token is still part of a mill set.
                         if (!nodeList.get(id).getToken().getIsMill()){
                             // change the token image if it is not part of the mill set
-                            sceneEditor.changeTokenImage(id, tokenColour, paths, 18,-3);
+                            sceneEditor.changeTokenImage(id, tokenColour, paths, 18,0);
                         }
                     }
                 }
