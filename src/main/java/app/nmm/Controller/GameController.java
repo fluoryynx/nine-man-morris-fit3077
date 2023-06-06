@@ -53,6 +53,7 @@ public class GameController implements Initializable {
     @FXML Button confirmButton;
     @FXML Button unconfirmedButton;
     @FXML Button tutorialNext;
+    @FXML Button closeButton;
 
     @FXML
     Button hintButton;
@@ -70,6 +71,8 @@ public class GameController implements Initializable {
     private BoardSceneEditor sceneEditor;
     private boolean hint = false;
     private String turn = "";
+    private boolean gameEnd = false;
+    private String theWinner = "";
 
     /**
      * initialise method. to initalise winner and loser value before starting the game
@@ -127,6 +130,14 @@ public class GameController implements Initializable {
     }
 
     @FXML
+    void closeEndGameOverlay(MouseEvent event) {
+        Group group = (Group) currentScene.lookup("#end_game_overlay");
+        group.setVisible(false);
+        gameStatus.setText(theWinner);
+    }
+
+
+    @FXML
     void showBackToMainOverlay(MouseEvent event) {
         // set overlay visibility to false
         Group group = (Group) currentScene.lookup("#pauseToMain");
@@ -165,18 +176,21 @@ public class GameController implements Initializable {
      * @param loseCondition
      */
     @FXML void endGame(Actor winner, String loseCondition){
-        gameStatus.setText(winner.getTokenColour() + " won");
+        gameEnd = true;
+        //gameStatus.setText(winner.getTokenColour() + " won");
+
+        theWinner = winner.getTokenColour() + " won";
+        System.out.println(theWinner);
+
         displayWinner.setText(winner.getTokenColour() + " won" );
+
         System.out.println(loseCondition);
+
         reasonWin.setText(loseCondition);
         //set overlay visibility to true
         Group group = (Group) currentScene.lookup("#end_game_overlay");
         group.setVisible(true);
 
-        if (DEBUG){
-            System.out.println(currentScene);
-            System.out.println("game end");
-        }
     }
 
 
@@ -209,38 +223,12 @@ public class GameController implements Initializable {
 
     @FXML
     private void putReachableTokenImage(int nodeId, Actor currentActor, Actor nextActor){
-
         // Get the color of the removable token, create path to relevant image
         String tokenColour = currentActor.getTokenColour();
         String paths = getTokenImagePath(tokenColour + "_Token_hint.png");
-
-        //String hintTokenID = "hints"; //FxID for image
-
-        // Adding image to the board
-        //ImageView imageView = sceneEditor.addItemToBoard(paths,hintTokenID,-3,-3,24,24,nodeId);
-
-        sceneEditor.changeTokenImage(nodeId,tokenColour,paths,24,-4);
-
-//        Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-//
-//        // On-click event
-//        imageView.setOnMouseClicked(event ->{
-//
-//            for (int i =0 ; i< nodeList.size() ; i++){
-//                sceneEditor.removeImage(i, "hints");
-//                sceneEditor.removeImage(i, "legalMove");
-//            }
-//
-//            hintButton.setText("off");
-//            hintButton.setTextFill(Color.RED);
-//            //hintClicked = true;
-//            normalGamePlay(turn);
-//            ArrayList<Action> actionsList= returnAction.get(nodeId);
-//            selectedToken(nodeId, currentActor, nextActor, actionsList);
-//
-//        });
-
+        sceneEditor.changeTokenImage(nodeId,tokenColour,paths,18,0);
     }
+
 
     @FXML
     void onHint(MouseEvent event){
@@ -411,13 +399,15 @@ public class GameController implements Initializable {
             System.out.println("IM HERE");
         }
         // if currently still in put token phase
-        if (currentActor.getStatus() == Capability.PUT_TOKEN) {
-            // continue and let the player choose to where to put
-            putTokenExecutor(action, currentActor, nextActor);
-        }
-        else {
-            // continue and start the game normally
-            moveTokenExecutor(action, currentActor, nextActor, highlightedNode);
+        if (!gameEnd){
+            if (currentActor.getStatus() == Capability.PUT_TOKEN) {
+                // continue and let the player choose to where to put
+                putTokenExecutor(action, currentActor, nextActor);
+            }
+            else {
+                // continue and start the game normally
+                moveTokenExecutor(action, currentActor, nextActor, highlightedNode);
+            }
         }
     }
 
@@ -476,7 +466,6 @@ public class GameController implements Initializable {
             // find if need to continue put token
             if (playerList.get(1).getStatus()==Capability.PUT_TOKEN){
 
-
                 if (nextActor instanceof Computer){
                     ArrayList<Action> allowableAction =  checkLegalMove.calculateLegalPut(nodeList);
                     checkLegalMove.calculateLegalRemove(nextActor,nodeList);
@@ -528,7 +517,6 @@ public class GameController implements Initializable {
             actor2 =  playerList.get(0);
         }
 
-
         // get available action
         checkLegalMove.calculateLegalMove(actor1, nodeList);
         Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
@@ -542,21 +530,25 @@ public class GameController implements Initializable {
         }
 
         // check if actor 1 have any legal move action
-        if (checkIfHaveLegalMove(returnAction, actor1.getTokenColour())){
-            if (DEBUG){
-                System.out.println(actor1.getTokenColour() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
-            }
-            turn = actor1.getTokenColour();
-            gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
+        if (!gameEnd){
 
-            if(hint){
-                showHint(actor1,actor2);
-            }
+            if (checkIfHaveLegalMove(returnAction, actor1.getTokenColour())){
+                if (DEBUG){
+                    System.out.println(actor1.getTokenColour() + " number of tokens: " + actor1.getNumberOfTokensOnBoard());
+                }
+                turn = actor1.getTokenColour();
+                gameStatus.setText(actor1.getTokenColour()+ "'s Turn To Move");
 
+                if(hint){
+                    showHint(actor1,actor2);
+                }
+            }
+            else{ // if actor 1 has no legal moves then declare the other actor as winner
+                endGame(actor2,actor1.getTokenColour() + " have no legal move");
+            }
         }
-        else{ // if actor 1 has no legal moves then declare the other actor as winner
-            this.endGame(actor2,actor1.getTokenColour() + " have no legal move");
-        }
+
+
     }
 
     /**
@@ -610,7 +602,7 @@ public class GameController implements Initializable {
         sceneEditor.changeTokenImage(nodeId,tokenColour, paths,24,-3);
 
         // if action is not null, remove legal move from previous selected token and show current legal move for current token
-        if(actionsList != null){
+        if(actionsList != null && !gameEnd){
             ArrayList<Integer> highlighted_node = new ArrayList<>();
             for(Action action: actionsList) {
                 int targetID = ((MoveTokenAction) action).getTargetId();
@@ -692,7 +684,7 @@ public class GameController implements Initializable {
                         // Check if the current token is still part of a mill set.
                         if (!nodeList.get(id).getToken().getIsMill()){
                             // change the token image if it is not part of the mill set
-                            sceneEditor.changeTokenImage(id, tokenColour, paths, 18,0);
+                            sceneEditor.changeTokenImage(id, tokenColour, paths, 18,-3);
                         }
                     }
                 }
@@ -711,6 +703,9 @@ public class GameController implements Initializable {
 
         // move the token
         action.execute(currentActor, nodeList);
+        hint = false;
+        hintButton.setText("off");
+        hintButton.setTextFill(Color.RED);
         // reset clicked
         clicked = false;
         prevNodeId = 0;
@@ -768,14 +763,15 @@ public class GameController implements Initializable {
                 checkLegalMove.calculateLegalFly(nextActor, nodeList);
             }
             Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-            if(! checkIfHaveLegalMove(returnAction,nextActor.getTokenColour())){
-                this.endGame(nextActor,nextActor.getTokenColour() + " have no legal move");
+            if(! checkIfHaveLegalMove(returnAction,nextActor.getTokenColour()) && !gameEnd){
+                endGame(currentActor,nextActor.getTokenColour() + " have no legal move");
             }
 
-
-
             // find if the next actor has any legal moves the player can play
-            processNextActorTurn(nextActor, currentActor, returnAction);
+            if (!gameEnd){
+                processNextActorTurn(nextActor, currentActor, returnAction);
+            }
+
         }
 
     }
@@ -1102,6 +1098,9 @@ public class GameController implements Initializable {
 
     boolean checkIfHaveLegalMove(Map<Integer, ArrayList<Action>> actionList, String actorColor){
         boolean moveAction = false;
+//        if (gameEnd){
+//            return false;
+//        }
         for (int i = 0; i < 24; i++){
             ArrayList<Action> action = actionList.get(i);
             if (nodeList.get(i).getToken() != null && nodeList.get(i).getToken().getColour().equals(actorColor)){
