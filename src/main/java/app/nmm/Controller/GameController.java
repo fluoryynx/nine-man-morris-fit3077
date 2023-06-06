@@ -138,10 +138,17 @@ public class GameController implements Initializable {
 
 
     @FXML
-    void showBackToMainOverlay(MouseEvent event) {
-        // set overlay visibility to false
-        Group group = (Group) currentScene.lookup("#pauseToMain");
-        group.setVisible(true);
+    void showBackToMainOverlay(MouseEvent event) throws IOException {
+
+        if (!gameEnd){
+            // set overlay visibility to false
+            Group group = (Group) currentScene.lookup("#pauseToMain");
+            group.setVisible(true);
+        }
+        else{
+            backToMain();
+        }
+
     }
 
     /**
