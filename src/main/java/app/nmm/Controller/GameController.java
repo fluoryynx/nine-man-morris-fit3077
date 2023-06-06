@@ -47,6 +47,7 @@ public class GameController implements Initializable {
     @FXML Text gameStatus;
     @FXML Text displayWinner;
     @FXML Text reasonWin;
+    @FXML Text hintText;
     @FXML AnchorPane boardScene;
     Scene currentScene;
     @FXML Button startButton;
@@ -149,9 +150,13 @@ public class GameController implements Initializable {
 
         // find current suitable gamemode
         if (mode.equals("computer")){
+            // set hint text is on
+            hintText.setVisible(true);
             pvCMode();
         }
         else if (mode.equals("player")){
+            // set hint text is on
+            hintText.setVisible(true);
             pvpMode();
         }
         else {
@@ -344,17 +349,13 @@ public class GameController implements Initializable {
      * a method to call tutorial mode
      */
     void tutorialMode(){
-        // TODO: implement tutorial mode
         //Add Player and Computer into the game
         playerList.add(new Player("White", p1.getText(),0));
         playerList.add(new Computer("Black", "Tutorial",1));
         if (DEBUG){
             System.out.println("Tutorial Time");
         }
-        // TODO: scene 1 - move token, form mill, remove token
         tutorial1();
-        // TODO: scene 2 - fly  token
-        // TODO: scene 3 - form mill, win game
     }
 
 
