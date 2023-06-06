@@ -55,6 +55,7 @@ public class GameController implements Initializable {
     @FXML Button unconfirmedButton;
     @FXML Button tutorialNext;
     @FXML Button closeButton;
+    @FXML Button showBackToMain;
 
     @FXML
     Button hintButton;
