@@ -197,8 +197,6 @@ public class GameController implements Initializable {
     @FXML
     private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor, Actor nextActor){
         System.out.println("put hint image");
-        // Get current group using nodeId
-        ObservableList<Node> childList =  sceneEditor.getChildList(nodeId);
 
         String paths = getTokenImagePath("Legal_Move.png");
         String hintTokenID = "legalMove"; //FxID for image
@@ -226,7 +224,7 @@ public class GameController implements Initializable {
         // Get the color of the removable token, create path to relevant image
         String tokenColour = currentActor.getTokenColour();
         String paths = getTokenImagePath(tokenColour + "_Token_hint.png");
-        sceneEditor.changeTokenImage(nodeId,tokenColour,paths,18,0);
+        sceneEditor.changeTokenImage(nodeId,tokenColour,paths,24,-3);
     }
 
 
@@ -588,11 +586,14 @@ public class GameController implements Initializable {
                     String imagePath = "";
                     if (nodeList.get(i).getToken().getIsMill()){
                         imagePath = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
+                        sceneEditor.changeTokenImage(i,tokenColour, imagePath,24,-3);
+
                     }
                     else{
                         imagePath = getTokenImagePath(tokenColour +"_Token.png");
+                        sceneEditor.changeTokenImage(i,tokenColour, imagePath,18,0);
+
                     }
-                    sceneEditor.changeTokenImage(i,tokenColour, imagePath,24,-3);
                 }
             }
 
