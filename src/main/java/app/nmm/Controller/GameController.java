@@ -116,6 +116,10 @@ public class GameController implements Initializable {
 
     }
 
+    /**
+     * brings user back to the main page
+     * @throws IOException
+     */
     @FXML
     void backToMain() throws IOException {
         AnchorPane mainPageScene = FXMLLoader.load(Application.class.getResource("main.fxml"));
@@ -123,12 +127,20 @@ public class GameController implements Initializable {
         boardScene.getChildren().setAll(mainPageScene);
     }
 
+    /**
+     * close the back to main overlay
+     * @param event
+     */
     @FXML
     void closeOverlay(MouseEvent event) {
         Group group = (Group) currentScene.lookup("#pauseToMain");
         group.setVisible(false);
     }
 
+    /**
+     * close the end game overlay
+     * @param event
+     */
     @FXML
     void closeEndGameOverlay(MouseEvent event) {
         Group group = (Group) currentScene.lookup("#end_game_overlay");
@@ -136,7 +148,11 @@ public class GameController implements Initializable {
         gameStatus.setText(theWinner);
     }
 
-
+    /**
+     * promps for confirmation to go back to the main page
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void showBackToMainOverlay(MouseEvent event) throws IOException {
 
@@ -200,7 +216,13 @@ public class GameController implements Initializable {
 
     }
 
-
+    /**
+     * highlight nodes reachable by any of the current actor's token
+     * @param nodeId
+     * @param adjacentNodes
+     * @param currentActor
+     * @param nextActor
+     */
     @FXML
     private void putHintImage(int nodeId, ArrayList<Integer> adjacentNodes , Actor currentActor, Actor nextActor){
         System.out.println("put hint image");
@@ -214,11 +236,12 @@ public class GameController implements Initializable {
         // On-click event
         imageView.setOnMouseClicked(event ->{
 
-            for (int i=0;i<nodeList.size();i++){
+            for (int i=0;i<nodeList.size();i++){ // remove previously added image
                 sceneEditor.removeImage(i, "legalMove");
                 sceneEditor.removeImage(i, "hints");
             }
 
+            // reset hint status
             hint = false;
             hintButton.setText("off");
             hintButton.setTextFill(Color.RED);
@@ -226,6 +249,12 @@ public class GameController implements Initializable {
         });
     }
 
+    /**
+     * highligh tokens that can reach the selected reachable node
+     * @param nodeId
+     * @param currentActor
+     * @param nextActor
+     */
     @FXML
     private void putReachableTokenImage(int nodeId, Actor currentActor, Actor nextActor){
         // Get the color of the removable token, create path to relevant image
@@ -234,11 +263,14 @@ public class GameController implements Initializable {
         sceneEditor.changeTokenImage(nodeId,tokenColour,paths,24,-3);
     }
 
-
+    /**
+     * use to toggle hint and continue normal game play
+     * @param event
+     */
     @FXML
     void onHint(MouseEvent event){
 
-        for (int i =0 ; i< nodeList.size() ; i++){
+        for (int i =0 ; i< nodeList.size() ; i++){ // remove previously added hints
             sceneEditor.removeImage(i, "hints");
             sceneEditor.removeImage(i, "legalMove");
             sceneEditor.removeImage(i,"transparent_mask");
@@ -294,16 +326,21 @@ public class GameController implements Initializable {
         }
     }
 
-
+    /**
+     * highligh tokens that can reach the selected node
+     * @param adjacentNodes
+     * @param currentActor
+     * @param nextActor
+     */
     @FXML
     void showReachableTokens(ArrayList<Integer> adjacentNodes, Actor currentActor, Actor nextActor){
 
         for (int i=0;i<adjacentNodes.size(); i++){
 
-            if (nodeList.get(adjacentNodes.get(i)).getToken() != null){
+            if (nodeList.get(adjacentNodes.get(i)).getToken() != null){ // if there is a token next to it
 
                 if (nodeList.get(adjacentNodes.get(i)).getToken().getColour() == currentActor.getTokenColour()){
-                    putReachableTokenImage(adjacentNodes.get(i), currentActor, nextActor);
+                    putReachableTokenImage(adjacentNodes.get(i), currentActor, nextActor); // highlight the token
                 }
             }
         }
