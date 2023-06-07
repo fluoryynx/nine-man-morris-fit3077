@@ -1644,7 +1644,7 @@ public class GameController implements Initializable {
                 // add token to board
                 sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,id);
             }
-            sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
+            sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 3);
         }
         for (Integer id : blackTokenId){
             PutTokenAction action = new PutTokenAction(id);
