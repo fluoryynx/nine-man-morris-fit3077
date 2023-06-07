@@ -282,6 +282,29 @@ public class GameController implements Initializable {
             sceneEditor.removeImage(i,"transparent_mask");
         }
 
+        String tokenColour =  turn;
+        // switch back the token images
+        for (int i=0;i<nodeList.size();i++){
+
+            if (nodeList.get(i).getToken() != null){
+                if (nodeList.get(i).getToken().getColour() == tokenColour){
+                    String imagePath = "";
+                    if (nodeList.get(i).getToken().getIsMill()){
+                        imagePath = getTokenImagePath(tokenColour+"_Token_with_Mill.png");
+                        sceneEditor.changeTokenImage(i,tokenColour, imagePath,24,-3);
+
+                    }
+                    else{
+                        imagePath = getTokenImagePath(tokenColour +"_Token.png");
+                        sceneEditor.changeTokenImage(i,tokenColour, imagePath,18,0);
+
+                    }
+                }
+            }
+
+        }
+
+
         if (!hint){ // on hint
             System.out.println("hint on");
 
