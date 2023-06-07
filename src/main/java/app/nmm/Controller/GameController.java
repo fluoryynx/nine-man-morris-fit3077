@@ -463,6 +463,13 @@ public class GameController implements Initializable {
 
     }
 
+    /**
+     * This method is called when the user clicks on a node
+     * @param action the action that is being performed
+     * @param currentActor the current actor
+     * @param nextActor the next actor
+     * @param highlightedNode the highlighted node
+     */
     private void selectExecutor(Action action, Actor currentActor, Actor nextActor, ArrayList<Integer> highlightedNode) {
         if (DEBUG){
             System.out.println("IM HERE");
@@ -647,6 +654,13 @@ public class GameController implements Initializable {
     }
 
 
+    /**
+     * This method is called when a token is selected
+     * @param nodeId the node id of the selected token
+     * @param currentActor the current actor
+     * @param nextActor the next actor
+     * @param actionsList the list of legal actions
+     */
     private void selectedToken(int nodeId, Actor currentActor, Actor nextActor, ArrayList<Action> actionsList) {
         System.out.println("IM HERE from Normal with token");
         String tokenColour =  nodeList.get(nodeId).getToken().getColour();
