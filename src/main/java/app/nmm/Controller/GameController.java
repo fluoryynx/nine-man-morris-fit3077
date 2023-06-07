@@ -1192,14 +1192,20 @@ public class GameController implements Initializable {
         return moveAction;
     }
 
+    /**
+     * The start of the first tutorial
+     */
     void tutorial1(){
         tutorial = 1;
         gameStatus.setText("Tutorial Mode: \n You are White! \n Place your token onto any highlighted position!");
-        System.out.println("hello");
         showLegalPutTutorial(playerList.get(0));
         playerList.get(0).updateStatus(Capability.PUT_TOKEN);
     }
 
+    /**
+     * A caller to call put legal move image on the board during tutorial phase
+     * @param currentActor - the user
+     */
     void showLegalPutTutorial(Actor currentActor){
         List<Action> returnAction = this.checkLegalMove.calculateLegalPut(nodeList);
         // repeatedly call method to put image on the board
@@ -1249,6 +1255,12 @@ public class GameController implements Initializable {
         });
     }
 
+    /**
+     *
+     * @param action
+     * @param currentActor
+     * @param highlightedNode
+     */
     private void selectExecutorTutorial(Action action, Actor currentActor,ArrayList<Integer> highlightedNode) {
         if (DEBUG){
             System.out.println("IM HERE");
@@ -1293,6 +1305,9 @@ public class GameController implements Initializable {
         });
     }
 
+    /**
+     * A method to initialise the second tutorial phase
+     */
     void tutorial2(){
         tutorial = 2;
         tutorialNext.setVisible(false);
@@ -1305,22 +1320,20 @@ public class GameController implements Initializable {
         for (Integer id : whiteTokenId){
             PutTokenAction action = new PutTokenAction(id);
             action.execute(playerList.get(0),nodeList);
+            String tokenColour = "White";
+            String tokenID = "WhitetutorialToken";
+            String path;
             if (id == 19){
-                String tokenColour = "White";
-                String tokenID = "WhitetutorialToken";
-                String path = getTokenImagePath(tokenColour+"_Token_hint.png");
+                path = getTokenImagePath(tokenColour + "_Token_hint.png");
                 // add token to board
                 sceneEditor.addItemToBoard(path, tokenID,-3,-3,24,24 ,id);
-                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
             }
             else{
-                String tokenColour = "White";
-                String tokenID = "WhitetutorialToken";
-                String path = getTokenImagePath(tokenColour+"_Token.png");
+                path = getTokenImagePath(tokenColour + "_Token.png");
                 // add token to board
                 sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,id);
-                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
             }
+            sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
         }
         for (Integer id : blackTokenId){
             PutTokenAction action = new PutTokenAction(id);
@@ -1336,16 +1349,13 @@ public class GameController implements Initializable {
         gameStatus.setText("Tutorial Mode: \n You are White! \n Move the token to form a mil!");
         this.checkLegalMove.calculateLegalMove(playerList.get(0), nodeList);
         Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-        System.out.println(returnAction);
-        ObservableList<Node> childList = sceneEditor.getChildList(19);
-        System.out.println(childList);
         addCheckerTutorial(19, returnAction, playerList.get(0));
     }
 
     /**
      * a method to add a mask on all the tokens
-     * @param returnAction
-     * @param currentActor
+     * @param returnAction - user move action
+     * @param currentActor - user
      */
     @FXML
     void addCheckerTutorial(int nodeId, Map<Integer, ArrayList<Action>> returnAction,Actor currentActor){
@@ -1364,7 +1374,12 @@ public class GameController implements Initializable {
         }
     }
 
-
+    /**
+     * A method for tutorial when user selects a particular token
+     * @param nodeId - node Id
+     * @param currentActor - user
+     * @param actionsList - list containing user and tutorial
+     */
     void selectedTokenTutorial(int nodeId, Actor currentActor, ArrayList<Action> actionsList) {
         System.out.println("IM HERE from Normal with token");
         String tokenColour =  "White";
@@ -1375,7 +1390,6 @@ public class GameController implements Initializable {
         else {
             sceneEditor.changeTokenImage(4,tokenColour, paths,24,-3);
         }
-
         // if action is not null, remove legal move from previous selected token and show current legal move for current token
         if(actionsList != null){
             ArrayList<Integer> highlighted_node = new ArrayList<>();
@@ -1403,14 +1417,11 @@ public class GameController implements Initializable {
         }
     }
 
-
-
-
     /**
      * a method to call for the player to move the token here
-     * @param action
-     * @param currentActor
-     * @param highlightedNode
+     * @param action - move action
+     * @param currentActor - user
+     * @param highlightedNode - the node token should move
      */
     void moveTokenExecutorTutorial(Action action, Actor currentActor, ArrayList<Integer> highlightedNode){
         // remove legal move image
@@ -1511,7 +1522,6 @@ public class GameController implements Initializable {
      * @param action RemoveAction on a specific token on a node
      */
     void moveRemoveTokenExecutorTutorial(Action action){
-        Actor nextActor = playerList.get(1);
         // Remove all the Removable Token images on board based on FxID of image assigned earlier
         for (int i=0; i<24; i++){
             sceneEditor.removeImage(i, "removeToken");
@@ -1551,9 +1561,9 @@ public class GameController implements Initializable {
     }
     /**
      * a method to call the removal of legal moves of one token on board when running normal game
-     * @param currentNodeID
-     * @param actionsList
-     * @param currentActor
+     * @param currentNodeID - node Id
+     * @param actionsList - list of user actions
+     * @param currentActor - user
      */
     void addUnhighlightSelectedTokenTutorial(int currentNodeID, ArrayList<Action> actionsList, Actor currentActor){
         ObservableList<Node> childList =  sceneEditor.getChildList(currentNodeID);
@@ -1568,9 +1578,9 @@ public class GameController implements Initializable {
 
     /**
      * main method to remove the legal moves of the board when the player click the token again
-     * @param currentNodeID
-     * @param actionsList
-     * @param currentActor
+     * @param currentNodeID - node Id
+     * @param actionsList - list of user actions
+     * @param currentActor - user
      */
     void unhighlightSelectedTokenTutorial(int currentNodeID, ArrayList<Action> actionsList, Actor currentActor){
         // remove the legal move image
@@ -1602,6 +1612,9 @@ public class GameController implements Initializable {
 
     }
 
+    /**
+     * A method to initialise third phase of the tutorial
+     */
     void tutorial3(){
         tutorial = 3;
         tutorialNext.setVisible(false);
@@ -1618,22 +1631,20 @@ public class GameController implements Initializable {
         for (Integer id : whiteTokenId){
             PutTokenAction action = new PutTokenAction(id);
             action.execute(playerList.get(0),nodeList);
+            String tokenColour = "White";
+            String tokenID = "WhitetutorialToken";
+            String path;
             if (id == 4){
-                String tokenColour = "White";
-                String tokenID = "WhitetutorialToken";
-                String path = getTokenImagePath(tokenColour+"_Token_hint.png");
+                path = getTokenImagePath(tokenColour + "_Token_hint.png");
                 // add token to board
                 sceneEditor.addItemToBoard(path, tokenID,-3,-3,24,24 ,id);
-                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
             }
             else{
-                String tokenColour = "White";
-                String tokenID = "WhitetutorialToken";
-                String path = getTokenImagePath(tokenColour+"_Token.png");
+                path = getTokenImagePath(tokenColour + "_Token.png");
                 // add token to board
                 sceneEditor.addItemToBoard(path, tokenID,0,0,18,18 ,id);
-                sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
             }
+            sceneEditor.updateTokenCount(whiteTokenCount, blackTokenCount, tokenColour, 4);
         }
         for (Integer id : blackTokenId){
             PutTokenAction action = new PutTokenAction(id);
@@ -1649,9 +1660,6 @@ public class GameController implements Initializable {
         gameStatus.setText("Tutorial Mode: \n You are White! \n Fly to form a mil!");
         this.checkLegalMove.calculateLegalFly(playerList.get(0), nodeList);
         Map<Integer, ArrayList<Action>> returnAction = checkLegalMove.getCurrentActions();
-        System.out.println(returnAction);
-        ObservableList<Node> childList = sceneEditor.getChildList(19);
-        System.out.println(childList);
         addCheckerTutorial(4, returnAction, playerList.get(0));
     }
 }
